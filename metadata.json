@@ -1,0 +1,6 @@
+{
+  "name": "IRONLOG",
+  "description": "Complete personal gym and resistance-training management platform for workout programming, live session tracking, exercise anatomy, and performance analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

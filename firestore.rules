@@ -1,0 +1,996 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Core Security Primitives
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(userId) {
+      return isVerifiedUser() && request.auth.uid == userId;
+    }
+
+    function isTokenAdmin() {
+      return isVerifiedUser() && request.auth.token.email == 'abdulhamidraghad093@gmail.com';
+    }
+
+    function isAdmin() {
+      return isTokenAdmin() || (isVerifiedUser() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)));
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function userExists(userId) {
+      return exists(/databases/$(database)/documents/users/$(userId));
+    }
+
+    function userExistsAfter(userId) {
+      return existsAfter(/databases/$(database)/documents/users/$(userId));
+    }
+
+    function isAuthorizedCoach(athleteUid) {
+      return isVerifiedUser()
+        && exists(/databases/$(database)/documents/users/$(athleteUid))
+        && get(/databases/$(database)/documents/users/$(athleteUid)).data.coachId == request.auth.uid;
+    }
+
+    // Entity Validators
+    function isValidUserProfile(data, userId) {
+      return data.keys().hasAll(['uid', 'displayName', 'language', 'theme', 'unit', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly([
+          'uid', 'displayName', 'role', 'coachId', 'coachName', 'organizationId', 'ageGroup',
+          'language', 'theme', 'unit',
+          'heightCm', 'weightKg', 'experienceLevel', 'trainingAgeMonths',
+          'weeklyFrequency', 'trainingGoal', 'preferredSplit', 'personalNotes',
+          'favoriteExerciseIds', 'activeProgramId', 'notificationSettings',
+          'createdAt', 'updatedAt'
+        ])
+        && data.uid == userId
+        && isValidId(data.uid)
+        && data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 100
+        && (!('role' in data) || data.role in ['athlete', 'coach', 'gym_admin'])
+        && (!('coachId' in data) || (data.coachId is string && data.coachId.size() <= 128))
+        && (!('coachName' in data) || (data.coachName is string && data.coachName.size() <= 100))
+        && (!('organizationId' in data) || (data.organizationId is string && data.organizationId.size() <= 128))
+        && (!('ageGroup' in data) || data.ageGroup in ['adult', 'youth'])
+        && data.language in ['en', 'ar']
+        && data.theme in ['dark', 'light']
+        && data.unit in ['kg', 'lb']
+        && (!('heightCm' in data) || (data.heightCm is number && data.heightCm >= 50 && data.heightCm <= 280))
+        && (!('weightKg' in data) || (data.weightKg is number && data.weightKg >= 20 && data.weightKg <= 400))
+        && (!('experienceLevel' in data) || data.experienceLevel in ['beginner', 'intermediate', 'advanced'])
+        && (!('trainingAgeMonths' in data) || (data.trainingAgeMonths is number && data.trainingAgeMonths >= 0 && data.trainingAgeMonths <= 960))
+        && (!('weeklyFrequency' in data) || (data.weeklyFrequency is number && data.weeklyFrequency >= 1 && data.weeklyFrequency <= 14))
+        && (!('trainingGoal' in data) || data.trainingGoal in ['strength', 'hypertrophy', 'endurance', 'recomposition', 'general_fitness'])
+        && (!('preferredSplit' in data) || data.preferredSplit in ['push_pull_legs', 'upper_lower', 'full_body', 'bro_split', 'custom'])
+        && (!('personalNotes' in data) || (data.personalNotes is string && data.personalNotes.size() <= 1000))
+        && (!('favoriteExerciseIds' in data) || (data.favoriteExerciseIds is list && data.favoriteExerciseIds.size() <= 200 && (data.favoriteExerciseIds.size() == 0 || data.favoriteExerciseIds[0] is string)))
+        && (!('activeProgramId' in data) || (data.activeProgramId is string && data.activeProgramId.size() <= 128))
+        && (!('notificationSettings' in data) || (
+          data.notificationSettings is map
+          && data.notificationSettings.keys().hasOnly([
+            'scheduledWorkout', 'programSchedule', 'personalRecord', 'workoutCompletion',
+            'coachFeedback', 'programChange', 'goalMilestone', 'missedWorkout',
+            'teamAnnouncement', 'checkinReminder'
+          ])
+        ))
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidUserPrivateInfo(data, userId) {
+      return data.keys().hasAll(['uid', 'email', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'email', 'createdAt', 'updatedAt'])
+        && data.uid == userId
+        && isValidId(data.uid)
+        && data.email is string && data.email.size() >= 3 && data.email.size() <= 254
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidCustomExercise(data, userId, exerciseId) {
+      return data.keys().hasAll(['id', 'userId', 'nameEn', 'nameAr', 'primaryMuscles', 'equipment', 'category', 'difficulty', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly([
+          'id', 'userId', 'nameEn', 'nameAr', 'primaryMuscles', 'secondaryMuscles', 'stabilizerMuscles',
+          'movementPattern', 'equipment', 'category', 'difficulty',
+          'techniqueSummaryEn', 'techniqueSummaryAr',
+          'startingPositionEn', 'startingPositionAr',
+          'instructionsEn', 'instructionsAr', 'breathingEn', 'breathingAr',
+          'commonMistakesEn', 'commonMistakesAr', 'variationsEn', 'variationsAr',
+          'safetyEn', 'safetyAr', 'personalNotes', 'alternativeIds', 'createdAt', 'updatedAt'
+        ])
+        && data.id == exerciseId && isValidId(data.id)
+        && data.userId == userId && isValidId(data.userId)
+        && data.nameEn is string && data.nameEn.size() >= 1 && data.nameEn.size() <= 120
+        && data.nameAr is string && data.nameAr.size() >= 1 && data.nameAr.size() <= 120
+        && data.primaryMuscles is list && data.primaryMuscles.size() >= 1 && data.primaryMuscles.size() <= 5 && data.primaryMuscles[0] is string
+        && (!('secondaryMuscles' in data) || (data.secondaryMuscles is list && data.secondaryMuscles.size() <= 8 && (data.secondaryMuscles.size() == 0 || data.secondaryMuscles[0] is string)))
+        && (!('stabilizerMuscles' in data) || (data.stabilizerMuscles is list && data.stabilizerMuscles.size() <= 8 && (data.stabilizerMuscles.size() == 0 || data.stabilizerMuscles[0] is string)))
+        && (!('movementPattern' in data) || (data.movementPattern is string && data.movementPattern.size() <= 60))
+        && data.equipment in ['barbell', 'dumbbell', 'cable', 'machine', 'smith_machine', 'bodyweight', 'resistance_bands']
+        && data.category in ['compound', 'isolation']
+        && data.difficulty in ['beginner', 'intermediate', 'advanced']
+        && (!('techniqueSummaryEn' in data) || (data.techniqueSummaryEn is string && data.techniqueSummaryEn.size() <= 500))
+        && (!('techniqueSummaryAr' in data) || (data.techniqueSummaryAr is string && data.techniqueSummaryAr.size() <= 500))
+        && (!('startingPositionEn' in data) || (data.startingPositionEn is string && data.startingPositionEn.size() <= 600))
+        && (!('startingPositionAr' in data) || (data.startingPositionAr is string && data.startingPositionAr.size() <= 600))
+        && (!('instructionsEn' in data) || (data.instructionsEn is list && data.instructionsEn.size() <= 15 && (data.instructionsEn.size() == 0 || data.instructionsEn[0] is string)))
+        && (!('instructionsAr' in data) || (data.instructionsAr is list && data.instructionsAr.size() <= 15 && (data.instructionsAr.size() == 0 || data.instructionsAr[0] is string)))
+        && (!('breathingEn' in data) || (data.breathingEn is string && data.breathingEn.size() <= 400))
+        && (!('breathingAr' in data) || (data.breathingAr is string && data.breathingAr.size() <= 400))
+        && (!('commonMistakesEn' in data) || (data.commonMistakesEn is list && data.commonMistakesEn.size() <= 10 && (data.commonMistakesEn.size() == 0 || data.commonMistakesEn[0] is string)))
+        && (!('commonMistakesAr' in data) || (data.commonMistakesAr is list && data.commonMistakesAr.size() <= 10 && (data.commonMistakesAr.size() == 0 || data.commonMistakesAr[0] is string)))
+        && (!('variationsEn' in data) || (data.variationsEn is list && data.variationsEn.size() <= 10 && (data.variationsEn.size() == 0 || data.variationsEn[0] is string)))
+        && (!('variationsAr' in data) || (data.variationsAr is list && data.variationsAr.size() <= 10 && (data.variationsAr.size() == 0 || data.variationsAr[0] is string)))
+        && (!('safetyEn' in data) || (data.safetyEn is string && data.safetyEn.size() <= 400))
+        && (!('safetyAr' in data) || (data.safetyAr is string && data.safetyAr.size() <= 400))
+        && (!('personalNotes' in data) || (data.personalNotes is string && data.personalNotes.size() <= 1000))
+        && (!('alternativeIds' in data) || (data.alternativeIds is list && data.alternativeIds.size() <= 10 && (data.alternativeIds.size() == 0 || data.alternativeIds[0] is string)))
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidExerciseNote(data, userId, exerciseId) {
+      return data.keys().hasAll(['exerciseId', 'userId', 'updatedAt'])
+        && data.keys().hasOnly(['exerciseId', 'userId', 'personalInstructions', 'notes', 'preferredAlternativeIds', 'updatedAt'])
+        && data.exerciseId == exerciseId && isValidId(data.exerciseId)
+        && data.userId == userId && isValidId(data.userId)
+        && (!('personalInstructions' in data) || (data.personalInstructions is string && data.personalInstructions.size() <= 1000))
+        && (!('notes' in data) || (data.notes is string && data.notes.size() <= 1000))
+        && (!('preferredAlternativeIds' in data) || (data.preferredAlternativeIds is list && data.preferredAlternativeIds.size() <= 10 && (data.preferredAlternativeIds.size() == 0 || data.preferredAlternativeIds[0] is string)))
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidWorkoutTemplate(data, userId, workoutId) {
+      return data.keys().hasAll(['id', 'userId', 'name', 'exercises', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['id', 'userId', 'coachId', 'name', 'description', 'exercises', 'isAiGenerated', 'assignedByCoachId', 'createdAt', 'updatedAt'])
+        && data.id == workoutId && isValidId(data.id)
+        && data.userId == userId && isValidId(data.userId)
+        && (!('coachId' in data) || (data.coachId is string && data.coachId.size() <= 128))
+        && data.name is string && data.name.size() >= 1 && data.name.size() <= 120
+        && (!('description' in data) || (data.description is string && data.description.size() <= 600))
+        && (!('isAiGenerated' in data) || data.isAiGenerated is bool)
+        && (!('assignedByCoachId' in data) || (data.assignedByCoachId is string && data.assignedByCoachId.size() <= 128))
+        && data.exercises is list && data.exercises.size() <= 40 && (data.exercises.size() == 0 || data.exercises[0] is map)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidTrainingProgram(data, userId, programId) {
+      return data.keys().hasAll(['id', 'userId', 'name', 'durationWeeks', 'goal', 'level', 'weeklyFrequency', 'splitType', 'status', 'scheduledDays', 'completedSessions', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly([
+          'id', 'userId', 'coachId', 'name', 'durationWeeks', 'goal', 'level',
+          'weeklyFrequency', 'splitType', 'status', 'scheduledDays', 'completedSessions',
+          'startDate', 'isAiGenerated', 'assignedByCoachId', 'assignedByCoachName',
+          'intensityGuidance', 'progressionApproach', 'deloadGuidance',
+          'philosophy', 'sourceTemplateId', 'originNote',
+          'createdAt', 'updatedAt'
+        ])
+        && data.id == programId && isValidId(data.id)
+        && data.userId == userId && isValidId(data.userId)
+        && (!('coachId' in data) || (data.coachId is string && data.coachId.size() <= 128))
+        && data.name is string && data.name.size() >= 1 && data.name.size() <= 120
+        && data.durationWeeks is number && data.durationWeeks >= 1 && data.durationWeeks <= 104
+        && data.goal in ['strength', 'hypertrophy', 'endurance', 'recomposition', 'general_fitness']
+        && data.level in ['beginner', 'intermediate', 'advanced']
+        && data.weeklyFrequency is number && data.weeklyFrequency >= 1 && data.weeklyFrequency <= 7
+        && data.splitType in ['push_pull_legs', 'upper_lower', 'full_body', 'bro_split', 'custom']
+        && data.status in ['active', 'paused', 'archived', 'completed']
+        && data.scheduledDays is list && data.scheduledDays.size() == 7 && data.scheduledDays[0] is map
+        && data.completedSessions is number && data.completedSessions >= 0 && data.completedSessions <= 10000
+        && (!('startDate' in data) || (data.startDate is string && data.startDate.size() <= 40))
+        && (!('isAiGenerated' in data) || data.isAiGenerated is bool)
+        && (!('assignedByCoachId' in data) || (data.assignedByCoachId is string && data.assignedByCoachId.size() <= 128))
+        && (!('assignedByCoachName' in data) || (data.assignedByCoachName is string && data.assignedByCoachName.size() <= 100))
+        && (!('intensityGuidance' in data) || (data.intensityGuidance is string && data.intensityGuidance.size() <= 600))
+        && (!('progressionApproach' in data) || (data.progressionApproach is string && data.progressionApproach.size() <= 600))
+        && (!('deloadGuidance' in data) || (data.deloadGuidance is string && data.deloadGuidance.size() <= 600))
+        && (!('philosophy' in data) || data.philosophy in ['modern', 'old_school', 'hybrid'])
+        && (!('sourceTemplateId' in data) || (data.sourceTemplateId is string && data.sourceTemplateId.size() <= 128))
+        && (!('originNote' in data) || (data.originNote is string && data.originNote.size() <= 400))
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidActiveWorkoutSession(data, userId) {
+      return data.keys().hasAll(['sessionId', 'userId', 'workoutName', 'startedAtMs', 'isPaused', 'currentExerciseIndex', 'exercises', 'updatedAt'])
+        && data.keys().hasOnly([
+          'sessionId', 'userId', 'workoutId', 'workoutName', 'programId', 'programName',
+          'startedAtMs', 'pausedAtMs', 'accumulatedPauseMs', 'isPaused',
+          'currentExerciseIndex', 'notes', 'exercises', 'updatedAt'
+        ])
+        && isValidId(data.sessionId)
+        && data.userId == userId && isValidId(data.userId)
+        && (!('workoutId' in data) || (data.workoutId is string && data.workoutId.size() <= 128))
+        && data.workoutName is string && data.workoutName.size() >= 1 && data.workoutName.size() <= 120
+        && (!('programId' in data) || (data.programId is string && data.programId.size() <= 128))
+        && (!('programName' in data) || (data.programName is string && data.programName.size() <= 120))
+        && data.startedAtMs is number && data.startedAtMs > 0
+        && (!('pausedAtMs' in data) || data.pausedAtMs == null || data.pausedAtMs is number)
+        && (!('accumulatedPauseMs' in data) || (data.accumulatedPauseMs is number && data.accumulatedPauseMs >= 0))
+        && data.isPaused is bool
+        && data.currentExerciseIndex is number && data.currentExerciseIndex >= 0 && data.currentExerciseIndex <= 50
+        && (!('notes' in data) || (data.notes is string && data.notes.size() <= 1000))
+        && data.exercises is list && data.exercises.size() <= 40 && (data.exercises.size() == 0 || data.exercises[0] is map)
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidWorkoutSessionHistory(data, userId, sessionId) {
+      return data.keys().hasAll(['id', 'userId', 'workoutName', 'status', 'startedAt', 'completedAt', 'durationSeconds', 'totalSets', 'totalVolumeKg', 'exercises', 'createdAt'])
+        && data.keys().hasOnly([
+          'id', 'userId', 'coachId', 'workoutId', 'workoutName', 'programId', 'programName',
+          'status', 'startedAt', 'completedAt', 'durationSeconds', 'totalSets',
+          'totalVolumeKg', 'sessionRpe', 'notes', 'coachFeedback', 'coachFeedbackAt',
+          'exercises', 'createdAt'
+        ])
+        && data.id == sessionId && isValidId(data.id)
+        && data.userId == userId && isValidId(data.userId)
+        && (!('coachId' in data) || (data.coachId is string && data.coachId.size() <= 128))
+        && (!('workoutId' in data) || (data.workoutId is string && data.workoutId.size() <= 128))
+        && data.workoutName is string && data.workoutName.size() >= 1 && data.workoutName.size() <= 120
+        && (!('programId' in data) || (data.programId is string && data.programId.size() <= 128))
+        && (!('programName' in data) || (data.programName is string && data.programName.size() <= 120))
+        && data.status == 'completed'
+        && data.startedAt is string && data.startedAt.size() >= 1 && data.startedAt.size() <= 40
+        && data.completedAt is string && data.completedAt.size() >= 1 && data.completedAt.size() <= 40
+        && data.durationSeconds is number && data.durationSeconds >= 0 && data.durationSeconds <= 86400
+        && data.totalSets is number && data.totalSets >= 0 && data.totalSets <= 1000
+        && data.totalVolumeKg is number && data.totalVolumeKg >= 0 && data.totalVolumeKg <= 1000000
+        && (!('sessionRpe' in data) || data.sessionRpe == null || (data.sessionRpe is number && data.sessionRpe >= 1 && data.sessionRpe <= 10))
+        && (!('notes' in data) || (data.notes is string && data.notes.size() <= 1000))
+        && (!('coachFeedback' in data) || (data.coachFeedback is string && data.coachFeedback.size() <= 1000))
+        && (!('coachFeedbackAt' in data) || (data.coachFeedbackAt is string && data.coachFeedbackAt.size() <= 40))
+        && data.exercises is list && data.exercises.size() <= 40 && (data.exercises.size() == 0 || data.exercises[0] is map)
+        && data.createdAt is timestamp;
+    }
+
+    function isValidPersonalRecord(data, userId, exerciseId) {
+      return data.keys().hasAll(['exerciseId', 'userId', 'bestWeightKg', 'bestReps', 'updatedAt'])
+        && data.keys().hasOnly([
+          'exerciseId', 'userId', 'coachId', 'exerciseNameEn', 'exerciseNameAr',
+          'bestWeightKg', 'bestWeightReps', 'bestWeightDate', 'bestWeightSessionId',
+          'bestReps', 'bestRepsWeightKg', 'bestRepsDate', 'bestRepsSessionId',
+          'estimated1RMKg', 'estimated1RMWeightKg', 'estimated1RMReps', 'estimated1RMDate', 'estimated1RMSessionId',
+          'milestones', 'updatedAt'
+        ])
+        && data.exerciseId == exerciseId && isValidId(data.exerciseId)
+        && data.userId == userId && isValidId(data.userId)
+        && (!('coachId' in data) || (data.coachId is string && data.coachId.size() <= 128))
+        && (!('exerciseNameEn' in data) || (data.exerciseNameEn is string && data.exerciseNameEn.size() <= 120))
+        && (!('exerciseNameAr' in data) || (data.exerciseNameAr is string && data.exerciseNameAr.size() <= 120))
+        && data.bestWeightKg is number && data.bestWeightKg >= 0 && data.bestWeightKg <= 2000
+        && (!('bestWeightReps' in data) || (data.bestWeightReps is number && data.bestWeightReps >= 0 && data.bestWeightReps <= 1000))
+        && (!('bestWeightDate' in data) || (data.bestWeightDate is string && data.bestWeightDate.size() <= 40))
+        && (!('bestWeightSessionId' in data) || (data.bestWeightSessionId is string && data.bestWeightSessionId.size() <= 128))
+        && data.bestReps is number && data.bestReps >= 0 && data.bestReps <= 1000
+        && (!('bestRepsWeightKg' in data) || (data.bestRepsWeightKg is number && data.bestRepsWeightKg >= 0 && data.bestRepsWeightKg <= 2000))
+        && (!('bestRepsDate' in data) || (data.bestRepsDate is string && data.bestRepsDate.size() <= 40))
+        && (!('bestRepsSessionId' in data) || (data.bestRepsSessionId is string && data.bestRepsSessionId.size() <= 128))
+        && (!('estimated1RMKg' in data) || (data.estimated1RMKg is number && data.estimated1RMKg >= 0 && data.estimated1RMKg <= 3000))
+        && (!('estimated1RMWeightKg' in data) || (data.estimated1RMWeightKg is number && data.estimated1RMWeightKg >= 0 && data.estimated1RMWeightKg <= 2000))
+        && (!('estimated1RMReps' in data) || (data.estimated1RMReps is number && data.estimated1RMReps >= 0 && data.estimated1RMReps <= 100))
+        && (!('estimated1RMDate' in data) || (data.estimated1RMDate is string && data.estimated1RMDate.size() <= 40))
+        && (!('estimated1RMSessionId' in data) || (data.estimated1RMSessionId is string && data.estimated1RMSessionId.size() <= 128))
+        && (!('milestones' in data) || (data.milestones is list && data.milestones.size() <= 50 && (data.milestones.size() == 0 || data.milestones[0] is map)))
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidPerformanceGoal(data, userId, goalId) {
+      return data.keys().hasAll(['id', 'userId', 'title', 'targetType', 'status', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly([
+          'id', 'userId', 'coachId', 'title', 'targetType', 'exerciseId',
+          'exerciseNameEn', 'exerciseNameAr', 'targetWeightKg', 'targetReps',
+          'targetDate', 'status', 'assignedByCoachId', 'notes', 'createdAt', 'updatedAt'
+        ])
+        && data.id == goalId && isValidId(data.id)
+        && data.userId == userId && isValidId(data.userId)
+        && (!('coachId' in data) || (data.coachId is string && data.coachId.size() <= 128))
+        && data.title is string && data.title.size() >= 1 && data.title.size() <= 160
+        && data.targetType in ['weight', 'reps', 'estimated_1rm', 'milestone']
+        && (!('exerciseId' in data) || (data.exerciseId is string && data.exerciseId.size() <= 128))
+        && (!('exerciseNameEn' in data) || (data.exerciseNameEn is string && data.exerciseNameEn.size() <= 120))
+        && (!('exerciseNameAr' in data) || (data.exerciseNameAr is string && data.exerciseNameAr.size() <= 120))
+        && (!('targetWeightKg' in data) || (data.targetWeightKg is number && data.targetWeightKg >= 0 && data.targetWeightKg <= 2000))
+        && (!('targetReps' in data) || (data.targetReps is number && data.targetReps >= 0 && data.targetReps <= 1000))
+        && (!('targetDate' in data) || (data.targetDate is string && data.targetDate.size() <= 40))
+        && data.status in ['active', 'achieved', 'paused']
+        && (!('assignedByCoachId' in data) || (data.assignedByCoachId is string && data.assignedByCoachId.size() <= 128))
+        && (!('notes' in data) || (data.notes is string && data.notes.size() <= 500))
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidBodyMeasurement(data, userId, measurementId) {
+      return data.keys().hasAll(['id', 'userId', 'date', 'createdAt'])
+        && data.keys().hasOnly([
+          'id', 'userId', 'date', 'bodyWeightKg', 'armCm', 'chestCm',
+          'waistCm', 'thighCm', 'customLabel', 'customValue', 'notes',
+          'photoPath', 'photoUrl', 'isPrivatePhoto', 'createdAt'
+        ])
+        && data.id == measurementId && isValidId(data.id)
+        && data.userId == userId && isValidId(data.userId)
+        && data.date is string && data.date.size() >= 1 && data.date.size() <= 40
+        && (!('bodyWeightKg' in data) || (data.bodyWeightKg is number && data.bodyWeightKg >= 20 && data.bodyWeightKg <= 400))
+        && (!('armCm' in data) || (data.armCm is number && data.armCm >= 10 && data.armCm <= 120))
+        && (!('chestCm' in data) || (data.chestCm is number && data.chestCm >= 30 && data.chestCm <= 250))
+        && (!('waistCm' in data) || (data.waistCm is number && data.waistCm >= 30 && data.waistCm <= 250))
+        && (!('thighCm' in data) || (data.thighCm is number && data.thighCm >= 20 && data.thighCm <= 150))
+        && (!('customLabel' in data) || (data.customLabel is string && data.customLabel.size() <= 80))
+        && (!('customValue' in data) || (data.customValue is number && data.customValue >= 0 && data.customValue <= 1000))
+        && (!('notes' in data) || (data.notes is string && data.notes.size() <= 500))
+        && (!('photoPath' in data) || (data.photoPath is string && data.photoPath.size() <= 500))
+        && (!('photoUrl' in data) || (data.photoUrl is string && data.photoUrl.size() <= 1000))
+        && (!('isPrivatePhoto' in data) || data.isPrivatePhoto is bool)
+        && data.createdAt is timestamp;
+    }
+
+    function isValidManualMacroLog(data, userId, dateKey) {
+      return data.keys().hasAll(['dateKey', 'userId', 'proteinGrams', 'carbsGrams', 'fatGrams', 'updatedAt'])
+        && data.keys().hasOnly(['dateKey', 'userId', 'proteinGrams', 'carbsGrams', 'fatGrams', 'notes', 'updatedAt'])
+        && data.dateKey == dateKey && dateKey.size() >= 8 && dateKey.size() <= 20 && dateKey.matches('^[0-9\\-]+$')
+        && data.userId == userId && isValidId(data.userId)
+        && data.proteinGrams is number && data.proteinGrams >= 0 && data.proteinGrams <= 2000
+        && data.carbsGrams is number && data.carbsGrams >= 0 && data.carbsGrams <= 3000
+        && data.fatGrams is number && data.fatGrams >= 0 && data.fatGrams <= 1000
+        && (!('notes' in data) || (data.notes is string && data.notes.size() <= 300))
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidUserReminder(data, userId, reminderId) {
+      return data.keys().hasAll(['id', 'userId', 'type', 'titleEn', 'titleAr', 'messageEn', 'messageAr', 'read', 'createdAt'])
+        && data.keys().hasOnly(['id', 'userId', 'type', 'titleEn', 'titleAr', 'messageEn', 'messageAr', 'read', 'createdAt'])
+        && data.id == reminderId && isValidId(data.id)
+        && data.userId == userId && isValidId(data.userId)
+        && data.type in [
+          'scheduled_workout', 'program_schedule', 'personal_record', 'workout_completed',
+          'coach_feedback', 'program_change', 'goal_milestone', 'missed_workout',
+          'team_announcement', 'checkin_reminder'
+        ]
+        && data.titleEn is string && data.titleEn.size() >= 1 && data.titleEn.size() <= 120
+        && data.titleAr is string && data.titleAr.size() >= 1 && data.titleAr.size() <= 120
+        && data.messageEn is string && data.messageEn.size() >= 1 && data.messageEn.size() <= 300
+        && data.messageAr is string && data.messageAr.size() >= 1 && data.messageAr.size() <= 300
+        && data.read is bool
+        && data.createdAt is timestamp;
+    }
+
+    function isValidCoachGroup(data, groupId) {
+      return data.keys().hasAll(['id', 'coachId', 'name', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['id', 'coachId', 'organizationId', 'name', 'description', 'createdAt', 'updatedAt'])
+        && data.id == groupId && isValidId(data.id)
+        && isValidId(data.coachId)
+        && (!('organizationId' in data) || (data.organizationId is string && data.organizationId.size() <= 128))
+        && data.name is string && data.name.size() >= 1 && data.name.size() <= 100
+        && (!('description' in data) || (data.description is string && data.description.size() <= 400))
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidCoachingLink(data, linkId) {
+      return data.keys().hasAll(['id', 'coachId', 'coachName', 'athleteName', 'inviteCode', 'status', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly([
+          'id', 'coachId', 'coachName', 'athleteUid', 'athleteName', 'inviteCode',
+          'groupId', 'status', 'goalSummary', 'experienceLevel', 'weeklyTarget',
+          'privateNotes', 'assignedProgramName', 'lastSessionAt', 'completedSessionsCount',
+          'recentAdherencePct', 'recentPrText', 'needsAttention', 'createdAt', 'updatedAt'
+        ])
+        && data.id == linkId && isValidId(data.id)
+        && isValidId(data.coachId)
+        && data.coachName is string && data.coachName.size() >= 1 && data.coachName.size() <= 100
+        && (!('athleteUid' in data) || (data.athleteUid is string && data.athleteUid.size() <= 128))
+        && data.athleteName is string && data.athleteName.size() >= 1 && data.athleteName.size() <= 100
+        && data.inviteCode is string && data.inviteCode.size() >= 4 && data.inviteCode.size() <= 32
+        && (!('groupId' in data) || (data.groupId is string && data.groupId.size() <= 128))
+        && data.status in ['pending', 'active', 'archived']
+        && (!('goalSummary' in data) || (data.goalSummary is string && data.goalSummary.size() <= 300))
+        && (!('experienceLevel' in data) || data.experienceLevel in ['beginner', 'intermediate', 'advanced'])
+        && (!('weeklyTarget' in data) || (data.weeklyTarget is number && data.weeklyTarget >= 1 && data.weeklyTarget <= 14))
+        && (!('privateNotes' in data) || (data.privateNotes is string && data.privateNotes.size() <= 1000))
+        && (!('assignedProgramName' in data) || (data.assignedProgramName is string && data.assignedProgramName.size() <= 120))
+        && (!('lastSessionAt' in data) || (data.lastSessionAt is string && data.lastSessionAt.size() <= 40))
+        && (!('completedSessionsCount' in data) || (data.completedSessionsCount is number && data.completedSessionsCount >= 0 && data.completedSessionsCount <= 100000))
+        && (!('recentAdherencePct' in data) || (data.recentAdherencePct is number && data.recentAdherencePct >= 0 && data.recentAdherencePct <= 100))
+        && (!('recentPrText' in data) || (data.recentPrText is string && data.recentPrText.size() <= 160))
+        && (!('needsAttention' in data) || data.needsAttention is bool)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidCoachAssignment(data, assignmentId) {
+      return data.keys().hasAll(['id', 'coachId', 'coachName', 'linkId', 'programName', 'programData', 'workoutsData', 'status', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly([
+          'id', 'coachId', 'coachName', 'athleteUid', 'linkId', 'groupId',
+          'programName', 'programData', 'workoutsData', 'notes', 'status', 'createdAt', 'updatedAt'
+        ])
+        && data.id == assignmentId && isValidId(data.id)
+        && isValidId(data.coachId)
+        && data.coachName is string && data.coachName.size() >= 1 && data.coachName.size() <= 100
+        && (!('athleteUid' in data) || (data.athleteUid is string && data.athleteUid.size() <= 128))
+        && data.linkId is string && data.linkId.size() >= 1 && data.linkId.size() <= 128
+        && (!('groupId' in data) || (data.groupId is string && data.groupId.size() <= 128))
+        && data.programName is string && data.programName.size() >= 1 && data.programName.size() <= 120
+        && data.programData is map
+        && data.workoutsData is list && data.workoutsData.size() <= 14
+        && (!('notes' in data) || (data.notes is string && data.notes.size() <= 600))
+        && data.status in ['assigned', 'accepted', 'archived']
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidCoachMessage(data, messageId) {
+      return data.keys().hasAll(['id', 'coachId', 'senderId', 'senderName', 'senderRole', 'type', 'text', 'read', 'createdAt'])
+        && data.keys().hasOnly([
+          'id', 'coachId', 'athleteUid', 'groupId', 'senderId', 'senderName', 'senderRole',
+          'type', 'sessionId', 'text', 'read', 'createdAt'
+        ])
+        && data.id == messageId && isValidId(data.id)
+        && isValidId(data.coachId)
+        && (!('athleteUid' in data) || (data.athleteUid is string && data.athleteUid.size() <= 128))
+        && (!('groupId' in data) || (data.groupId is string && data.groupId.size() <= 128))
+        && isValidId(data.senderId)
+        && data.senderName is string && data.senderName.size() >= 1 && data.senderName.size() <= 100
+        && data.senderRole in ['athlete', 'coach', 'gym_admin']
+        && data.type in ['direct', 'session_feedback', 'announcement', 'checkin']
+        && (!('sessionId' in data) || (data.sessionId is string && data.sessionId.size() <= 128))
+        && data.text is string && data.text.size() >= 1 && data.text.size() <= 1500
+        && data.read is bool
+        && data.createdAt is timestamp;
+    }
+
+    function isValidExerciseFlag(data, flagId) {
+      return data.keys().hasAll(['id', 'userId', 'userName', 'exerciseId', 'exerciseName', 'reason', 'status', 'createdAt'])
+        && data.keys().hasOnly(['id', 'userId', 'userName', 'exerciseId', 'exerciseName', 'reason', 'status', 'createdAt'])
+        && data.id == flagId && isValidId(data.id)
+        && isValidId(data.userId)
+        && data.userName is string && data.userName.size() >= 1 && data.userName.size() <= 100
+        && data.exerciseId is string && data.exerciseId.size() >= 1 && data.exerciseId.size() <= 128
+        && data.exerciseName is string && data.exerciseName.size() >= 1 && data.exerciseName.size() <= 120
+        && data.reason is string && data.reason.size() >= 1 && data.reason.size() <= 600
+        && data.status in ['open', 'reviewed']
+        && data.createdAt is timestamp;
+    }
+
+    function isValidGymOrganization(data, orgId) {
+      return data.keys().hasAll(['id', 'name', 'ownerUid', 'defaultLanguage', 'allowAthleteSelfProgram', 'requireCoachApprovalForYouth', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['id', 'name', 'ownerUid', 'defaultLanguage', 'allowAthleteSelfProgram', 'requireCoachApprovalForYouth', 'createdAt', 'updatedAt'])
+        && data.id == orgId && isValidId(data.id)
+        && data.name is string && data.name.size() >= 1 && data.name.size() <= 120
+        && isValidId(data.ownerUid)
+        && data.defaultLanguage in ['en', 'ar']
+        && data.allowAthleteSelfProgram is bool
+        && data.requireCoachApprovalForYouth is bool
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidOrganizationMember(data, orgId, memberUid) {
+      return data.keys().hasAll(['uid', 'organizationId', 'displayName', 'role', 'status', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'organizationId', 'displayName', 'role', 'status', 'createdAt', 'updatedAt'])
+        && data.uid == memberUid && isValidId(data.uid)
+        && data.organizationId == orgId && isValidId(data.organizationId)
+        && data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 100
+        && data.role in ['athlete', 'coach', 'gym_admin']
+        && data.status in ['active', 'invited', 'suspended']
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    // Admins Collection
+    match /admins/{adminUid} {
+      allow get: if isValidId(adminUid) && isOwner(adminUid);
+      allow list, create, update, delete: if false;
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAuthorizedCoach(userId) || isAdmin());
+      allow list: if false;
+      allow create: if isValidId(userId)
+        && isOwner(userId)
+        && isValidUserProfile(incoming(), userId)
+        && (!('role' in incoming()) || incoming().role in ['athlete', 'coach'] || isAdmin())
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(userId)
+        && (isOwner(userId) || isAdmin())
+        && isValidUserProfile(incoming(), userId)
+        && incoming().uid == existing().uid
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (!('role' in incoming()) || incoming().role in ['athlete', 'coach'] || isAdmin())
+        && (
+          incoming().diff(existing()).affectedKeys().hasOnly([
+            'displayName', 'role', 'coachId', 'coachName', 'organizationId', 'ageGroup',
+            'language', 'theme', 'unit', 'heightCm', 'weightKg', 'experienceLevel',
+            'trainingAgeMonths', 'weeklyFrequency', 'trainingGoal', 'preferredSplit',
+            'personalNotes', 'notificationSettings', 'updatedAt'
+          ]) ||
+          incoming().diff(existing()).affectedKeys().hasOnly(['favoriteExerciseIds', 'updatedAt']) ||
+          incoming().diff(existing()).affectedKeys().hasOnly(['activeProgramId', 'updatedAt']) ||
+          incoming().diff(existing()).affectedKeys().hasOnly(['coachId', 'coachName', 'updatedAt'])
+        );
+      allow delete: if false;
+
+      // Isolated PII Subcollection (strictly owner-only)
+      match /private/{docId} {
+        allow get: if isValidId(userId) && isValidId(docId) && docId == 'info' && isOwner(userId);
+        allow list: if false;
+        allow create: if isValidId(userId) && isValidId(docId) && docId == 'info'
+          && isOwner(userId)
+          && isValidUserPrivateInfo(incoming(), userId)
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && userExistsAfter(userId);
+        allow update: if isValidId(userId) && isValidId(docId) && docId == 'info'
+          && isOwner(userId)
+          && isValidUserPrivateInfo(incoming(), userId)
+          && incoming().uid == existing().uid
+          && incoming().createdAt == existing().createdAt
+          && incoming().updatedAt == request.time
+          && incoming().diff(existing()).affectedKeys().hasOnly(['email', 'updatedAt']);
+        allow delete: if false;
+      }
+
+      // Custom Exercises
+      match /customExercises/{exerciseId} {
+        allow get: if isValidId(userId) && isValidId(exerciseId) && isOwner(userId);
+        allow list: if isOwner(userId) && resource.data.userId == request.auth.uid;
+        allow create: if isValidId(userId) && isValidId(exerciseId)
+          && isOwner(userId)
+          && isValidCustomExercise(incoming(), userId, exerciseId)
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && userExists(userId);
+        allow update: if isValidId(userId) && isValidId(exerciseId)
+          && isOwner(userId)
+          && isValidCustomExercise(incoming(), userId, exerciseId)
+          && incoming().id == existing().id
+          && incoming().userId == existing().userId
+          && incoming().createdAt == existing().createdAt
+          && incoming().updatedAt == request.time
+          && incoming().diff(existing()).affectedKeys().hasOnly([
+            'nameEn', 'nameAr', 'primaryMuscles', 'secondaryMuscles', 'stabilizerMuscles',
+            'movementPattern', 'equipment', 'category', 'difficulty',
+            'techniqueSummaryEn', 'techniqueSummaryAr',
+            'startingPositionEn', 'startingPositionAr', 'instructionsEn', 'instructionsAr',
+            'breathingEn', 'breathingAr', 'commonMistakesEn', 'commonMistakesAr',
+            'variationsEn', 'variationsAr', 'safetyEn', 'safetyAr',
+            'personalNotes', 'alternativeIds', 'updatedAt'
+          ]);
+        allow delete: if isValidId(userId) && isValidId(exerciseId) && isOwner(userId);
+      }
+
+      // Exercise Personal Notes
+      match /exerciseNotes/{exerciseId} {
+        allow get: if isValidId(userId) && isValidId(exerciseId) && isOwner(userId);
+        allow list: if isOwner(userId) && resource.data.userId == request.auth.uid;
+        allow create: if isValidId(userId) && isValidId(exerciseId)
+          && isOwner(userId)
+          && isValidExerciseNote(incoming(), userId, exerciseId)
+          && incoming().updatedAt == request.time
+          && userExists(userId);
+        allow update: if isValidId(userId) && isValidId(exerciseId)
+          && isOwner(userId)
+          && isValidExerciseNote(incoming(), userId, exerciseId)
+          && incoming().exerciseId == existing().exerciseId
+          && incoming().userId == existing().userId
+          && incoming().updatedAt == request.time
+          && incoming().diff(existing()).affectedKeys().hasOnly([
+            'personalInstructions', 'notes', 'preferredAlternativeIds', 'updatedAt'
+          ]);
+        allow delete: if isValidId(userId) && isValidId(exerciseId) && isOwner(userId);
+      }
+
+      // Workout Templates
+      match /workouts/{workoutId} {
+        allow get: if isValidId(userId) && isValidId(workoutId) && (isOwner(userId) || isAuthorizedCoach(userId));
+        allow list: if isVerifiedUser() && (resource.data.userId == request.auth.uid || resource.data.coachId == request.auth.uid);
+        allow create: if isValidId(userId) && isValidId(workoutId)
+          && isOwner(userId)
+          && isValidWorkoutTemplate(incoming(), userId, workoutId)
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && userExists(userId);
+        allow update: if isValidId(userId) && isValidId(workoutId)
+          && (isOwner(userId) || isAuthorizedCoach(userId))
+          && isValidWorkoutTemplate(incoming(), userId, workoutId)
+          && incoming().id == existing().id
+          && incoming().userId == existing().userId
+          && incoming().createdAt == existing().createdAt
+          && incoming().updatedAt == request.time
+          && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'description', 'exercises', 'coachId', 'updatedAt']);
+        allow delete: if isValidId(userId) && isValidId(workoutId) && isOwner(userId);
+      }
+
+      // Training Programs
+      match /programs/{programId} {
+        allow get: if isValidId(userId) && isValidId(programId) && (isOwner(userId) || isAuthorizedCoach(userId));
+        allow list: if isVerifiedUser() && (resource.data.userId == request.auth.uid || resource.data.coachId == request.auth.uid);
+        allow create: if isValidId(userId) && isValidId(programId)
+          && isOwner(userId)
+          && isValidTrainingProgram(incoming(), userId, programId)
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && userExists(userId);
+        allow update: if isValidId(userId) && isValidId(programId)
+          && (isOwner(userId) || isAuthorizedCoach(userId))
+          && isValidTrainingProgram(incoming(), userId, programId)
+          && incoming().id == existing().id
+          && incoming().userId == existing().userId
+          && incoming().createdAt == existing().createdAt
+          && incoming().updatedAt == request.time
+          && (
+            incoming().diff(existing()).affectedKeys().hasOnly([
+              'name', 'durationWeeks', 'goal', 'level', 'weeklyFrequency',
+              'splitType', 'scheduledDays', 'startDate', 'coachId',
+              'intensityGuidance', 'progressionApproach', 'deloadGuidance',
+              'philosophy', 'sourceTemplateId', 'originNote', 'updatedAt'
+            ]) ||
+            incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']) ||
+            incoming().diff(existing()).affectedKeys().hasOnly(['completedSessions', 'status', 'updatedAt']) ||
+            incoming().diff(existing()).affectedKeys().hasOnly(['completedSessions', 'updatedAt']) ||
+            incoming().diff(existing()).affectedKeys().hasOnly(['coachId', 'updatedAt'])
+          );
+        allow delete: if isValidId(userId) && isValidId(programId) && isOwner(userId);
+      }
+
+      // Active Live Workout Session
+      match /activeSession/{docId} {
+        allow get: if isValidId(userId) && isValidId(docId) && docId == 'current' && isOwner(userId);
+        allow list: if false;
+        allow create: if isValidId(userId) && isValidId(docId) && docId == 'current'
+          && isOwner(userId)
+          && isValidActiveWorkoutSession(incoming(), userId)
+          && incoming().updatedAt == request.time
+          && userExists(userId);
+        allow update: if isValidId(userId) && isValidId(docId) && docId == 'current'
+          && isOwner(userId)
+          && isValidActiveWorkoutSession(incoming(), userId)
+          && incoming().sessionId == existing().sessionId
+          && incoming().userId == existing().userId
+          && incoming().updatedAt == request.time
+          && incoming().diff(existing()).affectedKeys().hasOnly([
+            'pausedAtMs', 'accumulatedPauseMs', 'isPaused',
+            'currentExerciseIndex', 'notes', 'exercises', 'updatedAt'
+          ]);
+        allow delete: if isValidId(userId) && isValidId(docId) && docId == 'current' && isOwner(userId);
+      }
+
+      // Completed Workout Sessions (Immutable workout log data; coach can append feedback, owner can link coachId)
+      match /sessions/{sessionId} {
+        allow get: if isValidId(userId) && isValidId(sessionId) && (isOwner(userId) || isAuthorizedCoach(userId));
+        allow list: if isVerifiedUser() && (resource.data.userId == request.auth.uid || resource.data.coachId == request.auth.uid);
+        allow create: if isValidId(userId) && isValidId(sessionId)
+          && isOwner(userId)
+          && isValidWorkoutSessionHistory(incoming(), userId, sessionId)
+          && incoming().createdAt == request.time
+          && userExists(userId);
+        allow update: if isValidId(userId) && isValidId(sessionId)
+          && isValidWorkoutSessionHistory(incoming(), userId, sessionId)
+          && incoming().id == existing().id
+          && incoming().userId == existing().userId
+          && incoming().createdAt == existing().createdAt
+          && (
+            (isAuthorizedCoach(userId) && incoming().diff(existing()).affectedKeys().hasOnly(['coachFeedback', 'coachFeedbackAt'])) ||
+            (isOwner(userId) && incoming().diff(existing()).affectedKeys().hasOnly(['coachId']))
+          );
+        allow delete: if isValidId(userId) && isValidId(sessionId) && isOwner(userId);
+      }
+
+      // Personal Records
+      match /personalRecords/{exerciseId} {
+        allow get: if isValidId(userId) && isValidId(exerciseId) && (isOwner(userId) || isAuthorizedCoach(userId));
+        allow list: if isVerifiedUser() && (resource.data.userId == request.auth.uid || resource.data.coachId == request.auth.uid);
+        allow create: if isValidId(userId) && isValidId(exerciseId)
+          && isOwner(userId)
+          && isValidPersonalRecord(incoming(), userId, exerciseId)
+          && incoming().updatedAt == request.time
+          && userExists(userId);
+        allow update: if isValidId(userId) && isValidId(exerciseId)
+          && isOwner(userId)
+          && isValidPersonalRecord(incoming(), userId, exerciseId)
+          && incoming().exerciseId == existing().exerciseId
+          && incoming().userId == existing().userId
+          && incoming().updatedAt == request.time
+          && incoming().diff(existing()).affectedKeys().hasOnly([
+            'coachId', 'exerciseNameEn', 'exerciseNameAr',
+            'bestWeightKg', 'bestWeightReps', 'bestWeightDate', 'bestWeightSessionId',
+            'bestReps', 'bestRepsWeightKg', 'bestRepsDate', 'bestRepsSessionId',
+            'estimated1RMKg', 'estimated1RMWeightKg', 'estimated1RMReps', 'estimated1RMDate', 'estimated1RMSessionId',
+            'milestones', 'updatedAt'
+          ]);
+        allow delete: if isValidId(userId) && isValidId(exerciseId) && isOwner(userId);
+      }
+
+      // Performance Goals (athlete or authorized coach can create/update)
+      match /goals/{goalId} {
+        allow get: if isValidId(userId) && isValidId(goalId) && (isOwner(userId) || isAuthorizedCoach(userId));
+        allow list: if isVerifiedUser() && (resource.data.userId == request.auth.uid || resource.data.coachId == request.auth.uid);
+        allow create: if isValidId(userId) && isValidId(goalId)
+          && (isOwner(userId) || isAuthorizedCoach(userId))
+          && isValidPerformanceGoal(incoming(), userId, goalId)
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && userExists(userId);
+        allow update: if isValidId(userId) && isValidId(goalId)
+          && (isOwner(userId) || isAuthorizedCoach(userId))
+          && isValidPerformanceGoal(incoming(), userId, goalId)
+          && incoming().id == existing().id
+          && incoming().userId == existing().userId
+          && incoming().createdAt == existing().createdAt
+          && incoming().updatedAt == request.time
+          && incoming().diff(existing()).affectedKeys().hasOnly([
+            'coachId', 'title', 'targetType', 'exerciseId', 'exerciseNameEn', 'exerciseNameAr',
+            'targetWeightKg', 'targetReps', 'targetDate', 'status', 'notes', 'updatedAt'
+          ]);
+        allow delete: if isValidId(userId) && isValidId(goalId) && (isOwner(userId) || isAuthorizedCoach(userId));
+      }
+
+      // Body Measurements
+      match /measurements/{measurementId} {
+        allow get: if isValidId(userId) && isValidId(measurementId) && isOwner(userId);
+        allow list: if isOwner(userId) && resource.data.userId == request.auth.uid;
+        allow create: if isValidId(userId) && isValidId(measurementId)
+          && isOwner(userId)
+          && isValidBodyMeasurement(incoming(), userId, measurementId)
+          && incoming().createdAt == request.time
+          && userExists(userId);
+        allow update: if false;
+        allow delete: if isValidId(userId) && isValidId(measurementId) && isOwner(userId);
+      }
+
+      // Manual Macronutrient Logs
+      match /macros/{dateKey} {
+        allow get: if isValidId(userId) && isValidId(dateKey) && isOwner(userId);
+        allow list: if isOwner(userId) && resource.data.userId == request.auth.uid;
+        allow create: if isValidId(userId) && isValidId(dateKey)
+          && isOwner(userId)
+          && isValidManualMacroLog(incoming(), userId, dateKey)
+          && incoming().updatedAt == request.time
+          && userExists(userId);
+        allow update: if isValidId(userId) && isValidId(dateKey)
+          && isOwner(userId)
+          && isValidManualMacroLog(incoming(), userId, dateKey)
+          && incoming().dateKey == existing().dateKey
+          && incoming().userId == existing().userId
+          && incoming().updatedAt == request.time
+          && incoming().diff(existing()).affectedKeys().hasOnly(['proteinGrams', 'carbsGrams', 'fatGrams', 'notes', 'updatedAt']);
+        allow delete: if isValidId(userId) && isValidId(dateKey) && isOwner(userId);
+      }
+
+      // User Reminders & Notifications (owner or authorized coach can create notifications)
+      match /reminders/{reminderId} {
+        allow get: if isValidId(userId) && isValidId(reminderId) && isOwner(userId);
+        allow list: if isOwner(userId) && resource.data.userId == request.auth.uid;
+        allow create: if isValidId(userId) && isValidId(reminderId)
+          && (isOwner(userId) || isAuthorizedCoach(userId))
+          && isValidUserReminder(incoming(), userId, reminderId)
+          && incoming().createdAt == request.time
+          && userExists(userId);
+        allow update: if isValidId(userId) && isValidId(reminderId)
+          && isOwner(userId)
+          && isValidUserReminder(incoming(), userId, reminderId)
+          && incoming().id == existing().id
+          && incoming().userId == existing().userId
+          && incoming().type == existing().type
+          && incoming().createdAt == existing().createdAt
+          && incoming().diff(existing()).affectedKeys().hasOnly(['read']);
+        allow delete: if isValidId(userId) && isValidId(reminderId) && isOwner(userId);
+      }
+    }
+
+    // Coach Groups
+    match /coachGroups/{groupId} {
+      allow get: if isValidId(groupId) && isVerifiedUser() && (existing().coachId == request.auth.uid || isAdmin());
+      allow list: if isVerifiedUser() && resource.data.coachId == request.auth.uid;
+      allow create: if isValidId(groupId)
+        && isVerifiedUser()
+        && incoming().coachId == request.auth.uid
+        && isValidCoachGroup(incoming(), groupId)
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(groupId)
+        && isVerifiedUser()
+        && existing().coachId == request.auth.uid
+        && isValidCoachGroup(incoming(), groupId)
+        && incoming().id == existing().id
+        && incoming().coachId == existing().coachId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'description', 'organizationId', 'updatedAt']);
+      allow delete: if isValidId(groupId) && isVerifiedUser() && existing().coachId == request.auth.uid;
+    }
+
+    // Coaching Links & Invitations (doc ID == inviteCode for secure O(1) claim lookup)
+    match /coachingLinks/{linkId} {
+      allow get: if isValidId(linkId) && isVerifiedUser() && (
+        existing().coachId == request.auth.uid ||
+        existing().athleteUid == request.auth.uid ||
+        existing().status == 'pending' ||
+        isAdmin()
+      );
+      allow list: if isVerifiedUser() && (
+        resource.data.coachId == request.auth.uid ||
+        resource.data.athleteUid == request.auth.uid
+      );
+      allow create: if isValidId(linkId)
+        && isVerifiedUser()
+        && incoming().coachId == request.auth.uid
+        && isValidCoachingLink(incoming(), linkId)
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(linkId)
+        && isVerifiedUser()
+        && isValidCoachingLink(incoming(), linkId)
+        && incoming().id == existing().id
+        && incoming().coachId == existing().coachId
+        && incoming().inviteCode == existing().inviteCode
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          (
+            existing().coachId == request.auth.uid &&
+            incoming().diff(existing()).affectedKeys().hasOnly([
+              'athleteName', 'groupId', 'status', 'goalSummary', 'experienceLevel',
+              'weeklyTarget', 'privateNotes', 'assignedProgramName', 'lastSessionAt',
+              'completedSessionsCount', 'recentAdherencePct', 'recentPrText',
+              'needsAttention', 'updatedAt'
+            ])
+          ) ||
+          (
+            existing().status == 'pending' &&
+            (!('athleteUid' in existing()) || existing().athleteUid == '') &&
+            incoming().athleteUid == request.auth.uid &&
+            incoming().status == 'active' &&
+            incoming().diff(existing()).affectedKeys().hasOnly(['athleteUid', 'athleteName', 'status', 'updatedAt'])
+          ) ||
+          (
+            existing().athleteUid == request.auth.uid &&
+            incoming().diff(existing()).affectedKeys().hasOnly([
+              'athleteName', 'status', 'lastSessionAt', 'completedSessionsCount',
+              'recentPrText', 'assignedProgramName', 'updatedAt'
+            ])
+          )
+        );
+      allow delete: if isValidId(linkId) && isVerifiedUser() && existing().coachId == request.auth.uid;
+    }
+
+    // Coach Program Assignments
+    match /coachAssignments/{assignmentId} {
+      allow get: if isValidId(assignmentId) && isVerifiedUser() && (
+        existing().coachId == request.auth.uid ||
+        existing().athleteUid == request.auth.uid ||
+        isAdmin()
+      );
+      allow list: if isVerifiedUser() && (
+        resource.data.coachId == request.auth.uid ||
+        resource.data.athleteUid == request.auth.uid
+      );
+      allow create: if isValidId(assignmentId)
+        && isVerifiedUser()
+        && incoming().coachId == request.auth.uid
+        && isValidCoachAssignment(incoming(), assignmentId)
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(assignmentId)
+        && isVerifiedUser()
+        && isValidCoachAssignment(incoming(), assignmentId)
+        && incoming().id == existing().id
+        && incoming().coachId == existing().coachId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          (
+            existing().coachId == request.auth.uid &&
+            incoming().diff(existing()).affectedKeys().hasOnly([
+              'programName', 'programData', 'workoutsData', 'notes', 'status', 'updatedAt'
+            ])
+          ) ||
+          (
+            existing().athleteUid == request.auth.uid &&
+            incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt'])
+          )
+        );
+      allow delete: if isValidId(assignmentId) && isVerifiedUser() && existing().coachId == request.auth.uid;
+    }
+
+    // Coach-Athlete Direct Messages, Session Feedback, & Announcements
+    match /coachMessages/{messageId} {
+      allow get: if isValidId(messageId) && isVerifiedUser() && (
+        existing().coachId == request.auth.uid ||
+        existing().athleteUid == request.auth.uid ||
+        isAdmin()
+      );
+      allow list: if isVerifiedUser() && (
+        resource.data.coachId == request.auth.uid ||
+        resource.data.athleteUid == request.auth.uid
+      );
+      allow create: if isValidId(messageId)
+        && isVerifiedUser()
+        && incoming().senderId == request.auth.uid
+        && (incoming().coachId == request.auth.uid || incoming().athleteUid == request.auth.uid)
+        && isValidCoachMessage(incoming(), messageId)
+        && incoming().createdAt == request.time;
+      allow update: if isValidId(messageId)
+        && isVerifiedUser()
+        && (existing().coachId == request.auth.uid || existing().athleteUid == request.auth.uid)
+        && isValidCoachMessage(incoming(), messageId)
+        && incoming().diff(existing()).affectedKeys().hasOnly(['read']);
+      allow delete: if isValidId(messageId) && isVerifiedUser() && existing().senderId == request.auth.uid;
+    }
+
+    // Exercise Accuracy & Safety Flags
+    match /exerciseFlags/{flagId} {
+      allow get: if isValidId(flagId) && isVerifiedUser() && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isVerifiedUser() && (resource.data.userId == request.auth.uid || isTokenAdmin());
+      allow create: if isValidId(flagId)
+        && isVerifiedUser()
+        && incoming().userId == request.auth.uid
+        && isValidExerciseFlag(incoming(), flagId)
+        && incoming().status == 'open'
+        && incoming().createdAt == request.time;
+      allow update: if isValidId(flagId)
+        && isAdmin()
+        && isValidExerciseFlag(incoming(), flagId)
+        && incoming().diff(existing()).affectedKeys().hasOnly(['status']);
+      allow delete: if isValidId(flagId) && isAdmin();
+    }
+
+    // Gym Organizations & Members (Admin Console)
+    match /organizations/{orgId} {
+      allow get: if isValidId(orgId) && isVerifiedUser() && (existing().ownerUid == request.auth.uid || isAdmin());
+      allow list: if isVerifiedUser() && (resource.data.ownerUid == request.auth.uid || isTokenAdmin());
+      allow create: if isValidId(orgId)
+        && isAdmin()
+        && isValidGymOrganization(incoming(), orgId)
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(orgId)
+        && isAdmin()
+        && isValidGymOrganization(incoming(), orgId)
+        && incoming().id == existing().id
+        && incoming().ownerUid == existing().ownerUid
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time;
+      allow delete: if isValidId(orgId) && isAdmin();
+
+      match /members/{memberUid} {
+        allow get: if isValidId(orgId) && isValidId(memberUid) && isVerifiedUser() && (memberUid == request.auth.uid || isAdmin());
+        allow list: if isValidId(orgId) && isTokenAdmin();
+        allow create: if isValidId(orgId) && isValidId(memberUid)
+          && isAdmin()
+          && isValidOrganizationMember(incoming(), orgId, memberUid)
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time;
+        allow update: if isValidId(orgId) && isValidId(memberUid)
+          && isAdmin()
+          && isValidOrganizationMember(incoming(), orgId, memberUid)
+          && incoming().uid == existing().uid
+          && incoming().organizationId == existing().organizationId
+          && incoming().createdAt == existing().createdAt
+          && incoming().updatedAt == request.time;
+        allow delete: if isValidId(orgId) && isValidId(memberUid) && isAdmin();
+      }
+    }
+  }
+}
