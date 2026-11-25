@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Heart, Plus, Search, X } from 'lucide-react';
+import { Dumbbell, Heart, Plus, Search, X } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import {
   CATEGORY_LABELS,
@@ -16,6 +16,8 @@ import {
   ExerciseCategory,
   MuscleGroup,
 } from '../../types/ironlog';
+import { getExerciseQuickGuide } from '../../data/exerciseGuides';
+import { getExerciseVideoAsset } from '../../data/exerciseVideos';
 import { ExerciseDetailView } from './ExerciseDetailView';
 
 const ALL_MUSCLES: MuscleGroup[] = [
@@ -357,34 +359,67 @@ export const ExerciseLibraryView: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
           {filtered.map((ex) => {
             const isFav = favoritesSet.has(ex.id);
+            const quickGuide = getExerciseQuickGuide(ex);
+            const hasVideo = Boolean(getExerciseVideoAsset(ex.id, 'general'));
+            const summaryText =
+              language === 'ar' ? quickGuide.simpleExplanationAr : quickGuide.simpleExplanationEn;
             return (
               <div
                 key={ex.id}
                 className="group bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 hover:border-emerald-500/40 rounded-2xl p-4 flex flex-col justify-between gap-3 transition-colors"
               >
-                <div className="flex items-start justify-between gap-2">
+                <div className="flex items-start gap-3">
                   <button
+                    type="button"
                     onClick={() => setViewingId(ex.id)}
-                    className="text-start flex-1 min-w-0 cursor-pointer"
+                    className="relative w-20 h-16 rounded-xl overflow-hidden shrink-0 border border-neutral-200 dark:border-neutral-800 bg-[#111317] flex items-center justify-center cursor-pointer"
+                    aria-label={language === 'ar' ? ex.nameAr : ex.nameEn}
                   >
-                    <h3 className="text-sm font-semibold leading-snug group-hover:text-emerald-500 transition-colors">
-                      {language === 'ar' ? ex.nameAr : ex.nameEn}
-                    </h3>
-                    <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate mt-0.5">
-                      {language === 'ar' ? ex.nameEn : ex.nameAr}
-                    </p>
+                    {quickGuide.stepImage ? (
+                      <img
+                        src={quickGuide.stepImage}
+                        alt={language === 'ar' ? ex.nameAr : ex.nameEn}
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <Dumbbell className="w-6 h-6 text-emerald-500/80" />
+                    )}
+                    {hasVideo && (
+                      <span className="absolute bottom-1 end-1 px-1 py-0.5 rounded bg-emerald-600/95 text-white text-[9px] font-mono font-bold leading-none">
+                        MP4
+                      </span>
+                    )}
                   </button>
-                  <button
-                    onClick={() => toggleFavoriteExercise(ex.id)}
-                    className={`p-1.5 rounded-lg shrink-0 transition-colors cursor-pointer ${
-                      isFav
-                        ? 'text-emerald-500'
-                        : 'text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200'
-                    }`}
-                    aria-label={t.exercises.addToFavorites}
-                  >
-                    <Heart className={`w-4 h-4 ${isFav ? 'fill-current' : ''}`} />
-                  </button>
+
+                  <div className="flex-1 min-w-0 flex items-start justify-between gap-1.5">
+                    <button
+                      onClick={() => setViewingId(ex.id)}
+                      className="text-start flex-1 min-w-0 cursor-pointer"
+                    >
+                      <h3 className="text-sm font-semibold leading-snug group-hover:text-emerald-500 transition-colors">
+                        {language === 'ar' ? ex.nameAr : ex.nameEn}
+                      </h3>
+                      <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate mt-0.5">
+                        {language === 'ar' ? ex.nameEn : ex.nameAr}
+                      </p>
+                      <p className="text-[11px] text-neutral-600 dark:text-neutral-400 line-clamp-2 mt-1 leading-relaxed">
+                        {summaryText}
+                      </p>
+                    </button>
+                    <button
+                      onClick={() => toggleFavoriteExercise(ex.id)}
+                      className={`p-1.5 rounded-lg shrink-0 transition-colors cursor-pointer ${
+                        isFav
+                          ? 'text-emerald-500'
+                          : 'text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200'
+                      }`}
+                      aria-label={t.exercises.addToFavorites}
+                    >
+                      <Heart className={`w-4 h-4 ${isFav ? 'fill-current' : ''}`} />
+                    </button>
+                  </div>
                 </div>
 
                 <button

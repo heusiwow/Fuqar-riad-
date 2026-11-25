@@ -166,7 +166,7 @@ export const CURATED_PROGRAM_TEMPLATES: CuratedProgramTemplate[] = [
         workoutNameEn: 'Day A — Squat, Bench & Deadlift',
         workoutNameAr: 'اليوم أ — سكوات، بنش، ديدلفت',
         descriptionEn: 'Classic linear triple pairing knee-dominant squat, flat press, and floor deadlift.',
-        descriptionAr: 'توليفة خطية كلاسيكية تجمع القرفصاء والبنش والرفعة المميتة.',
+        descriptionAr: 'توليفة خطية كلاسيكية تجمع القرفصاء والبنش والديدلفت.',
         exercises: [
           exItem('barbell-back-squat', 3, 5, 5, { warmupSets: 3, targetRpe: 8, targetRir: 2, restSeconds: 180, notes: 'Three straight sets across' }),
           exItem('barbell-bench-press', 3, 5, 5, { warmupSets: 3, targetRpe: 8, targetRir: 2, restSeconds: 180, notes: 'Pause briefly on chest' }),
@@ -346,7 +346,7 @@ export const CURATED_PROGRAM_TEMPLATES: CuratedProgramTemplate[] = [
         workoutNameEn: 'Day 2 — Deadlift + Posterior & Core',
         workoutNameAr: 'اليوم 2 — ديدلفت + فخذ خلفي وبطن',
         descriptionEn: 'Primary 5/3/1 Deadlift followed by hamstring & abdominal support.',
-        descriptionAr: 'الرفعة المميتة الرئيسية مع ديدلفت روماني ورفع الأرجل.',
+        descriptionAr: 'الديدلفت التقليدي الرئيسي مع ديدلفت روماني ورفع الأرجل.',
         exercises: [
           exItem('conventional-deadlift', 3, 3, 5, { warmupSets: 3, targetRpe: 8.5, targetRir: 1.5, restSeconds: 210, notes: 'Main 5/3/1 wave sets' }),
           exItem('romanian-deadlift', 4, 8, 12, { targetRpe: 8, targetRir: 2, restSeconds: 120 }),
@@ -981,7 +981,7 @@ export const CURATED_PROGRAM_TEMPLATES: CuratedProgramTemplate[] = [
     deloadGuidanceEn: 'Take 1 lighter week every 6 weeks cutting sets in half.',
     deloadGuidanceAr: 'أسبوع تخفيف كل 6 أسابيع بنصف الجولات.',
     intensityGuidanceEn: 'RPE 8–9 with deliberate 2–3s eccentrics and crisp squeeze—avoid sloppy cheat reps.',
-    intensityGuidanceAr: 'شدة RPE 8–9 مع تحكم 2–3 ثوانٍ في النزول وتجنب المرجحة غير المنضبطة.',
+    intensityGuidanceAr: 'شدة RPE 8–9 مع تحكم 2–3 ثوانٍ في النزول وتجنب التأرجح غير المنضبط.',
     recoveryRequirementsEn: 'Local muscles rest 7 days, though shoulder joints still assist on Chest, Back, and Arms—manage shoulder pressing depth.',
     recoveryRequirementsAr: 'راحة موضعية أسبوع كامل مع مراعاة عدم إرهاق الكتف الأمامي في يوم الذراعين أو الصدر.',
     modificationsEn: 'Can pair Rear Delts briefly on Back Day or Calves 2x/week if lower legs lag.',

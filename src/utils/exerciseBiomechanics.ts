@@ -567,9 +567,9 @@ export const EXERCISE_COMPARISONS: Record<string, ExerciseComparison[]> = {
     {
       otherExerciseId: 'hammer-curl',
       otherNameEn: 'Dumbbell Hammer Curl',
-      otherNameAr: 'مرجحة مطرقة بالدامبل (هامر)',
+      otherNameAr: 'تمرين هامر بالدامبل للبايسبس والساعد',
       mechanicalDiffEn: 'Supinated barbell curls maximize biceps brachii flexion/supination leverage; neutral-grip Hammer Curls shift greater mechanical demand to the brachialis and brachioradialis.',
-      mechanicalDiffAr: 'البار المستقيم يفعّل البايسبس بقبضة سفلية كلاسيكية؛ بينما ينقل الهامر بقبضته المتقابلة جهداً أكبر إلى العضلة العضدية والساعد.',
+      mechanicalDiffAr: 'البار المستقيم يفعّل البايسبس بقبضة سفلية كلاسيكية؛ بينما ينقل الهامر بقبضته المتقابلة جهداً أكبر إلى عضلة الساعد والعضلة العميقة أسفل البايسبس.',
       practicalChoiceEn: 'Pair 1 supinated curl (Barbell or Incline) with 1 neutral Hammer Curl for complete upper-arm thickness.',
       practicalChoiceAr: 'ادمج تمرين بايسبس بقبضة سفلية مع تمرين هامر لتطوير الذراع والساعد معاً.'
     },
@@ -589,11 +589,11 @@ export const EXERCISE_COMPARISONS: Record<string, ExerciseComparison[]> = {
     {
       otherExerciseId: 'seated-calf-raise',
       otherNameEn: 'Seated Calf Raise Machine',
-      otherNameAr: 'رفع السمانة جالساً على الجهاز',
+      otherNameAr: 'تمرين السمانة جالساً على الجهاز',
       mechanicalDiffEn: 'Extended-knee standing raises stretch and recruit both gastrocnemius heads heavily; bending knees 90° while seated puts gastrocnemius in slack to target the deeper soleus.',
-      mechanicalDiffAr: 'التمرين وقوفاً بركبة مفرودة يفعل عضلة البطن الساقية الكبرى بقوة؛ بينما يضع التمرين جالساً تلك العضلة في ارتخاء لينقل الحمل إلى عضلة النعلية العميقة.',
+      mechanicalDiffAr: 'التمرين وقوفاً بركبة مفرودة يفعّل عضلة السمانة الكبرى بقوة؛ بينما ينقل التمرين جالساً بثني الركبة الحمل إلى الجزء العميق من السمانة.',
       practicalChoiceEn: 'Prioritize straight-leg calf work for overall calf size, and add seated raises for lower-calf width and ankle strength.',
-      practicalChoiceAr: 'أعطِ الأولوية للسمانة وقوفاً وأضف السمانة جالساً لسمك أسفل الساق.'
+      practicalChoiceAr: 'أعطِ الأولوية للسمانة وقوفاً لحجم السمانة العام، وأضف السمانة جالساً لتقوية الجزء العميق وأسفل الساق.'
     },
   ],
 };
@@ -842,7 +842,7 @@ const PATTERN_BY_ID: Record<string, Partial<ExerciseBiomechanicsMeta>> = {
     harderAlternativeIds: ['dumbbell-lateral-raise', 'cable-lateral-raise'],
   },
   'rear-delt-machine-fly': {
-    movementPattern: 'chest_fly',
+    movementPattern: 'row',
     stabilizerMuscles: ['abdominals'],
     easierAlternativeIds: [],
     harderAlternativeIds: ['cable-face-pull'],
@@ -1004,7 +1004,7 @@ const PATTERN_BY_ID: Record<string, Partial<ExerciseBiomechanicsMeta>> = {
     easierAlternativeIds: ['dumbbell-rdl', 'lying-leg-curl'],
     harderAlternativeIds: ['conventional-deadlift'],
     variationsEn: ['Dumbbell RDL', 'B-Stance RDL', 'Conventional Deadlift'],
-    variationsAr: ['ديدلفت روماني بالدامبل', 'ديدلفت روماني بقدم متقدمة', 'الرفعة المميتة التقليدية'],
+    variationsAr: ['ديدلفت روماني بالدامبل', 'ديدلفت روماني بقدم متقدمة', 'ديدلفت تقليدي بالبار'],
     comparisons: EXERCISE_COMPARISONS.hinge_family,
   },
   'lying-leg-curl': {
@@ -1048,7 +1048,7 @@ const PATTERN_BY_ID: Record<string, Partial<ExerciseBiomechanicsMeta>> = {
     movementPattern: 'calf_raise',
     stabilizerMuscles: ['quadriceps'],
     techniqueSummaryEn: 'Bent-knee plantar-flexion isolating the deep soleus muscle through full ankle dorsiflexion stretch and crisp pause.',
-    techniqueSummaryAr: 'تمرين بركبة مثنية لعزل عضلة النعلية العميقة عبر إطالة كاملة للكاحل وتوقف متحكم به.',
+    techniqueSummaryAr: 'تمرين بركبة مثنية لعزل الجزء العميق من عضلة السمانة عبر إطالة كاملة للكاحل وتوقف متحكم به.',
     easierAlternativeIds: [],
     harderAlternativeIds: ['standing-calf-raise-machine'],
     comparisons: EXERCISE_COMPARISONS.calf_family,
@@ -1079,7 +1079,7 @@ const PATTERN_BY_ID: Record<string, Partial<ExerciseBiomechanicsMeta>> = {
     harderAlternativeIds: ['resistance-band-pallof-press', 'cable-crunch'],
   },
   'resistance-band-pallof-press': {
-    movementPattern: 'bench_press',
+    movementPattern: 'core_flexion',
     stabilizerMuscles: ['abdominals', 'glutes', 'shoulders'],
     easierAlternativeIds: ['plank-hold'],
     harderAlternativeIds: ['hanging-leg-raise'],

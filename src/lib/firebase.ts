@@ -34,6 +34,7 @@ export const db = createFirestoreDb();
 export const auth = getAuth(app);
 export const storage = getStorage(app);
 export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 /**
  * Awaits Firestore write when online; when offline, lets the write queue

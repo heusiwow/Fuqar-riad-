@@ -165,12 +165,12 @@ const PATTERN_SCHOOL_CUES: Record<
       focusEn: 'Classic isolation finisher: strict stretch & intense peak contraction.',
       focusAr: 'عزل كلاسيكي لإنهاء الصدر: تمدد عميق وعصر قمي مركز.',
       cuesEn: [
-        'Visualize hugging a barrel—focus purely on pectoral sweep, not heavy weight.',
+        'Keep a wide hugging arc—focus purely on pectoral sweep, not heavy weight.',
         'Hold a hard 1–2s flex at the center to fill the inner chest.',
         'Keep shoulders pinned back so front delts never steal the tension.',
       ],
       cuesAr: [
-        'تخيل معانقة برميل كبير وركز على شد الصدر نفسه لا ثقل الوزن.',
+        'حافظ على قوس واسع بالذراعين وركّز على شد الصدر نفسه لا على ثقل الوزن.',
         'ثبّت الانقباض لثانية أو ثانيتين في المنتصف لإشباع العضلة بالدم.',
         'ثبّت الكتفين للخلف لمنع الكتف الأمامي من سرقة الجهد.',
       ],
@@ -589,16 +589,16 @@ const PATTERN_SCHOOL_CUES: Record<
     },
     modern: {
       focusEn: 'Pure rectus femoris isolation without systemic squat fatigue.',
-      focusAr: 'عزل مباشر للفخذ الأمامي (خاصة المستقيمة الفخذية) دون إجهاد جهازي.',
+      focusAr: 'عزل مباشر للفخذ الأمامي (خاصة العضلة الوسطى والطولية) دون إجهاد عام.',
       cuesEn: [
         'Slightly reclined backrest lengthens rectus femoris at the hip for superior growth.',
         'Control the bottom stretched half tightly—that range drives high quad hypertrophy.',
         'Push close to failure (0–2 RIR) safely in 10–15 rep sets.',
       ],
       cuesAr: [
-        'إرجاع مسند الظهر قليلاً يطيل العضلة المستقيمة الفخذية لتضخيم أفضل.',
+        'إرجاع مسند الظهر قليلاً يمنح عضلة الفخذ الأمامي إطالة أفضل لبناء أقوى.',
         'ركز على النصف السفلي المتحكم فيه لأنه يولّد استجابة نمو قوية.',
-        'يمكن الاقتراب بأمان من الفشل العضلي (0–2 RIR) في 10–15 تكراراً.',
+        'يمكن الاقتراب بأمان من الفشل العضلي (10–15 تكراراً) دون إجهاد الظهر.',
       ],
     },
     old_school: {
@@ -684,7 +684,7 @@ const PATTERN_SCHOOL_CUES: Record<
         'Never bounce fast; 10–15 strict paused reps outperform rapid 30-rep bouncing.',
       ],
       cuesAr: [
-        'الركبة المفرودة (وقوفاً) تفعّل البطن الساقية الكبرى بفاعلية أعلى من الجلوس.',
+        'الركبة المفرودة (وقوفاً) تفعّل عضلة السمانة الكبرى بفاعلية أعلى من الجلوس.',
         'الثبات في أقصى تمدد سفلي هو الجزء الأعلى قيمة للبناء العضلي.',
         '10–15 تكراراً بتوقف بطيء أفضل بكثير من 30 تكراراً بالارتداد السريع.',
       ],
@@ -771,13 +771,405 @@ export function getBuiltinVideoPaths(): string[] {
   return Array.from(urls);
 }
 
+type SchoolBlock = { focusEn: string; focusAr: string; cuesEn: string[]; cuesAr: string[] };
+
+const EXERCISE_SPECIFIC_SCHOOL_CUES: Record<
+  string,
+  Partial<Record<TrainingSchoolId, SchoolBlock>>
+> = {
+  'chest-dips': {
+    modern: {
+      focusEn: 'Lower-pec stretched-position overload with ~25° forward lean and steady shoulder depression.',
+      focusAr: 'تضخيم الصدر السفلي في أقصى تمدد مع ميلان الجذع ~25° للأمام وتثبيت الكتفين للأسفل.',
+      cuesEn: [
+        'Hold a consistent 20–30° forward lean from start to finish so lower pecs stay aligned.',
+        'Control a 2–3s descent until upper arms reach parallel (or comfortable shoulder depth).',
+        'Progress gradually from assisted dips to weighted belt sets in 6–12 reps.',
+      ],
+      cuesAr: [
+        'حافظ على ميلان الجذع للأمام (20–30°) طوال التمرين ليستقبل الصدر السفلي الحمل الأساسي.',
+        'تحكم في النزول لمدة 2–3 ثوانٍ حتى يوازي العضدان الأرض أو بقدر مرونة كتفك.',
+        'تدرّج من وزن الجسم حتى استخدام حزام الأوزان ضمن 6–12 تكراراً نظيفاً.',
+      ],
+    },
+    old_school: {
+      focusEn: 'Classic lower-chest & tricep mass builder: deep dips with strict body control.',
+      focusAr: 'بناء الصدر السفلي والترايسبس الكلاسيكي: غطس عميق وتحكم كامل بالجسم.',
+      cuesEn: [
+        'Keep chest lifted and legs still—never swing knees for momentum.',
+        'Push shoulders down away from your ears forcefully at the top lockout.',
+        'Finish chest day with clean dips until you reach a full lower-pec pump.',
+      ],
+      cuesAr: [
+        'حافظ على ثبات الساقين دون تأرجح، وأبقِ الصدر مائلاً للأمام.',
+        'ادفع الكتفين للأسفل بعيداً عن الأذنين عند تمام الصعود.',
+        'اجعل الغطس ختاماً قوياً ليوم الصدر لضخ الدم في الجزء السفلي.',
+      ],
+    },
+  },
+  'cable-face-pull': {
+    modern: {
+      focusEn: 'Rear-delt + external-rotator strengthening for shoulder stability and posture.',
+      focusAr: 'تقوية الكتف الخلفي والعضلات المدورة لحماية المفصل وتحسين استقامة الكتفين.',
+      cuesEn: [
+        'Pull rope ends apart toward forehead while externally rotating forearms vertical.',
+        'Keep ribs down and torso still so lower back and lats do not steal the pull.',
+        'Train in 12–20 controlled reps (1–2 RIR) to maintain shoulder health alongside heavy pressing.',
+      ],
+      cuesAr: [
+        'افتح طرفي الحبل نحو الجبهة مع تدوير الساعدين للأعلى في نهاية السحبة.',
+        'ثبّت البطن والجذع تماماً دون الانحناء للخلف أو السحب بالظهر السفلي.',
+        'نفّذ 12–20 تكراراً منضبطاً للحفاظ على توازن الكتف مع تمارين الدفع.',
+      ],
+    },
+    old_school: {
+      focusEn: 'High-rep rear shoulder detail & upper-back posture finisher.',
+      focusAr: 'نحت الكتف الخلفي وتوازن أعلى الظهر بتكرارات عالية ومنضبطة.',
+      cuesEn: [
+        'Use moderate weight that lets you pause 1 second in the open double-biceps finish.',
+        'Keep elbows high at shoulder level throughout every pull.',
+        'Focus on squeezing the back of the shoulders rather than yanking heavy plates.',
+      ],
+      cuesAr: [
+        'اختر وزناً متوسطاً يتيح لك التوقف ثانية كاملة عند أعلى انقباض بجانب الأذنين.',
+        'أبقِ المرفقين عاليين بمستوى الكتفين ولا تخفضهما نحو الصدر.',
+        'ركّز ذهنياً على عصر مؤخرة الكتفين بدلاً من أوزان ثقيلة تفقدك التحكم.',
+      ],
+    },
+  },
+  'rear-delt-machine-fly': {
+    modern: {
+      focusEn: 'Pure posterior deltoid isolation by sweeping arms wide instead of pinching traps.',
+      focusAr: 'عزل نقي للكتف الخلفي عبر فتح الذراعين للخارج دون عصر منتصف الظهر.',
+      cuesEn: [
+        'Keep chest resting on pad and reach knuckles outward toward side walls.',
+        'Avoid aggressive scapular pinching so rear delts—not mid-traps—carry the load.',
+        'Control a 2–3s forward return within 12–20 clean reps.',
+      ],
+      cuesAr: [
+        'أبقِ الصدر مستنداً على الوسادة وفكّر في إبعاد اليدين للخارج نحو الجدارين.',
+        'تجنب ضم لوحي الكتف بقوة زائدة حتى لا تسرق عضلات الظهر الحمل من الكتف الخلفي.',
+        'تحكم في الرجوع للأمام خلال 2–3 ثوانٍ ضمن 12–20 تكراراً.',
+      ],
+    },
+    old_school: {
+      focusEn: 'Rounded 3D shoulder cap builder: strict rear-delt arc and burning squeeze.',
+      focusAr: 'تدوير الكتف الكلاسيكي: قوس واسع وعصر مركز في مؤخرة الكتف.',
+      cuesEn: [
+        'Keep elbows softly locked and move smoothly without body sway.',
+        'Stop backward sweep in line with your torso—no need to over-pull behind your back.',
+        'Chase continuous rear-delt tension without resting the stack between reps.',
+      ],
+      cuesAr: [
+        'ثبّت انثناءً خفيفاً للمرفقين وحرك الذراعين بانسيابية دون حركة في الجذع.',
+        'توقف عند محاذاة الجذع دون إرجاع الذراعين خلف الظهر بشكل مبالغ فيه.',
+        'حافظ على الشد المستمر دون ترك الأوزان تصطدم في نهاية الرجوع.',
+      ],
+    },
+  },
+  'barbell-wrist-curl': {
+    modern: {
+      focusEn: 'Targeted wrist-flexor hypertrophy via controlled finger-roll & strict wrist flexion.',
+      focusAr: 'تقوية وتضخيم عضلات الساعد الداخلية عبر حركة المعصم والأصابع بتحكم.',
+      cuesEn: [
+        'Keep forearms completely flat on bench/thighs so biceps cannot assist.',
+        'Unroll bar smoothly down into fingers for stretch, then curl wrists high.',
+        'Stick to 15–20 controlled reps with moderate loads to protect wrist tendons.',
+      ],
+      cuesAr: [
+        'ثبّت الساعدين تماماً على المقعد أو الفخذين دون رفعهما لمنع تدخل الذراع.',
+        'اسمح للبار بالنزول بتحكم إلى أطراف الأصابع ثم اثنِ المعصمين للأعلى.',
+        'استهدف 15–20 تكراراً بأوزان معتدلة لحماية أوتار المعصم.',
+      ],
+    },
+    old_school: {
+      focusEn: 'Classic forearm fullness & grip endurance: full roll and peak flex.',
+      focusAr: 'بناء سماكة السواعد وقوة القبضة: مدى كامل وثبات في الأعلى.',
+      cuesEn: [
+        'Work through the full range from fingertips up to tight wrist contraction.',
+        'Hold 1s at peak wrist curl every rep.',
+        'Keep pace steady without bouncing wrists rapidly.',
+      ],
+      cuesAr: [
+        'تحرك بمدى كامل من فتح الأصابع حتى أقصى ثني للمعصم للأعلى.',
+        'ثبّت الانقباض لثانية واحدة في قمة كل تكرار.',
+        'تجنب الحركات السريعة الخاطفة وحافظ على إيقاع ثابت.',
+      ],
+    },
+  },
+  'reverse-dumbbell-wrist-curl': {
+    modern: {
+      focusEn: 'Forearm extensor balance & lateral-elbow resilience with strict slow eccentrics.',
+      focusAr: 'توازن عضلات الساعد العلوية وحماية وتر المرفق بنزول بطيء متحكم به.',
+      cuesEn: [
+        'Use light weights and move strictly at the wrist while forearms stay glued down.',
+        'Lift knuckles straight upward and lower over 2 seconds.',
+        'Perform 15–20 smooth pain-free reps.',
+      ],
+      cuesAr: [
+        'استخدم أوزاناً خفيفة وحرك مفصل المعصم فقط مع ثبات الساعدين على المسند.',
+        'ارفع ظهر اليدين عمودياً للأعلى وأنزلهما بتحكم خلال ثانيتين.',
+        'التزم بنطاق 15–20 تكراراً سلساً دون إجهاد المعصم.',
+      ],
+    },
+    old_school: {
+      focusEn: 'Top-of-forearm definition & balanced arm proportion.',
+      focusAr: 'بروز الجزء العلوي من الساعد وتناسق الذراع بالكامل.',
+      cuesEn: [
+        'Focus on steady lifting of the back of the hand without jerking shoulders.',
+        'Keep both wrists tracking straight up and down.',
+        'Pair after standard wrist curls for complete forearm development.',
+      ],
+      cuesAr: [
+        'ارفع ظهر اليد بثبات للأعلى دون رفع الكتف أو المرفق عن المسند.',
+        'حافظ على استقامة المعصمين دون انحراف جانبي.',
+        'مارسه بعد تمرين الساعد الداخلي لتحقيق توازن شامل للساعد.',
+      ],
+    },
+  },
+  'bench-dips': {
+    modern: {
+      focusEn: 'Joint-safe tricep dips keeping hips tight to bench and stopping at 90° elbows.',
+      focusAr: 'عزل آمن للترايسبس بإبقاء الظهر قريباً من المقعد والتوقف عند زاوية 90°.',
+      cuesEn: [
+        'Keep lower back gliding right beside the bench front—never drift hips forward.',
+        'Stop descent once elbows reach ~90° so front shoulder tendons stay comfortable.',
+        'Bend knees to reduce difficulty or elevate feet only after strict 90° control.',
+      ],
+      cuesAr: [
+        'أبقِ ظهرك قريباً جداً من حافة المقعد ولا تبتعد بالورك للأمام.',
+        'توقف في النزول عند زاوية 90° للمرفقين لحماية مفصل الكتف.',
+        'اثنِ الركبتين لتخفيف الوزن أو مد الساقين بعد إتقان التحكم الكامل.',
+      ],
+    },
+    old_school: {
+      focusEn: 'Classic tricep bodyweight finisher: upright torso & clean elbow lockout.',
+      focusAr: 'إنهاء كلاسيكي للترايسبس بوزن الجسم: جذع مستقيم وفرد كامل.',
+      cuesEn: [
+        'Point elbows straight behind you rather than flaring sideways.',
+        'Push through the heels of your palms and flex triceps hard at the top.',
+        'Stop immediately if shoulders feel pinched instead of forcing deep drops.',
+      ],
+      cuesAr: [
+        'وجّه المرفقين للخلف مباشرة وتجنب فتحهما للجانبين.',
+        'ادفع عبر كعب اليدين واعصر الترايسبس بقوة في الأعلى.',
+        'تجنب النزول العميق المبالغ فيه إذا شعرت بأي ضغط في مقدمة الكتف.',
+      ],
+    },
+  },
+  'dumbbell-tricep-kickback': {
+    modern: {
+      focusEn: 'Peak-shortened tricep contraction with upper arm locked horizontal.',
+      focusAr: 'عزل الترايسبس في أقصى انقباض أفقي مع تثبيت العضد موازياً للأرض.',
+      cuesEn: [
+        'Hold upper arm completely parallel to the floor beside your torso—never let elbow drop.',
+        'Extend forearm all the way straight back and pause 1s at horizontal peak.',
+        'Stop forward return under your elbow (90°) so momentum cannot help.',
+      ],
+      cuesAr: [
+        'ثبّت العضد أفقياً بموازاة الأرض بجانب الجذع ولا تدع المرفق يهبط للأسفل.',
+        'افرد الساعد للخلف تماماً وتوقف ثانية في أعلى نقطة انقباض.',
+        'أوقف عودة الدامبل للأمام عند زاوية 90° تحت المرفق لمنع التأرجح.',
+      ],
+    },
+    old_school: {
+      focusEn: 'Strict tricep detail & horseshoe peak squeeze with light controlled weight.',
+      focusAr: 'تفصيل الترايسبس الكلاسيكي بعصر قمي حاد ووزن مضبوط.',
+      cuesEn: [
+        'Pick a weight light enough to hold completely still behind you.',
+        'Keep torso steady on the bench support—zero hip jerk.',
+        'Perform 12–15 clean strict reps per arm.',
+      ],
+      cuesAr: [
+        'اختر وزناً خفيفاً أو متوسطاً يسمح لك بتثبيت الذراع مفرودة في الخلف.',
+        'أبقِ الجذع ثابتاً على المقعد دون مساعدة من الظهر أو الكتف.',
+        'نفّذ 12–15 تكراراً نظيفاً لكل ذراع.',
+      ],
+    },
+  },
+  'barbell-hip-thrust': {
+    modern: {
+      focusEn: 'Peak shortened-position glute loading with posterior pelvic tilt & vertical shins.',
+      focusAr: 'تحميل أقصى للأرداف في وضع الانقباض مع تدوير الحوض وقصبة عمودية.',
+      cuesEn: [
+        'Set feet so shins are vertical (90° knees) at the horizontal top position.',
+        'Keep chin tucked and ribs down—hinge around the bench edge rather than arching lumbar spine.',
+        'Hold a hard 1s glute squeeze at lockout across 8–12 controlled reps.',
+      ],
+      cuesAr: [
+        'اضبط مكان القدمين لتكون الساقان عموديتين تماماً (ركبة 90°) عند الاستقامة الأفقية.',
+        'أبقِ الذقن مائلاً للأمام والقفص الصدري منخفضاً لرفع الحوض بالأرداف لا بتقويس الظهر.',
+        'توقف ثانية واحدة في القمة لعصر الأرداف ضمن 8–12 تكراراً متحكماً به.',
+      ],
+    },
+    old_school: {
+      focusEn: 'Heavy glute power & hip-lockout drive with rock-solid torso bracing.',
+      focusAr: 'قوة ودفع الحوض لبناء الأرداف: ثبات الجذع وعصر قوي في الأعلى.',
+      cuesEn: [
+        'Drive firmly through your heels until thighs and torso form a flat bridge.',
+        'Pause cleanly at the top instead of bouncing plates off the floor.',
+        'Use a thick barbell pad and build steady weight progression.',
+      ],
+      cuesAr: [
+        'ادفع الأرض بالكعبين بقوة حتى يتوازى الجذع والفخذان في خط مستقيم.',
+        'تحكم في النزول دون ضرب الأوزان بالأرض للارتداد.',
+        'استخدم بطانة للبار وتدرج في الأوزان مع الحفاظ على نظافة الرفعة.',
+      ],
+    },
+  },
+  'cable-glute-kickback': {
+    modern: {
+      focusEn: 'Pure unilateral hip extension with ~15° slight diagonal angle and zero lumbar arch.',
+      focusAr: 'عزل أحادي لمد الورك بزاوية مائلة ~15° للخارج دون تقويس أسفل الظهر.',
+      cuesEn: [
+        'Brace core tight and stop kicking the moment hip extension finishes.',
+        'Kick backward and slightly outward (~15°) to align with upper/lower glute fibers.',
+        'Work 12–15 controlled reps per leg with steady cable tension.',
+      ],
+      cuesAr: [
+        'اشدد البطن وتوقف عن دفع الساق فور انتهاء مدى مفصل الورك دون تقويس الظهر.',
+        'وجّه الدفع للخلف وللخارج قليلاً (~15°) لمطابقة مسار ألياف الأرداف.',
+        'نفّذ 12–15 تكراراً بتحكم لكل ساق مع توتر مستمر في الكابل.',
+      ],
+    },
+    old_school: {
+      focusEn: 'Focused glute shaping: slow controlled extension and peak hold.',
+      focusAr: 'تشكيل وعزل الأرداف: حركة بطيئة وثبات في نهاية المد.',
+      cuesEn: [
+        'Keep hips square to the cable stack without twisting sideways.',
+        'Hold peak contraction for 1 full second behind you.',
+        'Use moderate weight that never swings your torso.',
+      ],
+      cuesAr: [
+        'أبقِ الحوض مواجهاً للجهاز دون التفاف جانبي.',
+        'توقف ثانية كاملة عند أقصى انقباض في الخلف.',
+        'استخدم وزناً متوسطاً يحفظ حركة الساق نظيفة دون تأرجح.',
+      ],
+    },
+  },
+  'plank-hold': {
+    modern: {
+      focusEn: 'Active isometric anti-extension brace via posterior pelvic tilt & glute tension.',
+      focusAr: 'ثبات نشط لمقاومة تقوّس الظهر عبر شد الأرداف وتدوير الحوض للداخل.',
+      cuesEn: [
+        'Squeeze glutes and quads hard while mentally pulling elbows toward toes (zero movement).',
+        'End the set once lower back sags—high-tension 25–45s sets outperform passive 2-minute holds.',
+        'Push forearms lightly into floor so upper back stays strong and flat.',
+      ],
+      cuesAr: [
+        'اشدد الأرداف والفخذين بقوة واسحب المرفقين ذهنياً نحو أصابع القدم لمضاعفة شد البطن.',
+        'أنهِ الجولة فور فقدان الاستقامة؛ 30 ثانية بشد قوي أفضل من دقيقتين بارتخاء.',
+        'ادفع الأرض بالساعدين برفق ليبقى أعلى الظهر ثابتاً ومستوياً.',
+      ],
+    },
+    old_school: {
+      focusEn: 'Iron core endurance: rigid straight-line posture & calm rhythmic breathing.',
+      focusAr: 'صلابة الجذع الكلاسيكية: خط جسم مستقيم وتنفس منتظم تحت الشد.',
+      cuesEn: [
+        'Align ears, shoulders, hips, and heels in one unbroken straight line.',
+        'Breathe steadily through your nose without holding your breath stiffly.',
+        'Never pike hips high or drop belly toward the floor.',
+      ],
+      cuesAr: [
+        'حافظ على الرأس والكتفين والوركين والكعبين على خط مستقيم واحد.',
+        'تنفّس بهدوء وانتظام دون حبس النفس.',
+        'تجنب رفع الوركين عالياً أو سقوط البطن نحو الأرض.',
+      ],
+    },
+  },
+  'hanging-leg-raise': {
+    modern: {
+      focusEn: 'Lower-ab spinal flexion via upward posterior pelvic curl above 90°.',
+      focusAr: 'تفعيل أسفل البطن عبر تدوير الحوض للأعلى بعد تجاوز الزاوية القائمة.',
+      cuesEn: [
+        'Curl tailbone and pelvis upward toward ribcage rather than stopping at horizontal hip flexion.',
+        'Bend knees if straight legs stop pelvic curl—full spinal curl drives ab growth.',
+        'Control a slow 2s descent to completely kill pendulum swing.',
+      ],
+      cuesAr: [
+        'ارفع الحوض وأدِره للأعلى نحو الصدر بدلاً من الاكتفاء برفع الساقين للأمام 90° فقط.',
+        'اثنِ الركبتين إن لزم لتتمكن من تدوير الحوض وعصر عضلات البطن فعلياً.',
+        'انزل ببطء (ثانيتين) لإيقاف تأرجح الجسم تماماً.',
+      ],
+    },
+    old_school: {
+      focusEn: 'Classic hanging core control: zero swing and tight lower-ab squeeze.',
+      focusAr: 'تحكم البطن المعلق الكلاسيكي: صفر تأرجح وعصر كامل في الأعلى.',
+      cuesEn: [
+        'Hang quietly with braced lats/shoulders before raising legs.',
+        'Exhale forcefully as knees or toes rise toward the bar.',
+        'Lower under strict control all the way down.',
+      ],
+      cuesAr: [
+        'تعلّق بثبات مع شد خفيف للكتفين والبطن قبل بدء الرفع.',
+        'أفرغ النفس بقوة عند رفع الساقين أو الركبتين للأعلى.',
+        'انزل بتحكم كامل حتى الأسفل دون سقوط سريع.',
+      ],
+    },
+  },
+  'resistance-band-pallof-press': {
+    modern: {
+      focusEn: 'Anti-rotation core stability resisting lateral band torque via obliques & deep abs.',
+      focusAr: 'ثبات الجذع لمقاومة الدوران عبر شد الخواصر والبطن العميق أمام سحب الحزام.',
+      cuesEn: [
+        'Stand sideways with athletic soft-knee stance and firm pre-tension on the band.',
+        'Press straight out from center of sternum—do not let hands drift toward the anchor.',
+        'Hold 2s extended with hips and shoulders completely square, matching reps on both sides.',
+      ],
+      cuesAr: [
+        'قف جانبياً بثني خفيف للركبتين مع الابتعاد حتى يكون الحزام مشدوداً بوضوح.',
+        'ادفع يديك للأمام باستقامة أمام منتصف الصدر دون انحراف نحو نقطة التثبيت.',
+        'ثبّت اليدين ممدودتين ثانيتين مع استقامة الكتفين والوركين وكرر للجانبين بالتساوي.',
+      ],
+    },
+    old_school: {
+      focusEn: 'Midsection bracing & spinal stiffness against lateral pull.',
+      focusAr: 'تقوية حزام البطن والخواصر وحماية العمود الفقري ضد الالتفاف.',
+      cuesEn: [
+        'Lock glutes and abs together before extending arms straight ahead.',
+        'Keep torso dead still—zero leaning toward or away from the band.',
+        'Move deliberately with calm rhythmic breathing.',
+      ],
+      cuesAr: [
+        'اشدد الأرداف والبطن معاً قبل مد الذراعين للأمام.',
+        'أبقِ الجذع ثابتاً تماماً دون ميلان نحو الحزام أو بعيداً عنه.',
+        'تحرك ببطء وهدوء مع تنفس منتظم.',
+      ],
+    },
+  },
+};
+
+function buildExerciseGeneralSummary(exercise: Exercise, languageSafeFallback: SchoolBlock): SchoolBlock {
+  const step1En = exercise.startingPositionEn || exercise.instructionsEn[0] || languageSafeFallback.cuesEn[0];
+  const step2En = exercise.instructionsEn[0] || languageSafeFallback.cuesEn[1];
+  const step3En =
+    exercise.instructionsEn[1] || exercise.breathingEn || languageSafeFallback.cuesEn[2];
+
+  const step1Ar = exercise.startingPositionAr || exercise.instructionsAr[0] || languageSafeFallback.cuesAr[0];
+  const step2Ar = exercise.instructionsAr[0] || languageSafeFallback.cuesAr[1];
+  const step3Ar =
+    exercise.instructionsAr[1] || exercise.breathingAr || languageSafeFallback.cuesAr[2];
+
+  return {
+    focusEn: `${exercise.nameEn} — follow exact setup, controlled path, and steady breathing.`,
+    focusAr: `${exercise.nameAr} — التزم بالوضعية الصحيحة والتحكم الكامل في المسار والتنفس.`,
+    cuesEn: [step1En, step2En, step3En],
+    cuesAr: [step1Ar, step2Ar, step3Ar],
+  };
+}
+
 export function getSchoolExecutionSummary(
   exercise: Exercise,
   pattern: MovementPattern,
   school: TrainingSchoolId
 ): SchoolCueSummary {
   const patternBlock = PATTERN_SCHOOL_CUES[pattern] || PATTERN_SCHOOL_CUES.bench_press;
-  const chosen = patternBlock[school];
+  const exerciseOverride = EXERCISE_SPECIFIC_SCHOOL_CUES[exercise.id]?.[school];
+  const chosen =
+    exerciseOverride ??
+    (school === 'general'
+      ? buildExerciseGeneralSummary(exercise, patternBlock.general)
+      : patternBlock[school]);
 
   const badgeMap: Record<TrainingSchoolId, { en: string; ar: string }> = {
     general: { en: 'Core Mechanics', ar: 'الشرح المختصر الأساسي' },

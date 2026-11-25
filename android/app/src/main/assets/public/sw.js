@@ -87,7 +87,7 @@ define(['./workbox-81e8ac41'], (function (workbox) { 'use strict';
     "revision": "5312dbbbff8fad9a368952d1dace1df6"
   }, {
     "url": "index.html",
-    "revision": "feb7c9ddb919cb59350d16b918c467ed"
+    "revision": "e8ad1fa93f7da7cea4651944b2f9faef"
   }, {
     "url": "icon.svg",
     "revision": "6696314d9d5e668242aa1750755fd323"
@@ -101,43 +101,142 @@ define(['./workbox-81e8ac41'], (function (workbox) { 'use strict';
     "url": "assets/step_tricep_pushdown_1795384187535-C5bJUUfw.jpg",
     "revision": null
   }, {
-    "url": "assets/step_seated_cable_row_1795384188981-CLNzSvlv.jpg",
+    "url": "assets/step_split_squat_1795617368909-7my995O0.jpg",
     "revision": null
   }, {
-    "url": "assets/step_romanian_deadlift_1795384188301-eS4UdvNJ.jpg",
+    "url": "assets/step_smith_overhead_press_1795622328689-DU4S0_Su.jpg",
     "revision": null
   }, {
-    "url": "assets/step_overhead_press_1795384188573-DZcHHWaM.jpg",
+    "url": "assets/step_smith_bench_press_1795622250921-xKixJUUM.jpg",
     "revision": null
   }, {
-    "url": "assets/step_leg_press_1795384187287-LiySHXMB.jpg",
+    "url": "assets/step_seated_db_press_1795622325979-BLmaShJG.jpg",
     "revision": null
   }, {
-    "url": "assets/step_lateral_raise_1795384188820-B9ajnczV.jpg",
+    "url": "assets/step_seated_cable_row_1795622199411-Cc3pyrkW.jpg",
     "revision": null
   }, {
-    "url": "assets/step_lat_pulldown_1795384188743-D7ZzNDHh.jpg",
+    "url": "assets/step_romanian_deadlift_1795622205467-Oek6aZ0m.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_rear_delt_fly_1795622330677-L9DJUbu4.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_push_ups_1795617484602-DjTmGjRu.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_pull_ups_1795617328308-DqLZBtdS.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_preacher_curl_1795617331069-CdX9rJhl.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_plank_hold_1795617545642-yG60gmnS.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_pendlay_row_1795622259009-8zcxWfyq.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_pec_deck_1795617325182-DD5Vi8e2.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_overhead_tricep_1795617330019-DdQN7oRU.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_overhead_press_1795622200788-BEDqHPxQ.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_machine_lateral_raise_1795622329650-Be8C3QaF.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_leg_raise_1795617427609-CQe_K1T4.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_leg_press_1795622204292-oJTj0Slz.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_leg_extension_1795617331618-DNtVIIkN.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_leg_curl_1795617487952-Cdcp0W1e.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_lateral_raise_1795622200900-DU7rPxDd.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_lat_pulldown_1795622199207-BUVmGAzW.jpg",
     "revision": null
   }, {
     "url": "assets/step_incline_dumbbell_press_1795384187243-BYmS7aQx.jpg",
     "revision": null
   }, {
-    "url": "assets/step_conventional_deadlift_1795384189106-BY1qi-cY.jpg",
+    "url": "assets/step_incline_barbell_press_1795622285064-iZR1zHsF.jpg",
     "revision": null
   }, {
-    "url": "assets/step_bicep_curl_1795384189254-DAHWE6cP.jpg",
+    "url": "assets/step_hip_thrust_1795617486495-5rIHAtZV.jpg",
     "revision": null
   }, {
-    "url": "assets/step_barbell_squat_1795384188660-D70AdbpJ.jpg",
+    "url": "assets/step_face_pull_1795617330693-kmjhqXUJ.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_dumbbell_row_1795617484991-B6fZT_AA.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_dumbbell_bench_press_1795622286033-bjRssZEO.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_conventional_deadlift_1795622205502-DVKCTOeB.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_chin_ups_1795622285647-B370eeuc.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_chest_supported_row_1795622256434-CEF-kYTE.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_chest_press_machine_1795622251831-BfxqkhQI.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_chest_dips_1795617327691-D77LYsD0.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_calf_raise_1795617488452-YWwhka46.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_cable_lateral_raise_1795622328057-DEPCf8v_.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_cable_fly_1795617483962-CppTzTG1.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_cable_crunch_1795617489599-DKo0vN2M.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_cable_bicep_curl_1795622333890-v7pZLIjr.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_bicep_curl_1795622201415-BGQGwvow.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_bench_press_1795617482435-B7VED0Wa.jpg",
+    "revision": null
+  }, {
+    "url": "assets/step_barbell_squat_1795622203169-DiqJNdpm.jpg",
     "revision": null
   }, {
     "url": "assets/step_barbell_row_1795384188059-C6hQ6ZlG.jpg",
     "revision": null
   }, {
-    "url": "assets/index-k080tfwD.css",
+    "url": "assets/step_band_row_1795622285747-1ZJqgwHa.jpg",
     "revision": null
   }, {
-    "url": "assets/index-DBTH_-Tp.js",
+    "url": "assets/step_band_chest_press_1795622285558-CB7doKjh.jpg",
+    "revision": null
+  }, {
+    "url": "assets/index-CsJNQQOm.css",
+    "revision": null
+  }, {
+    "url": "assets/index-Cs7XQ67-.js",
     "revision": null
   }, {
     "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.github.android_d9e9831b.jpg",
@@ -155,10 +254,22 @@ define(['./workbox-81e8ac41'], (function (workbox) { 'use strict';
     "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.apexfitness.app_63d175d6.jpg",
     "revision": null
   }, {
+    "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.android.chrome_e4fbc6a6.jpg",
+    "revision": null
+  }, {
+    "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.android.chrome_d1cffce3.jpg",
+    "revision": null
+  }, {
+    "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.android.chrome_9960b04d.jpg",
+    "revision": null
+  }, {
     "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.android.chrome_860b2033.jpg",
     "revision": null
   }, {
     "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.android.chrome_3b0a2a7c.jpg",
+    "revision": null
+  }, {
+    "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.android.chrome_37e0a693.jpg",
     "revision": null
   }, {
     "url": "assets/aistudio/1795382374541_efaff05f.mp4",

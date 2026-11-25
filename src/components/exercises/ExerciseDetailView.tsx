@@ -59,7 +59,6 @@ export const ExerciseDetailView: React.FC<ExerciseDetailViewProps> = ({
   const biomechanics = getExerciseBiomechanics(exercise);
   const quickGuide = getExerciseQuickGuide(exercise);
   const hasBuiltinVideo = Boolean(getExerciseVideoAsset(exercise.id, 'general'));
-  const hasStepImage = Boolean(quickGuide.stepImage);
 
   useEffect(() => {
     const n = exerciseNotes[exercise.id];
@@ -114,8 +113,6 @@ export const ExerciseDetailView: React.FC<ExerciseDetailViewProps> = ({
   const BackIcon = language === 'ar' ? ArrowRight : ArrowLeft;
   const title = language === 'ar' ? exercise.nameAr : exercise.nameEn;
   const secondaryTitle = language === 'ar' ? exercise.nameEn : exercise.nameAr;
-  const startingPos = language === 'ar' ? exercise.startingPositionAr : exercise.startingPositionEn;
-  const instructions = language === 'ar' ? exercise.instructionsAr : exercise.instructionsEn;
   const breathing = language === 'ar' ? exercise.breathingAr : exercise.breathingEn;
   const safety = language === 'ar' ? exercise.safetyAr : exercise.safetyEn;
 
@@ -212,11 +209,9 @@ export const ExerciseDetailView: React.FC<ExerciseDetailViewProps> = ({
               {anatomyMode === 'video'
                 ? hasBuiltinVideo
                   ? t.apex.view3d
-                  : hasStepImage
-                    ? language === 'ar'
-                      ? 'خطوات التمرين بالصور'
-                      : '3-Step Visual Guide'
-                    : t.apex.view3d
+                  : language === 'ar'
+                    ? 'خطوات التمرين بالصور'
+                    : '3-Step Visual Guide'
                 : t.exercises.muscleDiagram}
             </h2>
             <div className="inline-flex rounded-xl border border-neutral-200 dark:border-neutral-800 p-0.5 bg-neutral-100 dark:bg-[#090A0B]">
@@ -232,13 +227,9 @@ export const ExerciseDetailView: React.FC<ExerciseDetailViewProps> = ({
                   ? language === 'ar'
                     ? 'فيديو'
                     : 'Video'
-                  : hasStepImage
-                    ? language === 'ar'
-                      ? 'الخطوات'
-                      : 'Steps'
-                    : language === 'ar'
-                      ? 'فيديو'
-                      : 'Video'}
+                  : language === 'ar'
+                    ? 'الخطوات'
+                    : 'Steps'}
               </button>
               <button
                 type="button"
@@ -425,98 +416,30 @@ export const ExerciseDetailView: React.FC<ExerciseDetailViewProps> = ({
             </div>
           </div>
 
-          <div className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 space-y-5">
-            <div className="space-y-1.5 pb-4 border-b border-neutral-200 dark:border-neutral-800">
-              <h2 className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
-                {t.apex.techniqueSummary}
-              </h2>
-              <p className="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
-                {language === 'ar' ? biomechanics.techniqueSummaryAr : biomechanics.techniqueSummaryEn}
-              </p>
-            </div>
-
-            {/* Grip, Stance & Alignment */}
-            <div className="space-y-1.5 pt-4 border-t border-neutral-200 dark:border-neutral-800">
-              <h2 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
-                {t.apex.gripStanceTitle}
-              </h2>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                {language === 'ar' ? biomechanics.gripStanceAr : biomechanics.gripStanceEn}
-              </p>
-            </div>
-
-            {/* Movement Phase Breakdown */}
-            {biomechanics.phases.length > 0 && (
-              <div className="space-y-2.5 pt-4 border-t border-neutral-200 dark:border-neutral-800">
-                <h2 className="text-sm font-semibold">{t.apex.movementPhasesTitle}</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {biomechanics.phases.map((ph, idx) => (
-                    <div
-                      key={ph.phase}
-                      className="p-3 rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800/80 space-y-1"
-                    >
-                      <div className="flex items-center gap-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                        <span className="font-mono tabular-nums">{String(idx + 1).padStart(2, '0')}</span>
-                        <span>{language === 'ar' ? ph.labelAr : ph.labelEn}</span>
-                      </div>
-                      <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                        {language === 'ar' ? ph.cueAr : ph.cueEn}
-                      </p>
-                    </div>
-                  ))}
+          {(breathing || safety) && (
+            <div className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <h3 className="text-sm font-semibold flex items-center gap-2">
+                    <Wind className="w-4 h-4 text-sky-500" />
+                    {t.exercises.breathing}
+                  </h3>
+                  <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                    {breathing || '—'}
+                  </p>
+                </div>
+                <div className="space-y-1.5">
+                  <h3 className="text-sm font-semibold flex items-center gap-2">
+                    <ShieldAlert className="w-4 h-4 text-amber-500" />
+                    {t.exercises.safety}
+                  </h3>
+                  <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                    {safety || '—'}
+                  </p>
                 </div>
               </div>
-            )}
-
-            <div className="space-y-2 pt-4 border-t border-neutral-200 dark:border-neutral-800">
-              <h2 className="text-base font-semibold">{t.exercises.startingPosition}</h2>
-              <p className="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
-                {startingPos || '—'}
-              </p>
             </div>
-
-            <div className="space-y-2.5 pt-4 border-t border-neutral-200 dark:border-neutral-800">
-              <h2 className="text-base font-semibold flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                {t.exercises.executionSteps}
-              </h2>
-              {instructions.length > 0 ? (
-                <ol className="space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
-                  {instructions.map((step, idx) => (
-                    <li key={idx} className="flex gap-3 leading-relaxed">
-                      <span className="font-mono text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5 shrink-0">
-                        {String(idx + 1).padStart(2, '0')}.
-                      </span>
-                      <span>{step}</span>
-                    </li>
-                  ))}
-                </ol>
-              ) : (
-                <p className="text-sm text-neutral-500">—</p>
-              )}
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-neutral-200 dark:border-neutral-800">
-              <div className="space-y-1.5">
-                <h3 className="text-sm font-semibold flex items-center gap-2">
-                  <Wind className="w-4 h-4 text-sky-500" />
-                  {t.exercises.breathing}
-                </h3>
-                <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                  {breathing || '—'}
-                </p>
-              </div>
-              <div className="space-y-1.5">
-                <h3 className="text-sm font-semibold flex items-center gap-2">
-                  <ShieldAlert className="w-4 h-4 text-amber-500" />
-                  {t.exercises.safety}
-                </h3>
-                <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                  {safety || '—'}
-                </p>
-              </div>
-            </div>
-          </div>
+          )}
 
           {/* Variations, Alternatives, Regressions/Progressions & Mechanical Comparisons */}
           {(biomechanics.variationsEn.length > 0 ||

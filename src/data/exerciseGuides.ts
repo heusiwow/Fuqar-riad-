@@ -1,14 +1,47 @@
+import stepBandChestPress from '../assets/images/step_band_chest_press_1795622285558.jpg';
+import stepBandRow from '../assets/images/step_band_row_1795622285747.jpg';
 import stepBarbellRow from '../assets/images/step_barbell_row_1795384188059.jpg';
-import stepBarbellSquat from '../assets/images/step_barbell_squat_1795384188660.jpg';
-import stepBicepCurl from '../assets/images/step_bicep_curl_1795384189254.jpg';
-import stepConventionalDeadlift from '../assets/images/step_conventional_deadlift_1795384189106.jpg';
+import stepBarbellSquat from '../assets/images/step_barbell_squat_1795622203169.jpg';
+import stepBenchPress from '../assets/images/step_bench_press_1795617482435.jpg';
+import stepBicepCurl from '../assets/images/step_bicep_curl_1795622201415.jpg';
+import stepCableBicepCurl from '../assets/images/step_cable_bicep_curl_1795622333890.jpg';
+import stepCableCrunch from '../assets/images/step_cable_crunch_1795617489599.jpg';
+import stepCableFly from '../assets/images/step_cable_fly_1795617483962.jpg';
+import stepCableLateralRaise from '../assets/images/step_cable_lateral_raise_1795622328057.jpg';
+import stepCalfRaise from '../assets/images/step_calf_raise_1795617488452.jpg';
+import stepChestDips from '../assets/images/step_chest_dips_1795617327691.jpg';
+import stepChestPressMachine from '../assets/images/step_chest_press_machine_1795622251831.jpg';
+import stepChestSupportedRow from '../assets/images/step_chest_supported_row_1795622256434.jpg';
+import stepChinUps from '../assets/images/step_chin_ups_1795622285647.jpg';
+import stepConventionalDeadlift from '../assets/images/step_conventional_deadlift_1795622205502.jpg';
+import stepDumbbellBenchPress from '../assets/images/step_dumbbell_bench_press_1795622286033.jpg';
+import stepDumbbellRow from '../assets/images/step_dumbbell_row_1795617484991.jpg';
+import stepFacePull from '../assets/images/step_face_pull_1795617330693.jpg';
+import stepHipThrust from '../assets/images/step_hip_thrust_1795617486495.jpg';
+import stepInclineBarbellPress from '../assets/images/step_incline_barbell_press_1795622285064.jpg';
 import stepInclineDumbbellPress from '../assets/images/step_incline_dumbbell_press_1795384187243.jpg';
-import stepLatPulldown from '../assets/images/step_lat_pulldown_1795384188743.jpg';
-import stepLateralRaise from '../assets/images/step_lateral_raise_1795384188820.jpg';
-import stepLegPress from '../assets/images/step_leg_press_1795384187287.jpg';
-import stepOverheadPress from '../assets/images/step_overhead_press_1795384188573.jpg';
-import stepRomanianDeadlift from '../assets/images/step_romanian_deadlift_1795384188301.jpg';
-import stepSeatedCableRow from '../assets/images/step_seated_cable_row_1795384188981.jpg';
+import stepLatPulldown from '../assets/images/step_lat_pulldown_1795622199207.jpg';
+import stepLateralRaise from '../assets/images/step_lateral_raise_1795622200900.jpg';
+import stepLegCurl from '../assets/images/step_leg_curl_1795617487952.jpg';
+import stepLegExtension from '../assets/images/step_leg_extension_1795617331618.jpg';
+import stepLegPress from '../assets/images/step_leg_press_1795622204292.jpg';
+import stepLegRaise from '../assets/images/step_leg_raise_1795617427609.jpg';
+import stepMachineLateralRaise from '../assets/images/step_machine_lateral_raise_1795622329650.jpg';
+import stepOverheadPress from '../assets/images/step_overhead_press_1795622200788.jpg';
+import stepOverheadTricep from '../assets/images/step_overhead_tricep_1795617330019.jpg';
+import stepPecDeck from '../assets/images/step_pec_deck_1795617325182.jpg';
+import stepPendlayRow from '../assets/images/step_pendlay_row_1795622259009.jpg';
+import stepPlankHold from '../assets/images/step_plank_hold_1795617545642.jpg';
+import stepPreacherCurl from '../assets/images/step_preacher_curl_1795617331069.jpg';
+import stepPullUps from '../assets/images/step_pull_ups_1795617328308.jpg';
+import stepPushUps from '../assets/images/step_push_ups_1795617484602.jpg';
+import stepRearDeltFly from '../assets/images/step_rear_delt_fly_1795622330677.jpg';
+import stepRomanianDeadlift from '../assets/images/step_romanian_deadlift_1795622205467.jpg';
+import stepSeatedCableRow from '../assets/images/step_seated_cable_row_1795622199411.jpg';
+import stepSeatedDbPress from '../assets/images/step_seated_db_press_1795622325979.jpg';
+import stepSmithBenchPress from '../assets/images/step_smith_bench_press_1795622250921.jpg';
+import stepSmithOverheadPress from '../assets/images/step_smith_overhead_press_1795622328689.jpg';
+import stepSplitSquat from '../assets/images/step_split_squat_1795617368909.jpg';
 import stepTricepPushdown from '../assets/images/step_tricep_pushdown_1795384187535.jpg';
 import { Exercise } from '../types/ironlog';
 
@@ -27,6 +60,7 @@ export interface ExerciseQuickGuide {
 export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
   // CHEST
   'barbell-bench-press': {
+    stepImage: stepBenchPress,
     stepCaptionsEn: [
       'Pull shoulder blades down and back into the bench, plant feet flat, and grip slightly wider than shoulders with stacked wrists.',
       'Lower the bar over 2–3 seconds in a slight diagonal path toward your lower-mid chest while keeping elbows angled ~45° from your ribs.',
@@ -100,6 +134,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'cable-chest-fly': {
+    stepImage: stepCableFly,
     stepCaptionsEn: [
       'Set pulleys at chest level, take a stable split stance, chest proud, and freeze a soft 15–20° elbow bend.',
       'Sweep arms forward in a wide hugging arc until hands meet cleanly in front of your mid-chest.',
@@ -113,7 +148,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'Unlike free weights that lose tension at the top, cable pulleys pull your arms outward horizontally throughout the entire arc. You lock a soft 15–20° bend at the elbows and pivot purely from the shoulder joint, sweeping both hands in a hugging motion until they meet in front of your mid-chest.',
     simpleExplanationAr:
-      'على عكس الدامبل الذي تقل مقاومته في الأعلى، يحافظ الكابل على سحب ذراعيك للخارج باستمرار طوال المسار. تثبّت انحناءً بسيطاً في المرفقين (15–20°) وتتحرك الحركة كلها من مفصل الكتف بضم الذراعين للأمام وكأنك تعانق جذعاً عريضاً حتى تلتقي اليدان أمام الصدر.',
+      'على عكس الدامبل الذي تقل مقاومته في الأعلى، يحافظ الكابل على سحب ذراعيك للخارج باستمرار طوال المسار. تثبّت انحناءً بسيطاً في المرفقين (15–20°) وتتحرك الذراعان من مفصل الكتف فقط في قوس واسع للأمام حتى تلتقي اليدان أمام منتصف الصدر.',
     tipsEn: [
       'Freeze the 15–20° elbow bend like stiff wings—only your shoulder joints should open and close.',
       'Step forward into a solid split stance and keep your sternum lifted above your shoulders.',
@@ -136,6 +171,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'smith-bench-press': {
+    stepImage: stepSmithBenchPress,
     stepCaptionsEn: [
       'Center bench so the bar drops directly over lower-mid chest, set lower safety pins, and unlatch hooks.',
       'Lower bar smoothly over 2–3s to touch lower-mid chest with elbows tucked ~45°.',
@@ -172,6 +208,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'chest-press-machine': {
+    stepImage: stepChestPressMachine,
     stepCaptionsEn: [
       'Adjust seat so handles sit aligned with mid-chest and pin shoulder blades flat against backrest.',
       'Press handles forward smoothly until arms are nearly extended without rolling shoulders off pad.',
@@ -208,6 +245,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'push-ups': {
+    stepImage: stepPushUps,
     stepCaptionsEn: [
       'Set hands slightly wider than shoulders in a rigid high plank with abs and glutes braced tight.',
       'Lower your chest smoothly toward the floor with elbows tucked ~45° backward—hips never sagging.',
@@ -244,6 +282,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'resistance-band-chest-press': {
+    stepImage: stepBandChestPress,
     stepCaptionsEn: [
       'Anchor band behind you at chest level and step forward into a split stance with pre-tension.',
       'Press both handles straight forward and slightly inward until arms reach full chest contraction.',
@@ -280,6 +319,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'dumbbell-bench-press': {
+    stepImage: stepDumbbellBenchPress,
     stepCaptionsEn: [
       'Lie back kicking dumbbells up with thighs, pin shoulder blades down, and angle wrists ~15–30° inward.',
       'Lower dumbbells slowly alongside mid-chest with vertical forearms until a deep chest stretch.',
@@ -316,6 +356,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'incline-barbell-press': {
+    stepImage: stepInclineBarbellPress,
     stepCaptionsEn: [
       'Set bench ~30°, anchor upper back into pad, and hold barbell vertically over collarbone.',
       'Lower bar over 2–3s to touch upper chest just below collarbone with ~45° elbow tuck.',
@@ -352,6 +393,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'pec-deck-machine': {
+    stepImage: stepPecDeck,
     stepCaptionsEn: [
       'Adjust seat so arms align mid-chest, keep chest lifted and shoulders pinned down against pad.',
       'Sweep arms inward focusing on bringing elbows together across your chest midline.',
@@ -388,6 +430,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'chest-dips': {
+    stepImage: stepChestDips,
     stepCaptionsEn: [
       'Support weight on parallel bars, lean torso ~20–30° forward, and bend knees slightly back.',
       'Lower under control until shoulders dip just below elbows with elbows angled ~45° back.',
@@ -420,7 +463,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     avoidAr: [
       'الهبوط السريع والعميق جداً بما يفوق مرونة مفصل الكتف.',
       'غوص الرأس بين الكتفين وارتخاء لوحي الكتف في أسفل الحركة.',
-      'مرجحة الساقين لاكتساب زخم يعوض ضعف العضلة.',
+      'أرجحة الساقين لاكتساب زخم يعوض ضعف العضلة.',
     ],
   },
 
@@ -537,6 +580,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'single-arm-dumbbell-row': {
+    stepImage: stepDumbbellRow,
     stepCaptionsEn: [
       'Plant one hand and knee solidly on a bench with torso flat and dumbbell hanging straight below shoulder.',
       'Sweep the dumbbell backward in a slight arc toward your hip pocket, driving the elbow high beside your ribs.',
@@ -573,6 +617,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'pull-ups': {
+    stepImage: stepPullUps,
     stepCaptionsEn: [
       'Hang calmly with overhand grip wider than shoulders, core braced, and ankles crossed softly if helpful.',
       'Depress shoulder blades first and pull your chest upward toward the bar by driving elbows down to your ribs.',
@@ -603,12 +648,13 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Rolling shoulders forward at the top instead of keeping chest open.',
     ],
     avoidAr: [
-      'مرجحة الركبتين والوركين للقفز للأعلى.',
+      'أرجحة الركبتين والوركين للقفز للأعلى.',
       'التوقف عند نصف النزول وحرمان الظهر من التمدد الكامل في الأسفل.',
       'تقويس الكتفين للأمام عند القمة بدلاً من فتح الصدر نحو البار.',
     ],
   },
   'chest-supported-row-machine': {
+    stepImage: stepChestSupportedRow,
     stepCaptionsEn: [
       'Adjust seat and chest pad so ribs rest firmly against support while hands reach handles comfortably.',
       'Pull handles straight back with elbows tucked beside torso, squeezing shoulder blades cleanly together.',
@@ -645,6 +691,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'resistance-band-row': {
+    stepImage: stepBandRow,
     stepCaptionsEn: [
       'Sit tall with legs straight, knees soft, and loop the band securely under mid-arch of both shoes.',
       'Pull handles smoothly toward your lower ribs while driving elbows back and chest upright.',
@@ -681,6 +728,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'chin-ups': {
+    stepImage: stepChinUps,
     stepCaptionsEn: [
       'Hang with a shoulder-width underhand (palms-facing-you) grip, core tight and legs steady.',
       'Depress shoulders and pull elbows straight down in front of your torso toward your lower ribs.',
@@ -712,11 +760,12 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     avoidAr: [
       'النزول النصفي الذي يحرم المجنص من التمدد الكامل في الأسفل.',
-      'رفع الركبتين بقوة أو مرجحة الساقين لاكتساب زخم.',
+      'رفع الركبتين بقوة أو أرجحة الساقين لاكتساب زخم.',
       'تقويس الكتفين للأمام في الأعلى بدلاً من فتح الصدر للبار.',
     ],
   },
   'pendlay-row': {
+    stepImage: stepPendlayRow,
     stepCaptionsEn: [
       'Set torso nearly parallel to the floor with barbell resting dead on the floor over mid-foot and spine locked flat.',
       'Pull the bar explosively off the floor straight up to touch your lower sternum / upper abdomen.',
@@ -792,6 +841,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'seated-dumbbell-shoulder-press': {
+    stepImage: stepSeatedDbPress,
     stepCaptionsEn: [
       'Set bench to ~80–85°; kick dumbbells to shoulder height with elbows angled ~20–30° forward.',
       'Press both dumbbells upward along a natural slightly inward path without arching off the pad.',
@@ -859,12 +909,13 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Turning thumbs sharply downward ("pouring water"), which jams rotator cuff tendons.',
     ],
     avoidAr: [
-      'مرجحة الوركين والجذع لرفع أوزان ثقيلة لا يستطيع الكتف الجانبي حملها.',
+      'أرجحة الوركين والجذع لرفع أوزان ثقيلة لا يستطيع الكتف الجانبي حملها.',
       'سحب الكتفين للأعلى نحو الأذنين مما ينقل الجهد للترابيس.',
       'تدوير الإبهامين للأسفل بقوة (حركة سكب الإبريق) لأنها تضغط أوتار الكتف.',
     ],
   },
   'cable-face-pull': {
+    stepImage: stepFacePull,
     stepCaptionsEn: [
       'Set pulley at eye/upper-chest height, grip rope thumbs pointing back, and step back into a split stance.',
       'Pull the rope ends apart toward your forehead while driving elbows high and back at shoulder level.',
@@ -901,6 +952,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'cable-lateral-raise': {
+    stepImage: stepCableLateralRaise,
     stepCaptionsEn: [
       'Set pulley at hip/mid-thigh height, hold frame lightly for balance, and cross cable cleanly in front or behind body.',
       'Sweep the working arm outward smoothly ~20–30° forward with elbow slightly soft.',
@@ -937,6 +989,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'smith-overhead-press': {
+    stepImage: stepSmithOverheadPress,
     stepCaptionsEn: [
       'Center an upright bench inside the Smith frame so the bar travels cleanly ~2–3 cm in front of your nose.',
       'Unlatch the bar, lower smoothly under control to chin/upper-clavicle height with vertical forearms.',
@@ -973,6 +1026,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'machine-lateral-raise': {
+    stepImage: stepMachineLateralRaise,
     stepCaptionsEn: [
       'Adjust seat so your shoulder joints align squarely with the machine pivot axis, forearms resting on pads.',
       'Drive outward and upward through your elbows/outer forearms until upper arms sit parallel to floor.',
@@ -1009,6 +1063,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'rear-delt-machine-fly': {
+    stepImage: stepRearDeltFly,
     stepCaptionsEn: [
       'Sit facing the chest pad, set handles at shoulder height, and grip comfortably with soft elbow bend.',
       'Sweep arms wide backward in a broad arc—not pinching shoulder blades hard—until inline with torso.',
@@ -1150,12 +1205,13 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Swinging dumbbells cross-body awkwardly toward the opposite shoulder unless intended.',
     ],
     avoidAr: [
-      'تدوير المعصم للخارج في منتصف الحركة وتحويله إلى مرجحة عادية.',
+      'تدوير المعصم للخارج في منتصف الحركة وتحويله إلى تمرين بايسبس عادي.',
       'تأرجح الكتفين والظهر لإدخال أوزان تفوق تحكم الذراع.',
       'ترك الدامبل يرتد من الأسفل بسرعة دون توقف لحظي.',
     ],
   },
   'cable-bicep-curl': {
+    stepImage: stepCableBicepCurl,
     stepCaptionsEn: [
       'Step ~40 cm back from a low pulley holding straight or EZ attachment underhand with arms straight under tension.',
       'Pin elbows steadily by your sides and curl the handle cleanly up toward your collarbones.',
@@ -1192,6 +1248,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'machine-preacher-curl': {
+    stepImage: stepPreacherCurl,
     stepCaptionsEn: [
       'Adjust seat so armpits rest snugly over the top edge of the angled pad and upper arms lie flat.',
       'Curl handles smoothly upward keeping triceps glued to the pad—do not lift elbows.',
@@ -1267,6 +1324,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'overhead-cable-tricep-extension': {
+    stepImage: stepOverheadTricep,
     stepCaptionsEn: [
       'Face away from high/mid pulley in a split stance, torso leaned slightly forward, hands behind head.',
       'Keep upper arms pointed steadily forward/upward and extend forearms smoothly straight ahead.',
@@ -1360,7 +1418,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     tipsAr: [
       'استخدم وزناً خفيفاً أو متوسطاً يسمح لك بفرد الذراع بالكامل خلفك والثبات ثانية.',
-      'أوقف رجوع الدامبل للأمام عند الزاوية القائمة (تحت المرفق مباشرة) لإلغاء المرجحة.',
+      'أوقف رجوع الدامبل للأمام عند الزاوية القائمة (تحت المرفق مباشرة) لإلغاء التأرجح.',
       'حافظ على استقامة الظهر والرقبة أثناء الاستناد باليد الأخرى.',
     ],
     avoidEn: [
@@ -1370,7 +1428,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     avoidAr: [
       'هبوط المرفق للأسفل بدلاً من بقاء العضد موازياً للأرض.',
-      'مرجحة الدامبل للأمام تحت الكتف لاكتساب دفعة.',
+      'أرجحة الدامبل للأمام تحت الكتف لاكتساب دفعة.',
       'استخدام وزن ثقيل يضطرك لرفع الكتف والجذع في كل تكرار.',
     ],
   },
@@ -1595,6 +1653,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'leg-extension-machine': {
+    stepImage: stepLegExtension,
     stepCaptionsEn: [
       'Align knee joint directly with machine pivot point, place ankle roller just above foot crease, grip handles.',
       'Extend shins smoothly upward by contracting your quads forcefully—without popping hips off seat.',
@@ -1608,7 +1667,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'Unlike squats and leg presses where the hips extend too, leg extensions isolate knee extension exclusively—delivering strong peak contraction to all four heads of the quadriceps (especially the central rectus femoris). Pausing at the top for 1 second and controlling the descent doubles muscle stimulus without adding joint shock.',
     simpleExplanationAr:
-      'على عكس السكوات ودفع الأرجل، يعزل هذا الجهاز حركة مد مفصل الركبة فقط، مما يمنح عضلات الفخذ الأمامي الأربع (وخاصة العضلة المستقيمة الفخذية الوسطى) أقصى انقباض في قمة الحركة. التوقف لثانية كاملة عند تمام الفرد ثم النزول البطيء يضاعفان الاستهداف العضلي بأمان.',
+      'على عكس السكوات ودفع الأرجل، يعزل هذا الجهاز حركة مد مفصل الركبة فقط، مما يمنح عضلات الفخذ الأمامي الأربع (وخاصة العضلة الوسطى للفخذ الأمامي) أقصى انقباض في قمة الحركة. التوقف لثانية كاملة عند تمام الفرد ثم النزول البطيء يضاعفان الاستهداف العضلي بأمان.',
     tipsEn: [
       'Pull handles firmly downward to lock your hips flat against the seat.',
       'Keep toes pointing straight up or slightly toward you for clean quad engagement.',
@@ -1739,6 +1798,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'bodyweight-bulgarian-split-squat': {
+    stepImage: stepSplitSquat,
     stepCaptionsEn: [
       'Place top of rear foot on a knee-height bench behind you, front foot planted firmly ~60–80 cm forward.',
       'Lower back knee smoothly toward the floor—keep ~85% of your weight over the front working leg.',
@@ -1752,14 +1812,14 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'Elevating your rear foot shifts nearly your entire bodyweight and any dumbbells onto the front leg alone, exposing and fixing left-right leg imbalances. Staying slightly more upright biases the front thigh (quads), while a modest 15–20° forward torso lean shifts deep stretch and drive into the glutes.',
     simpleExplanationAr:
-      'رفع القدم الخلفية ينقل نحو 85% من الحمل إلى الساق الأمامية وحدها، مما يعالج أي تفاوت في القوة بين الساقين ويحفز الفخذ والأرداف بقوة دون حاجة لأوزان ثقيلة على الظهر. الجلوس باستقامة يركز أكثر على الفخذ الأمامي، بينما الميل الخفيف للأمام (~15–20°) يضاعف استهداف عضلات الأرداف.',
+      'رفع القدم الخلفية ينقل نحو 85% من الحمل إلى الساق الأمامية وحدها (بوزن الجسم أو الدامبل)، مما يعالج أي تفاوت في القوة بين الساقين ويحفز الفخذ والأرداف بقوة. الجلوس باستقامة يركز أكثر على الفخذ الأمامي، بينما الميل الخفيف للأمام (~15–20°) يضاعف استهداف عضلات الأرداف.',
     tipsEn: [
-      'Stand hip-width laterally (like train tracks, not a narrow tightrope) so balance feels solid.',
+      'Stand hip-width laterally (like parallel tracks, not a narrow tightrope) so balance feels solid.',
       'Start sitting on the bench edge and extend one leg straight forward to find your ideal front foot spot.',
       'Control a steady 2–3s descent and lightly touch (or hover above) the floor with your rear knee.',
     ],
     tipsAr: [
-      'باعد بين القدمين عرضياً قليلاً (كمساري سكة حديد لا على خط واحد) لتحقيق اتزان ممتاز.',
+      'باعد بين القدمين عرضياً قليلاً (بمسافة مريحة عرضياً كخطين متوازيين لا على خط واحد) لتحقيق اتزان ممتاز.',
       'لإيجاد المسافة المثالية: اجلس على حافة المقعد ومد ساقاً للأمام؛ مكان كعبك هو موضع قدمك الأمامية.',
       'انزل ببطء (2–3 ثوانٍ) حتى تقترب الركبة الخلفية من ملامسة الأرض بتحكم.',
     ],
@@ -1793,8 +1853,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationAr:
       'السر الحقيقي في الديدلفت هو ألا تسحبه بظهرك السفلي، بل "تدفع الأرض بقدميك" بينما يعمل ظهرك المشدود كرافعة صلبة تبقي البار ملاصقاً لساقيك تماماً. بمجرد تجاوز البار لمستوى الركبتين، تدفع وركيك للأمام باتجاه البار لتقف منتصباً مع شد الأرداف بالكامل دون تقويس الظهر للخلف.',
     tipsEn: [
-      'Pull the "slack" out of the bar until you hear the plates click softly against the top of the bar before pulling.',
-      'Pack your armpits tight ("squeeze oranges under your arms") to engage lats and keep the bar close.',
+      'Pull the slack out of the bar until you feel tension click against the plates before driving upward.',
+      'Pack your armpits tight by pulling shoulder blades down toward your hips to engage lats and keep the bar close.',
       'Set the bar cleanly back down along the exact same vertical path over mid-foot.',
     ],
     tipsAr: [
@@ -1826,9 +1886,9 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'توقف فور توقف الوركين عن الرجوع للخلف (تمدد عميق للفخذ الخلفي)، ثم ادفع الوركين للأمام للانتصاب.',
     ],
     simpleExplanationEn:
-      'Unlike a conventional deadlift from the floor, an RDL starts at the top and emphasizes pure horizontal hip movement: imagine trying to close a car door behind you with your hips while keeping knees softly unlocked (~15°). Stop descending the moment your hips stop going back—usually right below the knees—and drive hips forward from the hamstrings and glutes.',
+      'Unlike a conventional deadlift from the floor, an RDL starts at the top and emphasizes pure horizontal hip movement: push your hips steadily straight backward while keeping knees softly unlocked (~15°). Stop descending the moment your hips stop going back—usually right below the knees—and drive hips forward from the hamstrings and glutes.',
     simpleExplanationAr:
-      'على عكس الديدلفت التقليدي، يبدأ هذا التمرين من الأعلى ويركّز حصراً على حركة مفصل الورك أفقياً: تخيّل أنك تدفع باباً خلفك بوركيك مع بقاء الركبتين على انثناء ثابت بسيط (~15°) والبار ملاصقاً لساقيك. بمجرد أن يتوقف الحوض عن التراجع للخلف (غالباً أسفل الركبة بقليل)، تتوقف فوراً وتدفع وركيك للأمام باستخدام الفخذ الخلفي والأرداف.',
+      'على عكس الديدلفت التقليدي، يبدأ هذا التمرين من الأعلى ويركّز حصراً على حركة مفصل الورك أفقياً: ادفع الحوض أفقياً للخلف مع ثبات انحناء بسيط في الركبتين (~15°) وبقاء البار ملاصقاً للساقين. بمجرد أن يتوقف الحوض عن التراجع للخلف (غالباً أسفل الركبة بقليل)، تتوقف فوراً وتدفع وركيك للأمام باستخدام الفخذ الخلفي والأرداف.',
     tipsEn: [
       'Keep your chin tucked gently in line with your spine rather than craning to watch a mirror.',
       'Maintain active lat tension pulling the bar softly backward against your thighs.',
@@ -1851,6 +1911,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'lying-leg-curl': {
+    stepImage: stepLegCurl,
     stepCaptionsEn: [
       'Lie face down with knees aligned right off the bench pivot edge and roller pad snug over lower calves/Achilles.',
       'Curl heels smoothly toward your glutes while pressing hips flat downward into the bench.',
@@ -1923,6 +1984,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'barbell-hip-thrust': {
+    stepImage: stepHipThrust,
     stepCaptionsEn: [
       'Rest lower shoulder blades across bench edge, pad bar across hip crease, and position shins vertical at top.',
       'Tuck chin softly forward, drive heels firmly into floor, and lift hips until torso is flat horizontal.',
@@ -1990,11 +2052,12 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     avoidAr: [
       'تقويس أسفل الظهر للأعلى لمحاولة رفع القدم إلى ارتفاع مبالغ فيه.',
-      'مرجحة الساق للأمام والخلف بسرعة بالزخم.',
+      'أرجحة الساق للأمام والخلف بسرعة بالزخم.',
       'لف الحوض للجانب بدلاً من بقائه مواجهاً للجهاز.',
     ],
   },
   'standing-calf-raise-machine': {
+    stepImage: stepCalfRaise,
     stepCaptionsEn: [
       'Set shoulder pads firmly, place balls of feet securely on step edge with knees straight (softly unlocked).',
       'Lower heels slowly all the way down into a deep calf stretch and pause 1–2s to eliminate bounce.',
@@ -2008,7 +2071,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'With straight knees, the large gastrocnemius calf muscle stays stretched and generates maximum force through ankle plantarflexion. The Achilles tendon behaves like a thick rubber band that rebounds energy if you bounce—so pausing 1–2 full seconds in the deep bottom stretch is essential for real calf growth.',
     simpleExplanationAr:
-      'استقامة الركبتين تضع عضلة السمانة الكبرى (التوأمية) في أقصى استعدادها للانقباض. لأن وتر العرقوب يعمل كالنابض المطاطي إذا ارتددت سريعاً، فإن التوقف لمدة 1–2 ثانية في أقصى تمدد سفلي هو السر الأهم لإجبار ألياف السمانة نفسها على رفع الوزن مع وقفة ثانية واضحة في القمة.',
+      'استقامة الركبتين تضع عضلة السمانة الكبرى في أقصى استعدادها للانقباض. لأن وتر العرقوب يعمل كالنابض المطاطي إذا ارتددت سريعاً، فإن التوقف لمدة 1–2 ثانية في أقصى تمدد سفلي هو السر الأهم لإجبار ألياف السمانة نفسها على رفع الوزن مع وقفة ثانية واضحة في القمة.',
     tipsEn: [
       'Focus pressure over the balls of your big toes and second toes rather than rolling out to pinky toes.',
       'Hold a crystal-clear 1-second pause at the bottom stretch AND 1 second at the highest tip-toe peak.',
@@ -2080,7 +2143,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'Bending the knees 90° puts the upper gastrocnemius slack, forcing the deep underlying soleus muscle to handle nearly the entire workload. Training both seated (bent-knee) and standing (straight-knee) calf raises ensures complete lower-leg width, depth, and ankle resilience.',
     simpleExplanationAr:
-      'ثني الركبتين بزاوية 90° أثناء الجلوس يقلل مساهمة السمانة السطحية، مما يجبر العضلة النعلية العميقة (Soleus) على تحمل الحمل الكامل. الجمع بين التمرين جالساً وواقفاً يضمن نمواً متكاملاً لشكل الساق السفلي من جميع الزوايا مع إبطاء الحركة وإلغاء الارتداد.',
+      'ثني الركبتين بزاوية 90° أثناء الجلوس يقلل مساهمة السمانة السطحية، مما يجبر الجزء العميق من عضلة السمانة على تحمل الحمل الكامل. الجمع بين التمرين جالساً وواقفاً يضمن نمواً متكاملاً لشكل الساق السفلي من جميع الزوايا مع إبطاء الحركة وإلغاء الارتداد.',
     tipsEn: [
       'Set the thigh pad tight enough that your knees stay stable—not floating under the lever.',
       'Hold a clean 1–2s pause at full bottom stretch before driving up.',
@@ -2105,6 +2168,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
 
   // CORE
   'cable-crunch': {
+    stepImage: stepCableCrunch,
     stepCaptionsEn: [
       'Kneel back from high pulley, hold rope handles pinned tightly beside forehead/temples, hips locked vertical.',
       'Curl your ribcage smoothly downward toward your pelvis (rounding upper/mid spine)—keep hips completely still.',
@@ -2141,6 +2205,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'hanging-leg-raise': {
+    stepImage: stepLegRaise,
     stepCaptionsEn: [
       'Hang calmly from overhead bar with shoulders gently engaged (depressed) so torso stays completely still.',
       'Lift legs—or bent knees—upward, then finish by curling your pelvis upward toward your ribcage.',
@@ -2154,7 +2219,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'Lifting your legs just to 90° works mainly your hip flexors; the real abdominal magic happens in the final upward curl when you tilt your pelvis and tailbone up toward your chest. Control both the curl upward and the slow descent to eliminate momentum and sculpt the lower abdominals.',
     simpleExplanationAr:
-      'رفع الساقين حتى الزاوية القائمة (90°) يشغّل مثنيات الورك أساساً؛ بينما يبدأ العمل الحقيقي لعضلات البطن في الجزء الأخير حين ترفع حوضك وتديره للأعلى نحو القفص الصدري. النزول البطيء والتحكم في التوقف يمنعان المرجحة ويحملان أسفل البطن بفعالية قصوى.',
+      'رفع الساقين حتى الزاوية القائمة (90°) يشغّل مثنيات الورك أساساً؛ بينما يبدأ العمل الحقيقي لعضلات البطن في الجزء الأخير حين ترفع حوضك وتديره للأعلى نحو القفص الصدري. النزول البطيء والتحكم في التوقف يمنعان التأرجح ويحملان أسفل البطن بفعالية قصوى.',
     tipsEn: [
       'Bend knees smoothly toward your chest ("hanging knee-to-chest raise") if straight legs prevent pelvic curl.',
       'Imagine showing the soles of your shoes toward the ceiling at the top of the rep.',
@@ -2177,6 +2242,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'plank-hold': {
+    stepImage: stepPlankHold,
     stepCaptionsEn: [
       'Stack elbows directly beneath shoulders, forearms parallel, and rise onto toes with body in one straight line.',
       'Squeeze glutes, quads, and abs simultaneously while lightly drawing elbows toward toes without moving.',

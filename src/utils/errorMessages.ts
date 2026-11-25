@@ -38,8 +38,40 @@ const AUTH_ERROR_MAP: Record<string, { en: string; ar: string }> = {
     ar: 'حظر المتصفح نافذة تسجيل الدخول. اسمح بالنوافذ المنبثقة ثم حاول مجدداً.',
   },
   'auth/operation-not-allowed': {
-    en: 'Email/Password sign-in is not yet enabled in Firebase Console. You can continue immediately with Google or enable it in Firebase.',
-    ar: 'تسجيل الدخول بالبريد الإلكتروني غير مفعّل حالياً في Firebase Console. يمكنك المتابعة فوراً عبر Google أو تفعيله من إعدادات Firebase.',
+    en: 'Email/Password sign-in is not yet enabled in Firebase Console. Enable it under Authentication -> Sign-in method, or use Google on web / Offline Mode.',
+    ar: 'تسجيل الدخول بالبريد الإلكتروني غير مفعّل حالياً في Firebase Console. فعّله من Authentication ثم Sign-in method، أو استخدم Google في المتصفح أو الدخول الفوري على الجهاز.',
+  },
+  'auth/unauthorized-domain': {
+    en: 'This web address is not yet added to Firebase Authorized Domains. Add it in Firebase Console -> Authentication -> Settings -> Authorized domains.',
+    ar: 'عنوان الموقع الحالي غير مضاف في النطاقات المصرّح بها (Authorized domains) داخل Firebase Console.',
+  },
+  'auth/operation-not-supported-in-this-environment': {
+    en: 'Google popup sign-in is not supported in this browser/WebView environment. Open in Chrome or use Email & Password / Local Device Mode.',
+    ar: 'تسجيل الدخول بنافذة Google غير مدعوم في هذا المتصفح المدمج. افتح الرابط في Chrome أو استخدم البريد الإلكتروني أو الدخول الفوري على الجهاز.',
+  },
+  'auth/cancelled-popup-request': {
+    en: 'Previous sign-in window was cancelled. Please tap once and complete sign-in in the opened window.',
+    ar: 'تم إلغاء نافذة تسجيل الدخول السابقة. اضغط مرة واحدة وأكمل الدخول في النافذة المفتوحة.',
+  },
+  'auth/web-storage-unsupported': {
+    en: 'Browser storage or third-party cookies are blocked here. Allow cookies/storage or use Email & Password / Local Device Mode.',
+    ar: 'تخزين المتصفح أو ملفات الارتباط محجوب حالياً. فعّلها في المتصفح أو استخدم البريد الإلكتروني أو الدخول الفوري على الجهاز.',
+  },
+  'auth/invalid-action-code': {
+    en: 'This verification or reset link is invalid or has already been used. Request a fresh link.',
+    ar: 'رابط التفعيل أو استعادة كلمة المرور غير صالح أو تم استخدامه مسبقاً. اطلب رابطاً جديداً.',
+  },
+  'auth/expired-action-code': {
+    en: 'This link has expired. Please request a new verification or password reset email.',
+    ar: 'انتهت صلاحية هذا الرابط. يرجى طلب رسالة جديدة.',
+  },
+  'auth/account-exists-with-different-credential': {
+    en: 'An account already exists with this email using a different sign-in method.',
+    ar: 'يوجد حساب مسجّل بهذا البريد باستخدام طريقة تسجيل دخول أخرى.',
+  },
+  'auth/internal-error': {
+    en: 'Authentication service encountered a temporary browser error. Try again, open in Chrome, or use Local Device Mode.',
+    ar: 'حدث خطأ مؤقت في نافذة المصادقة. أعد المحاولة أو افتح التطبيق في Chrome أو استخدم الدخول الفوري على الجهاز.',
   },
   'auth/requires-recent-login': {
     en: 'For security reasons, please sign out and sign back in before performing this action.',

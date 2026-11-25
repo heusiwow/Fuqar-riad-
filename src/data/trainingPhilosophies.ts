@@ -252,7 +252,7 @@ export const OLD_SCHOOL_PRINCIPLES: OldSchoolPrinciple[] = [
     titleEn: 'Mind-Muscle Connection & Controlled Reps',
     titleAr: 'الاتصال الذهني العضلي والتحكم في التكرار',
     historicalContextEn: 'Golden Era bodybuilders emphasized "feeling the muscle work" through deliberate eccentrics, flexing at peak contraction, and refusing sloppy momentum.',
-    historicalContextAr: 'ركّز لاعبو العصر الذهبي على الشعور بانقباض العضلة المستهدفة في كل تكرار، وتجنب المرجحة والسرعة العشوائية.',
+    historicalContextAr: 'ركّز لاعبو العصر الذهبي على الشعور بانقباض العضلة المستهدفة في كل تكرار، وتجنب التأرجح والسرعة العشوائية.',
     corePracticeEn: 'Treat weight as a tool to stimulate tension inside the target muscle rather than moving iron from point A to point B by any means.',
     corePracticeAr: 'اعتبر الوزن وسيلة لخلق التوتر داخل العضلة المستهدفة، لا مجرد نقل الحديد من نقطة إلى أخرى بأي ثمن.',
     modernPerspectiveEn: 'Studies indicate internal attentional focus can modestly enhance regional activation in moderate-load hypertrophy work, while external focus works better for maximal 1RM strength.',
@@ -605,7 +605,7 @@ export function buildSystemProgram(input: HybridBuilderInput): HybridBuilderOutp
         accRpe,
         60,
         'Keep elbows anchored; avoid back swing.',
-        'ثبّت المرفقين وتجنب مرجحة الجذع.'
+        'ثبّت المرفقين وتجنب أرجحة الجذع.'
       ),
     ],
   });

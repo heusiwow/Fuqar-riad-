@@ -20,7 +20,11 @@ import {
   Activity,
   BarChart3,
   Smartphone,
+  ExternalLink,
+  Copy,
+  Check,
 } from 'lucide-react';
+import firebaseConfig from '../../../firebase-applet-config.json';
 import { useApp } from '../../context/AppContext';
 import { useOnlineStatus } from '../../hooks/usePWAInstall';
 import { auth, googleProvider } from '../../lib/firebase';
@@ -48,10 +52,27 @@ export const AuthScreen: React.FC = () => {
   const [displayName, setDisplayName] = useState('');
   const [busy, setBusy] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [authErrorCode, setAuthErrorCode] = useState('');
   const [infoMsg, setInfoMsg] = useState('');
+  const [copiedDomain, setCopiedDomain] = useState(false);
+
+  const firebaseProvidersUrl = `https://console.firebase.google.com/project/${firebaseConfig.projectId}/authentication/providers`;
+  const firebaseDomainsUrl = `https://console.firebase.google.com/project/${firebaseConfig.projectId}/authentication/settings`;
+  const currentHost = typeof window !== 'undefined' ? window.location.hostname : '';
+
+  const handleCopyText = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedDomain(true);
+      setTimeout(() => setCopiedDomain(false), 2000);
+    } catch {
+      // Clipboard may be restricted in some WebViews
+    }
+  };
 
   const handleGoogleSignIn = async () => {
     setErrorMsg('');
+    setAuthErrorCode('');
     setInfoMsg('');
     if (Capacitor.isNativePlatform()) {
       setErrorMsg(
@@ -67,6 +88,7 @@ export const AuthScreen: React.FC = () => {
     } catch (err: unknown) {
       const code = (err as { code?: string })?.code || '';
       if (code !== 'auth/popup-closed-by-user') {
+        setAuthErrorCode(code);
         setErrorMsg(formatAppError(err, language, t.common.errorGeneric));
       }
     } finally {
@@ -78,6 +100,7 @@ export const AuthScreen: React.FC = () => {
     e.preventDefault();
     setBusy(true);
     setErrorMsg('');
+    setAuthErrorCode('');
     setInfoMsg('');
     try {
       if (mode === 'login') {
@@ -87,11 +110,43 @@ export const AuthScreen: React.FC = () => {
         if (displayName.trim()) {
           await updateProfile(cred.user, { displayName: displayName.trim() });
         }
-        await sendEmailVerification(cred.user);
-        setInfoMsg(t.auth.verifySent);
+        try {
+          await sendEmailVerification(cred.user);
+          setInfoMsg(t.auth.verifySent);
+        } catch (verifyErr: unknown) {
+          setInfoMsg(
+            language === 'ar'
+              ? 'تم إنشاء الحساب، لكن تعذّر إرسال رسالة التفعيل تلقائياً. اضغط إعادة الإرسال أدناه.'
+              : 'Account created, but verification email could not be sent automatically. Tap Resend below.'
+          );
+          setErrorMsg(formatAppError(verifyErr, language, t.common.errorGeneric));
+        }
+        await refreshAuthUser().catch(() => false);
       } else {
         await sendPasswordResetEmail(auth, email.trim());
         setInfoMsg(t.auth.resetSent);
+      }
+    } catch (err: unknown) {
+      const code = (err as { code?: string })?.code || '';
+      setAuthErrorCode(code);
+      setErrorMsg(formatAppError(err, language, t.common.errorGeneric));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleCheckVerified = async () => {
+    setBusy(true);
+    setErrorMsg('');
+    setInfoMsg('');
+    try {
+      const verified = await refreshAuthUser();
+      if (!verified) {
+        setErrorMsg(
+          language === 'ar'
+            ? 'لم يتم تأكيد البريد الإلكتروني بعد. افتح رابط التفعيل في بريدك الوارد (أو الرسائل غير المرغوب فيها Spam) ثم اضغط هذا الزر مجدداً.'
+            : 'Email is not verified yet. Open the verification link in your inbox (or Spam folder), then tap this button again.'
+        );
       }
     } catch (err: unknown) {
       setErrorMsg(formatAppError(err, language, t.common.errorGeneric));
@@ -104,6 +159,7 @@ export const AuthScreen: React.FC = () => {
     if (!firebaseUser) return;
     setBusy(true);
     setErrorMsg('');
+    setInfoMsg('');
     try {
       await sendEmailVerification(firebaseUser);
       setInfoMsg(t.auth.verifySent);
@@ -164,23 +220,36 @@ export const AuthScreen: React.FC = () => {
             )}
             <div className="flex flex-col gap-2.5">
               <button
-                onClick={refreshAuthUser}
+                type="button"
+                onClick={handleCheckVerified}
                 disabled={busy}
-                className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm flex items-center justify-center gap-2 transition-colors"
+                className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm flex items-center justify-center gap-2 transition-colors disabled:opacity-60 cursor-pointer"
               >
-                <RefreshCw className="w-4 h-4" />
+                <RefreshCw className={`w-4 h-4 ${busy ? 'animate-spin' : ''}`} />
                 {t.auth.verifyRefresh}
               </button>
               <button
+                type="button"
                 onClick={handleResendVerification}
                 disabled={busy}
-                className="w-full min-h-[44px] px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 text-sm font-medium transition-colors"
+                className="w-full min-h-[44px] px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 text-sm font-medium transition-colors disabled:opacity-60 cursor-pointer"
               >
                 {t.auth.verifyResend}
               </button>
               <button
+                type="button"
+                onClick={() => enterLocalDeviceMode(firebaseUser.displayName || '')}
+                className="w-full min-h-[44px] px-4 py-2 rounded-xl bg-neutral-100 dark:bg-neutral-800/80 hover:bg-neutral-200 dark:hover:bg-neutral-800 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <Smartphone className="w-3.5 h-3.5 text-emerald-500" />
+                {language === 'ar'
+                  ? 'الدخول الآن على الجهاز بدون انتظار'
+                  : 'Use On-Device Mode While Waiting'}
+              </button>
+              <button
+                type="button"
                 onClick={signOutUser}
-                className="w-full min-h-[44px] px-4 py-2 text-xs text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200 flex items-center justify-center gap-1.5"
+                className="w-full min-h-[44px] px-4 py-2 text-xs text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200 flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 {t.auth.signOut}
@@ -344,7 +413,13 @@ export const AuthScreen: React.FC = () => {
             </p>
           </div>
 
-          {!isNativeApp && (
+          {isNativeApp ? (
+            <div className="p-3 rounded-xl bg-neutral-100 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 text-[11px] text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              {language === 'ar'
+                ? 'داخل تطبيق الأندرويد (APK)، سجّل الدخول بالبريد الإلكتروني أدناه للمزامنة السحابية بين المدرب واللاعب، أو اضغط الزر الأخضر أعلاه للاستخدام الفوري بدون إنترنت.'
+                : 'Inside the Android APK, use Email & Password below for cloud coach-athlete sync, or tap the green button above for instant offline training.'}
+            </div>
+          ) : (
             <button
               type="button"
               onClick={handleGoogleSignIn}
@@ -376,6 +451,7 @@ export const AuthScreen: React.FC = () => {
               onClick={() => {
                 setMode('login');
                 setErrorMsg('');
+                setAuthErrorCode('');
                 setInfoMsg('');
               }}
               className={`py-2 px-2 rounded-lg text-xs font-medium transition-colors whitespace-nowrap ${
@@ -391,6 +467,7 @@ export const AuthScreen: React.FC = () => {
               onClick={() => {
                 setMode('register');
                 setErrorMsg('');
+                setAuthErrorCode('');
                 setInfoMsg('');
               }}
               className={`py-2 px-2 rounded-lg text-xs font-medium transition-colors whitespace-nowrap ${
@@ -406,6 +483,7 @@ export const AuthScreen: React.FC = () => {
               onClick={() => {
                 setMode('reset');
                 setErrorMsg('');
+                setAuthErrorCode('');
                 setInfoMsg('');
               }}
               className={`py-2 px-2 rounded-lg text-xs font-medium transition-colors whitespace-nowrap ${
@@ -464,8 +542,92 @@ export const AuthScreen: React.FC = () => {
             )}
 
             {errorMsg && (
-              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-xs text-red-600 dark:text-red-400 leading-relaxed">
-                {errorMsg}
+              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-xs text-red-600 dark:text-red-400 leading-relaxed space-y-2.5">
+                <p>{errorMsg}</p>
+
+                {authErrorCode === 'auth/operation-not-allowed' && (
+                  <div className="p-2.5 rounded-lg bg-white/80 dark:bg-[#090A0B]/80 border border-red-500/20 text-neutral-800 dark:text-neutral-200 space-y-2">
+                    <p className="font-semibold">
+                      {language === 'ar'
+                        ? 'طريقة التفعيل السريعة (مرة واحدة فقط):'
+                        : 'Quick 1-time activation steps:'}
+                    </p>
+                    <ol className="list-decimal list-inside space-y-1 text-[11px] text-neutral-600 dark:text-neutral-400">
+                      <li>
+                        {language === 'ar'
+                          ? `افتح لوحة Firebase لمشروع (${firebaseConfig.projectId})`
+                          : `Open Firebase Console (${firebaseConfig.projectId})`}
+                      </li>
+                      <li>
+                        {language === 'ar'
+                          ? 'ادخل إلى Authentication ثم Sign-in method'
+                          : 'Go to Authentication -> Sign-in method'}
+                      </li>
+                      <li>
+                        {language === 'ar'
+                          ? 'اضغط Email/Password ثم فعّل أول مفتاح (Enable) واضغط Save'
+                          : 'Select Email/Password, turn Enable ON, and click Save'}
+                      </li>
+                    </ol>
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      <a
+                        href={firebaseProvidersUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-semibold transition-colors"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        {language === 'ar' ? 'فتح إعدادات Firebase' : 'Open Firebase Settings'}
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => enterLocalDeviceMode(displayName)}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-200 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 text-[11px] font-semibold cursor-pointer"
+                      >
+                        <Smartphone className="w-3.5 h-3.5" />
+                        {language === 'ar' ? 'الدخول الآن بدون حساب' : 'Use Offline Now'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {authErrorCode === 'auth/unauthorized-domain' && (
+                  <div className="p-2.5 rounded-lg bg-white/80 dark:bg-[#090A0B]/80 border border-red-500/20 text-neutral-800 dark:text-neutral-200 space-y-2">
+                    <p className="font-semibold">
+                      {language === 'ar'
+                        ? 'أضف هذا النطاق في Authorized domains:'
+                        : 'Add this domain under Authorized domains:'}
+                    </p>
+                    {currentHost && (
+                      <div className="flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-md bg-neutral-100 dark:bg-neutral-900 font-mono text-[11px]">
+                        <span className="truncate">{currentHost}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyText(currentHost)}
+                          className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 shrink-0 cursor-pointer"
+                        >
+                          {copiedDomain ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                          {copiedDomain
+                            ? language === 'ar'
+                              ? 'تم النسخ'
+                              : 'Copied'
+                            : language === 'ar'
+                              ? 'نسخ'
+                              : 'Copy'}
+                        </button>
+                      </div>
+                    )}
+                    <a
+                      href={firebaseDomainsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-semibold transition-colors"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      {language === 'ar' ? 'فتح Authorized domains' : 'Open Authorized domains'}
+                    </a>
+                  </div>
+                )}
               </div>
             )}
             {infoMsg && (

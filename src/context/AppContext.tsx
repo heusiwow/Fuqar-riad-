@@ -121,7 +121,7 @@ interface AppContextValue {
   toggleFavoriteExercise: (exerciseId: string) => Promise<void>;
   startWorkoutFromTemplate: (workout: WorkoutTemplate, program?: TrainingProgram | null) => Promise<void>;
   startBlankWorkout: () => Promise<void>;
-  refreshAuthUser: () => Promise<void>;
+  refreshAuthUser: () => Promise<boolean>;
   enterLocalDeviceMode: (displayName?: string) => void;
   signOutUser: () => Promise<void>;
 }
@@ -228,7 +228,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       } as unknown as User;
     }
     return null;
-  }, [rawFirebaseUser, localDeviceMode, guestLang]);
+    // authRefreshTick ensures consumers re-evaluate mutated fields like emailVerified / displayName after reload()
+  }, [rawFirebaseUser, localDeviceMode, guestLang, authRefreshTick]);
 
   const isAdmin =
     firebaseUser?.email?.toLowerCase() === 'abdulhamidraghad093@gmail.com' ||
@@ -723,13 +724,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     [firebaseUser]
   );
 
-  const refreshAuthUser = useCallback(async () => {
+  const refreshAuthUser = useCallback(async (): Promise<boolean> => {
     if (auth.currentUser) {
       await auth.currentUser.reload();
       await auth.currentUser.getIdToken(true);
       setRawFirebaseUser(auth.currentUser);
       setAuthRefreshTick((n) => n + 1);
+      return Boolean(auth.currentUser.emailVerified);
     }
+    return false;
   }, []);
 
   const enterLocalDeviceMode = useCallback(
