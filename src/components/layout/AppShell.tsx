@@ -51,9 +51,11 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
     startWorkoutFromTemplate,
     reminders,
     coachMessages,
+    activeOrg,
     isCoach,
     isAdmin,
     toasts,
+    showToast,
   } = useApp();
 
   const [searchOpen, setSearchOpen] = useState(false);
@@ -89,19 +91,33 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
     { id: 'profile', label: t.nav.profile, icon: User },
   ];
 
-  const mobilePrimaryTabs: AppSection[] = ['dashboard', 'exercises', 'live', 'programs'];
-  const mobileSecondaryTabs: AppSection[] = [
-    'philosophies',
-    'workouts',
-    'history',
-    'analytics',
-    'progress',
-    'ai',
-    'messaging',
-    ...(isCoach ? (['coach'] as AppSection[]) : []),
-    ...(isAdmin ? (['admin'] as AppSection[]) : []),
-    'profile',
-  ];
+  const mobilePrimaryTabs: AppSection[] = isCoach
+    ? ['dashboard', 'coach', 'messaging', 'live']
+    : ['dashboard', 'exercises', 'live', 'programs'];
+  const mobileSecondaryTabs: AppSection[] = isCoach
+    ? [
+        'exercises',
+        'programs',
+        'philosophies',
+        'workouts',
+        'history',
+        'analytics',
+        'progress',
+        'ai',
+        ...(isAdmin ? (['admin'] as AppSection[]) : []),
+        'profile',
+      ]
+    : [
+        'philosophies',
+        'workouts',
+        'history',
+        'analytics',
+        'progress',
+        'ai',
+        'messaging',
+        ...(isAdmin ? (['admin'] as AppSection[]) : []),
+        'profile',
+      ];
 
   const searchResults = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -126,8 +142,30 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
 
   const handleMarkAllRead = async () => {
     if (!firebaseUser) return;
-    const unread = reminders.filter((r) => !r.read);
-    await Promise.all(unread.map((r) => markReminderRead(firebaseUser.uid, r.id)));
+    try {
+      const unread = reminders.filter((r) => !r.read);
+      await Promise.all(unread.map((r) => markReminderRead(firebaseUser.uid, r.id)));
+    } catch {
+      showToast(t.common.errorGeneric, 'error');
+    }
+  };
+
+  const handleMarkReminderRead = async (remId: string) => {
+    if (!firebaseUser) return;
+    try {
+      await markReminderRead(firebaseUser.uid, remId);
+    } catch {
+      showToast(t.common.errorGeneric, 'error');
+    }
+  };
+
+  const handleDeleteReminder = async (remId: string) => {
+    if (!firebaseUser) return;
+    try {
+      await deleteReminder(firebaseUser.uid, remId);
+    } catch {
+      showToast(t.common.errorGeneric, 'error');
+    }
   };
 
   const currentNavLabel = navItems.find((n) => n.id === activeSection)?.label || t.brand;
@@ -191,7 +229,9 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                 {profile?.displayName || (language === 'ar' ? 'رياضي' : 'Athlete')}
               </p>
               <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate">
-                {unit === 'lb' ? t.common.lb : t.common.kg} · {language === 'ar' ? 'العربية' : 'EN'}
+                {activeOrg?.name
+                  ? activeOrg.name
+                  : `${unit === 'lb' ? t.common.lb : t.common.kg} · ${language === 'ar' ? 'العربية' : 'EN'}`}
               </p>
             </div>
           </button>
@@ -287,11 +327,18 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
             <button
               key={tabId}
               onClick={() => setActiveSection(tabId)}
-              className={`h-full flex flex-col items-center justify-center gap-0.5 text-[10px] font-medium transition-colors ${
+              className={`relative h-full flex flex-col items-center justify-center gap-0.5 text-[10px] font-medium transition-colors ${
                 isActive ? 'text-emerald-600 dark:text-emerald-400' : 'text-neutral-500 dark:text-neutral-400'
               }`}
             >
-              <Icon className="w-4 h-4" />
+              <div className="relative">
+                <Icon className="w-4 h-4" />
+                {item.badge && item.badge > 0 ? (
+                  <span className="absolute -top-1 -end-2 min-w-[14px] h-3.5 px-1 rounded-full bg-emerald-500 text-white text-[9px] font-mono font-bold flex items-center justify-center">
+                    {item.badge > 9 ? '9+' : item.badge}
+                  </span>
+                ) : null}
+              </div>
               <span className="truncate max-w-[68px]">{item.label}</span>
             </button>
           );
@@ -519,7 +566,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                       <div className="flex items-center gap-1 shrink-0">
                         {!rem.read && firebaseUser && (
                           <button
-                            onClick={() => markReminderRead(firebaseUser.uid, rem.id)}
+                            onClick={() => handleMarkReminderRead(rem.id)}
                             className="p-1.5 rounded-lg hover:bg-emerald-500/15 text-emerald-500"
                             title={language === 'ar' ? 'تحديد كمقروء' : 'Mark read'}
                           >
@@ -528,7 +575,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                         )}
                         {firebaseUser && (
                           <button
-                            onClick={() => deleteReminder(firebaseUser.uid, rem.id)}
+                            onClick={() => handleDeleteReminder(rem.id)}
                             className="p-1.5 rounded-lg hover:bg-red-500/15 text-neutral-400 hover:text-red-500"
                             title={t.common.delete}
                           >

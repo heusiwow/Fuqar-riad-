@@ -77,6 +77,11 @@ const APP_MESSAGE_MAP: { match: string; en: string; ar: string }[] = [
     en: 'Please select a coaching program first.',
     ar: 'يرجى اختيار برنامج تدريبي أولاً.',
   },
+  {
+    match: 'Cannot link to your own invite code',
+    en: 'Switch to Athlete mode or sign in with an athlete account to claim this code.',
+    ar: 'بدّل إلى وضع الرياضي أو سجّل بحساب لاعب لاستخدام كود الدعوة.',
+  },
 ];
 
 export function formatAppError(err: unknown, language: Language, fallback: string): string {

@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { sendPasswordResetEmail } from 'firebase/auth';
-import { BellPlus, Globe, KeyRound, Link2, LogOut, Moon, ShieldCheck, Sun, Users } from 'lucide-react';
+import {
+  BellPlus,
+  Copy,
+  Globe,
+  KeyRound,
+  Link2,
+  LogOut,
+  Moon,
+  ShieldCheck,
+  Sun,
+  Unlink,
+  Users,
+} from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { DIFFICULTY_LABELS, GOAL_LABELS, SPLIT_LABELS, tLabel } from '../../i18n/translations';
 import { auth } from '../../lib/firebase';
@@ -8,6 +20,7 @@ import {
   claimCoachInviteCode,
   createReminder,
   generateSafeId,
+  unlinkCoachAccount,
   updateUserProfileSettings,
 } from '../../services/firestoreService';
 import {
@@ -37,11 +50,14 @@ const DEFAULT_NOTIFICATIONS: NotificationSettings = {
 export const ProfileSettingsView: React.FC = () => {
   const {
     firebaseUser,
+    isLocalDeviceMode,
     profile,
     userRole,
     isAdmin,
     switchRole,
     athleteCoachLink,
+    pendingJoinCode,
+    clearPendingJoinCode,
     language,
     theme,
     unit,
@@ -82,9 +98,17 @@ export const ProfileSettingsView: React.FC = () => {
   });
   const [saving, setSaving] = useState(false);
 
-  // Coach Invite Code Claiming
-  const [inviteCode, setInviteCode] = useState('');
+  // Coach Invite Code Claiming & Disconnect
+  const [inviteCode, setInviteCode] = useState(() => pendingJoinCode || '');
   const [claimingCode, setClaimingCode] = useState(false);
+  const [confirmUnlink, setConfirmUnlink] = useState(false);
+  const [unlinking, setUnlinking] = useState(false);
+
+  useEffect(() => {
+    if (pendingJoinCode && !inviteCode) {
+      setInviteCode(pendingJoinCode);
+    }
+  }, [pendingJoinCode]);
 
   // Scheduled workout reminder state
   const [remWorkoutTitle, setRemWorkoutTitle] = useState('');
@@ -152,11 +176,36 @@ export const ProfileSettingsView: React.FC = () => {
         inviteCode
       );
       setInviteCode('');
+      clearPendingJoinCode();
       showToast(t.common.savedSuccess);
     } catch (err) {
       showToast(formatAppError(err, language, t.common.errorGeneric), 'error');
     } finally {
       setClaimingCode(false);
+    }
+  };
+
+  const handleUnlinkCoach = async () => {
+    if (!firebaseUser) return;
+    setUnlinking(true);
+    try {
+      await unlinkCoachAccount(firebaseUser.uid, athleteCoachLink?.id);
+      setConfirmUnlink(false);
+      showToast(t.common.savedSuccess);
+    } catch (err) {
+      showToast(formatAppError(err, language, t.common.errorGeneric), 'error');
+    } finally {
+      setUnlinking(false);
+    }
+  };
+
+  const handleCopyUid = () => {
+    if (!firebaseUser?.uid) return;
+    try {
+      navigator.clipboard?.writeText(firebaseUser.uid);
+      showToast(t.common.savedSuccess);
+    } catch {
+      // ignore
     }
   };
 
@@ -358,22 +407,78 @@ export const ProfileSettingsView: React.FC = () => {
       <OfflineAppCard />
 
       {/* Coach Connection Card */}
-      <section className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 space-y-3">
-        <h2 className="text-base font-semibold flex items-center gap-2">
-          <Link2 className="w-4 h-4 text-emerald-500" />
-          {t.apex.coachInviteTitle}
-        </h2>
+      <section className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="text-base font-semibold flex items-center gap-2">
+            <Link2 className="w-4 h-4 text-emerald-500" />
+            {t.apex.coachInviteTitle}
+          </h2>
+          {firebaseUser?.uid && (
+            <button
+              type="button"
+              onClick={handleCopyUid}
+              className="min-h-[34px] px-3 rounded-lg bg-neutral-100 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 text-[11px] font-mono inline-flex items-center gap-1.5 cursor-pointer"
+              title={t.apex.athleteIdLabel}
+            >
+              <span className="text-neutral-500 font-sans">{t.apex.athleteIdLabel}:</span>
+              <span className="truncate max-w-[110px]">{firebaseUser.uid}</span>
+              <Copy className="w-3 h-3 text-emerald-500 shrink-0" />
+            </button>
+          )}
+        </div>
+
         {athleteCoachLink ? (
-          <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between gap-3">
-            <div>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400">{t.apex.linkedCoachLabel}</p>
-              <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
-                {athleteCoachLink.coachName}
-              </p>
+          <div className="space-y-3">
+            <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                  {t.apex.linkedCoachLabel}
+                </p>
+                <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+                  {athleteCoachLink.coachName}
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400">
+                  {athleteCoachLink.inviteCode}
+                </span>
+                {!confirmUnlink && (
+                  <button
+                    type="button"
+                    onClick={() => setConfirmUnlink(true)}
+                    className="min-h-[36px] px-3 rounded-lg border border-red-500/30 text-red-500 hover:bg-red-500/10 text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <Unlink className="w-3.5 h-3.5" />
+                    {t.apex.unlinkCoachBtn}
+                  </button>
+                )}
+              </div>
             </div>
-            <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400">
-              {athleteCoachLink.inviteCode}
-            </span>
+
+            {confirmUnlink && (
+              <div className="p-3.5 rounded-xl bg-red-500/8 border border-red-500/30 space-y-2.5">
+                <p className="text-xs text-red-700 dark:text-red-300 leading-relaxed">
+                  {t.apex.unlinkConfirmPrompt}
+                </p>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    disabled={unlinking}
+                    onClick={handleUnlinkCoach}
+                    className="min-h-[36px] px-3.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-semibold cursor-pointer"
+                  >
+                    {unlinking ? t.common.loading : t.apex.confirmDisconnect}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setConfirmUnlink(false)}
+                    className="min-h-[36px] px-3 rounded-lg border border-neutral-200 dark:border-neutral-700 text-xs cursor-pointer"
+                  >
+                    {t.common.cancel}
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <form onSubmit={handleClaimCoachCode} className="flex flex-col sm:flex-row gap-2.5">
@@ -644,24 +749,36 @@ export const ProfileSettingsView: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h2 className="text-base font-semibold">{t.profile.accountSecurity}</h2>
-            <p className="text-xs font-mono text-neutral-500 mt-0.5">{firebaseUser?.email}</p>
+            <p className="text-xs font-mono text-neutral-500 mt-0.5">
+              {isLocalDeviceMode
+                ? language === 'ar'
+                  ? 'حساب محلي على هذا الجهاز (أوفلاين)'
+                  : 'On-Device Offline Profile'
+                : firebaseUser?.email}
+            </p>
           </div>
           <div className="flex flex-wrap items-center gap-2.5">
-            <button
-              type="button"
-              onClick={handlePasswordReset}
-              className="min-h-[40px] px-4 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer"
-            >
-              <KeyRound className="w-3.5 h-3.5" />
-              {t.profile.sendPasswordReset}
-            </button>
+            {!isLocalDeviceMode && firebaseUser?.email && (
+              <button
+                type="button"
+                onClick={handlePasswordReset}
+                className="min-h-[40px] px-4 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer"
+              >
+                <KeyRound className="w-3.5 h-3.5" />
+                {t.profile.sendPasswordReset}
+              </button>
+            )}
             <button
               type="button"
               onClick={signOutUser}
               className="min-h-[40px] px-4 rounded-xl border border-red-500/30 text-red-500 hover:bg-red-500/10 text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer"
             >
               <LogOut className="w-3.5 h-3.5" />
-              {t.auth.signOut}
+              {isLocalDeviceMode
+                ? language === 'ar'
+                  ? 'الخروج / تبديل إلى حساب سحابي'
+                  : 'Exit / Switch to Cloud Account'
+                : t.auth.signOut}
             </button>
           </div>
         </div>

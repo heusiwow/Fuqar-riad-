@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Capacitor } from '@capacitor/core';
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
@@ -18,6 +19,7 @@ import {
   CalendarRange,
   Activity,
   BarChart3,
+  Smartphone,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { useOnlineStatus } from '../../hooks/usePWAInstall';
@@ -26,8 +28,19 @@ import { formatAppError } from '../../utils/errorMessages';
 import { PWAInstallButton } from '../common/PWAStatusControls';
 
 export const AuthScreen: React.FC = () => {
-  const { firebaseUser, language, theme, setLanguage, setTheme, t, refreshAuthUser, signOutUser } = useApp();
+  const {
+    firebaseUser,
+    language,
+    theme,
+    setLanguage,
+    setTheme,
+    t,
+    refreshAuthUser,
+    enterLocalDeviceMode,
+    signOutUser,
+  } = useApp();
   const isOnline = useOnlineStatus();
+  const isNativeApp = Capacitor.isNativePlatform();
 
   const [mode, setMode] = useState<'login' | 'register' | 'reset'>('login');
   const [email, setEmail] = useState('');
@@ -38,9 +51,17 @@ export const AuthScreen: React.FC = () => {
   const [infoMsg, setInfoMsg] = useState('');
 
   const handleGoogleSignIn = async () => {
-    setBusy(true);
     setErrorMsg('');
     setInfoMsg('');
+    if (Capacitor.isNativePlatform()) {
+      setErrorMsg(
+        language === 'ar'
+          ? 'نافذة Google لا تعمل داخل تطبيق APK المستقل؛ سجّل الدخول أو أنشئ حساباً بالبريد الإلكتروني وكلمة المرور أدناه.'
+          : 'Google browser popup is not supported inside the standalone APK. Please use Email & Password below.'
+      );
+      return;
+    }
+    setBusy(true);
     try {
       await signInWithPopup(auth, googleProvider);
     } catch (err: unknown) {
@@ -302,25 +323,48 @@ export const AuthScreen: React.FC = () => {
                 </div>
               )}
 
-          <button
-            type="button"
-            onClick={handleGoogleSignIn}
-            disabled={busy}
-            className="w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm flex items-center justify-center gap-2.5 transition-colors disabled:opacity-60 cursor-pointer"
-          >
-            <svg className="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                fill="currentColor"
-                d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 16.25 5 12c0-4.1 3.2-7.27 7.2-7.27c3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10c5.35 0 9.25-3.67 9.25-9.09c0-1.15-.15-1.81-.15-1.81Z"
-              />
-            </svg>
-            {t.auth.signInGoogle}
-          </button>
+          {/* Instant On-Device Offline Access (No Account / No Internet Needed) */}
+          <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/35 space-y-2">
+            <button
+              type="button"
+              onClick={() => enterLocalDeviceMode(displayName)}
+              className="w-full min-h-[48px] px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer"
+            >
+              <Smartphone className="w-4 h-4 shrink-0" />
+              <span>
+                {language === 'ar'
+                  ? 'الدخول الفوري على الجهاز (بدون حساب / أوفلاين)'
+                  : 'Start Now on This Device (Offline / No Account)'}
+              </span>
+            </button>
+            <p className="text-[11px] text-neutral-700 dark:text-neutral-300 leading-relaxed text-center">
+              {language === 'ar'
+                ? 'يعمل فوراً بدون تسجيل دخول أو إنترنت، مع حفظ التمارين والجداول والسجلات على هاتفك.'
+                : 'Works immediately offline with workouts, guides, and logs saved locally on your device.'}
+            </p>
+          </div>
+
+          {!isNativeApp && (
+            <button
+              type="button"
+              onClick={handleGoogleSignIn}
+              disabled={busy}
+              className="w-full min-h-[46px] px-4 py-2.5 rounded-xl border border-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 font-semibold text-sm flex items-center justify-center gap-2.5 transition-colors disabled:opacity-60 cursor-pointer"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 16.25 5 12c0-4.1 3.2-7.27 7.2-7.27c3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10c5.35 0 9.25-3.67 9.25-9.09c0-1.15-.15-1.81-.15-1.81Z"
+                />
+              </svg>
+              {t.auth.signInGoogle}
+            </button>
+          )}
 
           <div className="relative flex items-center justify-center">
             <span className="w-full border-t border-neutral-200 dark:border-neutral-800" />
             <span className="px-3 text-xs text-neutral-500 bg-white dark:bg-[#121417] whitespace-nowrap">
-              {t.auth.orEmail}
+              {language === 'ar' ? 'أو سجّل بحساب للمزامنة السحابية' : t.auth.orEmail}
             </span>
             <span className="w-full border-t border-neutral-200 dark:border-neutral-800" />
           </div>

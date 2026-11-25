@@ -87,7 +87,7 @@ define(['./workbox-81e8ac41'], (function (workbox) { 'use strict';
     "revision": "5312dbbbff8fad9a368952d1dace1df6"
   }, {
     "url": "index.html",
-    "revision": "ec59e1535f577329e6e423d576a75c12"
+    "revision": "feb7c9ddb919cb59350d16b918c467ed"
   }, {
     "url": "icon.svg",
     "revision": "6696314d9d5e668242aa1750755fd323"
@@ -134,10 +134,31 @@ define(['./workbox-81e8ac41'], (function (workbox) { 'use strict';
     "url": "assets/step_barbell_row_1795384188059-C6hQ6ZlG.jpg",
     "revision": null
   }, {
-    "url": "assets/index-D_GDG3eN.css",
+    "url": "assets/index-k080tfwD.css",
     "revision": null
   }, {
-    "url": "assets/index-CHTSaP4g.js",
+    "url": "assets/index-DBTH_-Tp.js",
+    "revision": null
+  }, {
+    "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.github.android_d9e9831b.jpg",
+    "revision": null
+  }, {
+    "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.github.android_ced75d5b.jpg",
+    "revision": null
+  }, {
+    "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.github.android_54d7c092.jpg",
+    "revision": null
+  }, {
+    "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.github.android_179582a4.jpg",
+    "revision": null
+  }, {
+    "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.apexfitness.app_63d175d6.jpg",
+    "revision": null
+  }, {
+    "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.android.chrome_860b2033.jpg",
+    "revision": null
+  }, {
+    "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.android.chrome_3b0a2a7c.jpg",
     "revision": null
   }, {
     "url": "assets/aistudio/1795382374541_efaff05f.mp4",

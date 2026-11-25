@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Building2, CheckCircle2, Flag, Plus, Shield, Users } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Building2, CheckCircle2, Flag, Plus, Shield, Trash2, Users } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import {
+  deleteOrganizationMember,
   reviewExerciseFlag,
   saveGymOrganization,
   saveOrganizationMember,
@@ -16,6 +17,7 @@ import {
   OrganizationMember,
   UserRole,
 } from '../../types/ironlog';
+import { formatAppError } from '../../utils/errorMessages';
 
 export const GymAdminView: React.FC = () => {
   const { firebaseUser, isAdmin, language, t, showToast } = useApp();
@@ -23,6 +25,7 @@ export const GymAdminView: React.FC = () => {
   const [orgs, setOrgs] = useState<GymOrganization[]>([]);
   const [members, setMembers] = useState<OrganizationMember[]>([]);
   const [flags, setFlags] = useState<ExerciseFlag[]>([]);
+  const [flagFilter, setFlagFilter] = useState<'all' | 'open' | 'reviewed'>('all');
 
   // Org settings draft
   const [orgName, setOrgName] = useState('APEX Performance Club');
@@ -126,9 +129,50 @@ export const GymAdminView: React.FC = () => {
   };
 
   const handleMarkReviewed = async (flagId: string) => {
-    await reviewExerciseFlag(flagId);
-    showToast(t.common.savedSuccess);
+    try {
+      await reviewExerciseFlag(flagId);
+      showToast(t.common.savedSuccess);
+    } catch (err) {
+      showToast(formatAppError(err, language, t.common.errorGeneric), 'error');
+    }
   };
+
+  const handleUpdateMember = async (
+    m: OrganizationMember,
+    patch: Partial<Pick<OrganizationMember, 'role' | 'status'>>
+  ) => {
+    if (!activeOrg) return;
+    try {
+      await saveOrganizationMember(
+        {
+          uid: m.uid,
+          organizationId: activeOrg.id,
+          displayName: m.displayName,
+          role: patch.role ?? m.role,
+          status: patch.status ?? m.status,
+        },
+        true
+      );
+      showToast(t.common.savedSuccess);
+    } catch (err) {
+      showToast(formatAppError(err, language, t.common.errorGeneric), 'error');
+    }
+  };
+
+  const handleRemoveMember = async (memberUid: string) => {
+    if (!activeOrg) return;
+    try {
+      await deleteOrganizationMember(activeOrg.id, memberUid);
+      showToast(t.common.savedSuccess);
+    } catch (err) {
+      showToast(formatAppError(err, language, t.common.errorGeneric), 'error');
+    }
+  };
+
+  const filteredFlags = useMemo(() => {
+    if (flagFilter === 'all') return flags;
+    return flags.filter((f) => f.status === flagFilter);
+  }, [flags, flagFilter]);
 
   return (
     <div className="space-y-6">
@@ -267,18 +311,54 @@ export const GymAdminView: React.FC = () => {
             {members.length > 0 && (
               <div className="divide-y divide-neutral-200 dark:divide-neutral-800">
                 {members.map((m) => (
-                  <div key={m.uid} className="py-2.5 flex items-center justify-between gap-2 text-xs">
-                    <div>
-                      <strong className="text-sm">{m.displayName}</strong>
-                      <span className="font-mono text-neutral-500 ms-2">{m.uid}</span>
+                  <div
+                    key={m.uid}
+                    className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                  >
+                    <div className="min-w-0">
+                      <strong className="text-sm block truncate">{m.displayName}</strong>
+                      <span className="font-mono text-neutral-500 break-all">{m.uid}</span>
                     </div>
-                    <span className="font-semibold text-emerald-500 uppercase">
-                      {m.role === 'coach'
-                        ? t.apex.roleCoach
-                        : m.role === 'gym_admin'
-                          ? t.apex.roleAdmin
-                          : t.apex.roleAthlete}
-                    </span>
+                    <div className="flex flex-wrap items-center gap-2 shrink-0">
+                      <select
+                        value={m.role}
+                        onChange={(e) =>
+                          handleUpdateMember(m, { role: e.target.value as UserRole })
+                        }
+                        className="min-h-[34px] px-2.5 rounded-lg bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 text-xs"
+                      >
+                        <option value="coach">{t.apex.roleCoach}</option>
+                        <option value="athlete">{t.apex.roleAthlete}</option>
+                        <option value="gym_admin">{t.apex.roleAdmin}</option>
+                      </select>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleUpdateMember(m, {
+                            status: m.status === 'suspended' ? 'active' : 'suspended',
+                          })
+                        }
+                        className={`min-h-[34px] px-3 rounded-lg border text-xs font-medium cursor-pointer ${
+                          m.status === 'suspended'
+                            ? 'border-amber-500/40 text-amber-500'
+                            : 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400'
+                        }`}
+                      >
+                        {m.status === 'suspended'
+                          ? language === 'ar'
+                            ? 'موقوف'
+                            : 'Suspended'
+                          : t.apex.statusActive}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveMember(m.uid)}
+                        className="p-2 rounded-lg text-neutral-400 hover:text-red-500 cursor-pointer"
+                        aria-label={t.common.delete}
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -289,15 +369,40 @@ export const GymAdminView: React.FC = () => {
 
       {/* Flagged Exercise Accuracy Reports */}
       <section className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 space-y-4">
-        <h2 className="text-base font-bold flex items-center gap-2">
-          <Flag className="w-4 h-4 text-amber-500" />
-          {t.apex.flaggedContentTitle} ({flags.length})
-        </h2>
-        {flags.length === 0 ? (
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-base font-bold flex items-center gap-2">
+            <Flag className="w-4 h-4 text-amber-500" />
+            {t.apex.flaggedContentTitle} ({filteredFlags.length})
+          </h2>
+          <div className="flex items-center gap-1 p-1 rounded-xl bg-neutral-100 dark:bg-[#090A0B]">
+            {(
+              [
+                ['all', t.common.all],
+                ['open', language === 'ar' ? 'مفتوح' : 'Open'],
+                ['reviewed', language === 'ar' ? 'تمت المراجعة' : 'Reviewed'],
+              ] as ['all' | 'open' | 'reviewed', string][]
+            ).map(([k, lbl]) => (
+              <button
+                key={k}
+                type="button"
+                onClick={() => setFlagFilter(k)}
+                className={`px-3 py-1 rounded-lg text-xs font-medium cursor-pointer ${
+                  flagFilter === k
+                    ? 'bg-white dark:bg-[#1A1D22] shadow-xs'
+                    : 'text-neutral-500'
+                }`}
+              >
+                {lbl}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {filteredFlags.length === 0 ? (
           <p className="text-xs text-neutral-500 py-4 text-center">{t.common.noResults}</p>
         ) : (
           <div className="space-y-2.5">
-            {flags.map((f) => (
+            {filteredFlags.map((f) => (
               <div
                 key={f.id}
                 className="p-3.5 rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
@@ -327,7 +432,7 @@ export const GymAdminView: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => handleMarkReviewed(f.id)}
-                    className="min-h-[36px] px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer shrink-0"
+                    className="min-h-[38px] px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer shrink-0"
                   >
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     {language === 'ar' ? 'تمت المراجعة' : 'Mark Reviewed'}

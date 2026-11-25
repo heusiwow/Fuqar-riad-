@@ -5,12 +5,16 @@ import {
   Calendar,
   CheckCircle2,
   Dumbbell,
+  Link2,
+  MessageSquare,
   Play,
   Plus,
   Sparkles,
   Target,
   Trophy,
   TrendingUp,
+  UserCheck,
+  X,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import {
@@ -20,7 +24,12 @@ import {
   tLabel,
   WEEKDAYS,
 } from '../../i18n/translations';
-import { acceptCoachAssignment } from '../../services/firestoreService';
+import {
+  acceptCoachAssignment,
+  claimCoachInviteCode,
+  dismissCoachAssignment,
+} from '../../services/firestoreService';
+import { formatAppError } from '../../utils/errorMessages';
 import {
   computeMuscleGroupStats,
   detectFatigueAndSpikes,
@@ -35,7 +44,9 @@ import {
 export const DashboardView: React.FC = () => {
   const {
     firebaseUser,
+    isLocalDeviceMode,
     profile,
+    isCoach,
     language,
     unit,
     t,
@@ -48,6 +59,8 @@ export const DashboardView: React.FC = () => {
     goals,
     coachAssignments,
     athleteCoachLink,
+    pendingJoinCode,
+    clearPendingJoinCode,
     setActiveSection,
     openHistorySession,
     openExerciseDetail,
@@ -56,6 +69,15 @@ export const DashboardView: React.FC = () => {
     showToast,
     dataLoading,
   } = useApp();
+
+  const [quickJoinCode, setQuickJoinCode] = React.useState(() => pendingJoinCode || '');
+  const [joiningCoach, setJoiningCoach] = React.useState(false);
+
+  React.useEffect(() => {
+    if (pendingJoinCode && !quickJoinCode) {
+      setQuickJoinCode(pendingJoinCode);
+    }
+  }, [pendingJoinCode]);
 
   const jsDay = new Date().getDay();
   const mondayIdx = jsDay === 0 ? 6 : jsDay - 1;
@@ -78,8 +100,37 @@ export const DashboardView: React.FC = () => {
     try {
       await acceptCoachAssignment(firebaseUser.uid, target);
       showToast(t.common.savedSuccess);
-    } catch {
-      showToast(t.common.errorGeneric, 'error');
+    } catch (err) {
+      showToast(formatAppError(err, language, t.common.errorGeneric), 'error');
+    }
+  };
+
+  const handleDismissAssignment = async (assignmentId: string) => {
+    try {
+      await dismissCoachAssignment(assignmentId);
+      showToast(t.common.savedSuccess);
+    } catch (err) {
+      showToast(formatAppError(err, language, t.common.errorGeneric), 'error');
+    }
+  };
+
+  const handleQuickJoinCoach = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!firebaseUser || !quickJoinCode.trim()) return;
+    setJoiningCoach(true);
+    try {
+      await claimCoachInviteCode(
+        firebaseUser.uid,
+        profile?.displayName || (language === 'ar' ? 'رياضي' : 'Athlete'),
+        quickJoinCode.trim()
+      );
+      setQuickJoinCode('');
+      clearPendingJoinCode();
+      showToast(t.common.savedSuccess);
+    } catch (err) {
+      showToast(formatAppError(err, language, t.common.errorGeneric), 'error');
+    } finally {
+      setJoiningCoach(false);
     }
   };
 
@@ -278,6 +329,80 @@ export const DashboardView: React.FC = () => {
         </div>
       </section>
 
+      {/* Coach Connection Strip (Athletes or Deep-Link Invite Pending) */}
+      {(!isCoach || Boolean(pendingJoinCode)) && (
+        athleteCoachLink ? (
+          <section className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-9 h-9 rounded-xl bg-emerald-500/12 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                <UserCheck className="w-4 h-4" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                  {t.apex.linkedCoachLabel}
+                </p>
+                <p className="text-sm font-semibold truncate">
+                  {athleteCoachLink.coachName}
+                  {athleteCoachLink.assignedProgramName
+                    ? ` · ${athleteCoachLink.assignedProgramName}`
+                    : ''}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => setActiveSection('messaging')}
+                className="min-h-[40px] px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer"
+              >
+                <MessageSquare className="w-3.5 h-3.5" />
+                {t.nav.messaging}
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveSection('programs')}
+                className="min-h-[40px] px-3 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-xs font-medium cursor-pointer"
+              >
+                {t.nav.programs}
+              </button>
+            </div>
+          </section>
+        ) : (
+          <section className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-9 h-9 rounded-xl bg-neutral-100 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 text-emerald-500 flex items-center justify-center shrink-0">
+                <Link2 className="w-4 h-4" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold">{t.apex.coachInviteTitle}</p>
+                <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                  {language === 'ar'
+                    ? 'أدخل كود الدعوة لربط حسابك مع مدربك'
+                    : 'Enter your coach invite code to link your training plan'}
+                  {isLocalDeviceMode ? ' (APEX-DEMO)' : ''}
+                </p>
+              </div>
+            </div>
+            <form onSubmit={handleQuickJoinCoach} className="flex items-center gap-2 shrink-0">
+              <input
+                type="text"
+                value={quickJoinCode}
+                onChange={(e) => setQuickJoinCode(e.target.value)}
+                placeholder="APEX-4821"
+                className="w-40 sm:w-44 min-h-[40px] px-3 rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 font-mono text-xs uppercase"
+              />
+              <button
+                type="submit"
+                disabled={joiningCoach || !quickJoinCode.trim()}
+                className="min-h-[40px] px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 text-white text-xs font-semibold cursor-pointer whitespace-nowrap"
+              >
+                {joiningCoach ? t.common.loading : t.apex.joinCoachBtn}
+              </button>
+            </form>
+          </section>
+        )
+      )}
+
       {/* Contextual Fatigue / Volume Spike Warning */}
       {fatigueAlert && (
         <section className="rounded-2xl border border-amber-500/35 bg-amber-500/10 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -336,10 +461,11 @@ export const DashboardView: React.FC = () => {
                     {t.apex.acceptAssignment}
                   </button>
                   <button
-                    onClick={() => setActiveSection('programs')}
-                    className="min-h-[40px] px-3 rounded-xl border border-neutral-200 dark:border-neutral-700 text-xs font-medium cursor-pointer"
+                    onClick={() => handleDismissAssignment(assign.id)}
+                    className="min-h-[40px] px-3 rounded-xl border border-neutral-200 dark:border-neutral-700 text-xs font-medium inline-flex items-center gap-1 cursor-pointer"
                   >
-                    {t.nav.programs}
+                    <X className="w-3.5 h-3.5" />
+                    {t.apex.dismissAssignment}
                   </button>
                 </div>
               </div>

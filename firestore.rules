@@ -942,7 +942,7 @@ service cloud.firestore {
     // Exercise Accuracy & Safety Flags
     match /exerciseFlags/{flagId} {
       allow get: if isValidId(flagId) && isVerifiedUser() && (existing().userId == request.auth.uid || isAdmin());
-      allow list: if isVerifiedUser() && (resource.data.userId == request.auth.uid || isTokenAdmin());
+      allow list: if isVerifiedUser() && (resource.data.userId == request.auth.uid || isAdmin());
       allow create: if isValidId(flagId)
         && isVerifiedUser()
         && incoming().userId == request.auth.uid
@@ -959,7 +959,7 @@ service cloud.firestore {
     // Gym Organizations & Members (Admin Console)
     match /organizations/{orgId} {
       allow get: if isValidId(orgId) && isVerifiedUser() && (existing().ownerUid == request.auth.uid || isAdmin());
-      allow list: if isVerifiedUser() && (resource.data.ownerUid == request.auth.uid || isTokenAdmin());
+      allow list: if isVerifiedUser() && (resource.data.ownerUid == request.auth.uid || isAdmin());
       allow create: if isValidId(orgId)
         && isAdmin()
         && isValidGymOrganization(incoming(), orgId)
@@ -976,7 +976,7 @@ service cloud.firestore {
 
       match /members/{memberUid} {
         allow get: if isValidId(orgId) && isValidId(memberUid) && isVerifiedUser() && (memberUid == request.auth.uid || isAdmin());
-        allow list: if isValidId(orgId) && isTokenAdmin();
+        allow list: if isValidId(orgId) && isAdmin();
         allow create: if isValidId(orgId) && isValidId(memberUid)
           && isAdmin()
           && isValidOrganizationMember(incoming(), orgId, memberUid)

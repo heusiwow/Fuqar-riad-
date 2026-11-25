@@ -31,6 +31,7 @@ import {
 import {
   acceptCoachAssignment,
   deleteTrainingProgram,
+  dismissCoachAssignment,
   generateSafeId,
   saveTrainingProgram,
   saveWorkoutTemplate,
@@ -60,6 +61,8 @@ export const ProgramsView: React.FC = () => {
   const {
     firebaseUser,
     profile,
+    isCoach,
+    activeOrg,
     language,
     t,
     programs,
@@ -229,6 +232,15 @@ export const ProgramsView: React.FC = () => {
       showToast(t.common.errorGeneric, 'error');
     } finally {
       setAcceptingAssignmentId(null);
+    }
+  };
+
+  const handleDismissAssignment = async (assignmentId: string) => {
+    try {
+      await dismissCoachAssignment(assignmentId);
+      showToast(t.common.savedSuccess);
+    } catch {
+      showToast(t.common.errorGeneric, 'error');
     }
   };
 
@@ -591,6 +603,15 @@ export const ProgramsView: React.FC = () => {
         </div>
       </div>
 
+      {/* Gym Policy Advisory Banner */}
+      {activeOrg && !activeOrg.allowAthleteSelfProgram && !isCoach && (
+        <section className="bg-amber-500/8 border border-amber-500/35 rounded-2xl p-4 text-xs text-amber-800 dark:text-amber-300">
+          {language === 'ar'
+            ? `سياسة ${activeOrg.name}: يُفضّل اعتماد البرامج المرسلة من مدربك قبل التعديل الذاتي.`
+            : `${activeOrg.name} policy: coach-assigned programs are recommended over self-built routines.`}
+        </section>
+      )}
+
       {/* Coach Assigned Programs Banner */}
       {pendingAssignments.length > 0 && (
         <section className="bg-emerald-500/8 border border-emerald-500/40 rounded-2xl p-4 sm:p-5 space-y-3">
@@ -612,15 +633,25 @@ export const ProgramsView: React.FC = () => {
                   </p>
                   {a.notes && <p className="text-xs text-neutral-600 dark:text-neutral-300">{a.notes}</p>}
                 </div>
-                <button
-                  type="button"
-                  disabled={acceptingAssignmentId === a.id}
-                  onClick={() => handleAcceptAssignment(a.id)}
-                  className="min-h-[40px] px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold inline-flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  {acceptingAssignmentId === a.id ? t.common.loading : t.apex.acceptAssignment}
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    disabled={acceptingAssignmentId === a.id}
+                    onClick={() => handleAcceptAssignment(a.id)}
+                    className="flex-1 min-h-[40px] px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold inline-flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    {acceptingAssignmentId === a.id ? t.common.loading : t.apex.acceptAssignment}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDismissAssignment(a.id)}
+                    className="min-h-[40px] px-3 rounded-xl border border-neutral-200 dark:border-neutral-700 text-xs font-medium inline-flex items-center gap-1 cursor-pointer"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                    {t.apex.dismissAssignment}
+                  </button>
+                </div>
               </div>
             ))}
           </div>

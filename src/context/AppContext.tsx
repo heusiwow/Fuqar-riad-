@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { onAuthStateChanged, signOut, User } from 'firebase/auth';
+import { onIdTokenChanged, signOut, User } from 'firebase/auth';
 import { BUILTIN_EXERCISES } from '../data/exercises';
 import { TRANSLATIONS } from '../i18n/translations';
 import { auth } from '../lib/firebase';
@@ -19,11 +19,18 @@ import {
   subscribeCoachGroups,
   subscribeCoachMessages,
   subscribeCoachRoster,
+  subscribeGymOrganizations,
   subscribeUserProfile,
   subscribeUserSubcollection,
   updateUserFavorites,
   updateUserProfileSettings,
 } from '../services/firestoreService';
+import {
+  isLocalDeviceModeEnabled,
+  LOCAL_DEVICE_UID,
+  localEnsureUserProfile,
+  setLocalDeviceModeEnabled,
+} from '../services/localDeviceStore';
 import {
   ActiveWorkoutSession,
   AppSection,
@@ -34,6 +41,7 @@ import {
   CoachMessage,
   Exercise,
   ExerciseNote,
+  GymOrganization,
   Language,
   LiveExerciseEntry,
   LiveSetEntry,
@@ -60,6 +68,7 @@ export interface ToastMessage {
 
 interface AppContextValue {
   firebaseUser: User | null;
+  isLocalDeviceMode: boolean;
   authReady: boolean;
   dataLoading: boolean;
   profile: UserProfile | null;
@@ -79,6 +88,12 @@ interface AppContextValue {
   selectedHistorySessionId: string | null;
   openHistorySession: (sessionId: string) => void;
   clearSelectedHistorySession: () => void;
+  selectedChatAthleteUid: string | null;
+  openCoachChat: (athleteUid: string) => void;
+  clearSelectedChatAthlete: () => void;
+  pendingJoinCode: string | null;
+  clearPendingJoinCode: () => void;
+  activeOrg: GymOrganization | null;
   allExercises: Exercise[];
   customExercises: Exercise[];
   exerciseNotes: Record<string, ExerciseNote>;
@@ -107,20 +122,50 @@ interface AppContextValue {
   startWorkoutFromTemplate: (workout: WorkoutTemplate, program?: TrainingProgram | null) => Promise<void>;
   startBlankWorkout: () => Promise<void>;
   refreshAuthUser: () => Promise<void>;
+  enterLocalDeviceMode: (displayName?: string) => void;
   signOutUser: () => Promise<void>;
 }
 
 const AppContext = createContext<AppContextValue | undefined>(undefined);
 
+function readInitialJoinCode(): string | null {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get('join');
+    if (raw) {
+      const clean = raw.trim().toUpperCase().replace(/[^A-Z0-9-]/g, '');
+      if (clean.length >= 4 && clean.length <= 32) {
+        sessionStorage.setItem('apex_pending_join_code', clean);
+        params.delete('join');
+        const nextSearch = params.toString();
+        const nextUrl = `${window.location.pathname}${nextSearch ? `?${nextSearch}` : ''}${window.location.hash}`;
+        window.history.replaceState({}, '', nextUrl);
+        return clean;
+      }
+    }
+    const stored = sessionStorage.getItem('apex_pending_join_code');
+    return stored || null;
+  } catch {
+    return null;
+  }
+}
+
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
+  const [rawFirebaseUser, setRawFirebaseUser] = useState<User | null>(null);
+  const [localDeviceMode, setLocalDeviceMode] = useState<boolean>(() => isLocalDeviceModeEnabled());
+  const [authRefreshTick, setAuthRefreshTick] = useState(0);
   const [authReady, setAuthReady] = useState(false);
   const [dataLoading, setDataLoading] = useState(false);
 
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [guestLang, setGuestLang] = useState<Language>(() => {
     try {
-      return (localStorage.getItem('ironlog_lang') as Language) === 'ar' ? 'ar' : 'en';
+      const stored = localStorage.getItem('ironlog_lang');
+      if (stored === 'ar' || stored === 'en') return stored;
+      if (typeof navigator !== 'undefined' && navigator.language?.toLowerCase().startsWith('ar')) {
+        return 'ar';
+      }
+      return 'en';
     } catch {
       return 'en';
     }
@@ -136,6 +181,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeSection, setActiveSectionState] = useState<AppSection>('dashboard');
   const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(null);
   const [selectedHistorySessionId, setSelectedHistorySessionId] = useState<string | null>(null);
+  const [selectedChatAthleteUid, setSelectedChatAthleteUid] = useState<string | null>(null);
+  const [pendingJoinCode, setPendingJoinCode] = useState<string | null>(() => readInitialJoinCode());
 
   const setActiveSection = useCallback((section: AppSection) => {
     if (section === 'exercises') {
@@ -160,12 +207,28 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [athleteCoachLinks, setAthleteCoachLinks] = useState<CoachingLink[]>([]);
   const [coachAssignments, setCoachAssignments] = useState<CoachAssignment[]>([]);
   const [coachMessages, setCoachMessages] = useState<CoachMessage[]>([]);
+  const [orgs, setOrgs] = useState<GymOrganization[]>([]);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
   const language: Language = profile?.language ?? guestLang;
   const theme: ThemeMode = profile?.theme ?? guestTheme;
   const unit: WeightUnit = profile?.unit ?? 'kg';
   const t = language === 'ar' ? TRANSLATIONS.ar : TRANSLATIONS.en;
+
+  const isLocalDeviceMode = !rawFirebaseUser && localDeviceMode;
+
+  const firebaseUser: User | null = useMemo(() => {
+    if (rawFirebaseUser) return rawFirebaseUser;
+    if (localDeviceMode) {
+      return {
+        uid: LOCAL_DEVICE_UID,
+        displayName: guestLang === 'ar' ? 'بطل APEX' : 'APEX Athlete',
+        email: '',
+        emailVerified: true,
+      } as unknown as User;
+    }
+    return null;
+  }, [rawFirebaseUser, localDeviceMode, guestLang]);
 
   const isAdmin =
     firebaseUser?.email?.toLowerCase() === 'abdulhamidraghad093@gmail.com' ||
@@ -199,12 +262,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, [theme, language]);
 
-  // Listen to Firebase Auth state
+  // Listen to Firebase Auth & ID token refreshes
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
-      setFirebaseUser(user);
+    const unsub = onIdTokenChanged(auth, (user) => {
+      setRawFirebaseUser(user);
+      if (user) {
+        setLocalDeviceModeEnabled(false);
+        setLocalDeviceMode(false);
+      }
       setAuthReady(true);
-      if (!user) {
+      if (!user && !isLocalDeviceModeEnabled()) {
         setProfile(null);
         setCustomExercises([]);
         setExerciseNotesList([]);
@@ -222,6 +289,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setAthleteCoachLinks([]);
         setCoachAssignments([]);
         setCoachMessages([]);
+        setOrgs([]);
       }
     });
     return () => unsub();
@@ -238,7 +306,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setDataLoading(true);
     const uid = firebaseUser.uid;
 
-    // Immediately restore local cached profile & active session while Firestore syncs
     const cachedProfile = loadCachedProfile(uid);
     if (cachedProfile) {
       setProfile(cachedProfile);
@@ -297,7 +364,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                 setActiveSession(cached);
                 if (navigator.onLine) {
                   createActiveSession(uid, cached).catch(() => {
-                    // Keep local recovery intact if still offline
+                    // Keep local recovery intact
                   });
                 }
               } else {
@@ -334,9 +401,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       cancelled = true;
       unsubs.forEach((u) => u());
     };
-  }, [firebaseUser, firebaseUser?.emailVerified]);
+  }, [firebaseUser, firebaseUser?.emailVerified, authRefreshTick]);
 
-  // Role-specific Coaching & Messaging Subscriptions
+  // Role-specific Coaching, Gym Organization & Messaging Subscriptions
   useEffect(() => {
     if (!firebaseUser || !firebaseUser.emailVerified || !profile) return;
     const uid = firebaseUser.uid;
@@ -353,15 +420,25 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       unsubs.push(subscribeCoachMessages(uid, 'athlete', setCoachMessages));
     }
 
+    if (isAdmin) {
+      unsubs.push(subscribeGymOrganizations(uid, setOrgs));
+    }
+
     return () => {
       unsubs.forEach((u) => u());
     };
-  }, [firebaseUser, firebaseUser?.emailVerified, profile?.uid, userRole]);
+  }, [firebaseUser, firebaseUser?.emailVerified, authRefreshTick, profile?.uid, userRole, isAdmin]);
 
-  const athleteCoachLink = useMemo(
-    () => athleteCoachLinks.find((l) => l.status === 'active') ?? null,
-    [athleteCoachLinks]
-  );
+  const activeOrg = useMemo(() => orgs[0] ?? null, [orgs]);
+
+  const athleteCoachLink = useMemo(() => {
+    if (profile && profile.coachId === '') return null;
+    return (
+      athleteCoachLinks.find(
+        (l) => l.status === 'active' && (!profile?.coachId || l.coachId === profile.coachId)
+      ) ?? null
+    );
+  }, [athleteCoachLinks, profile]);
 
   const allExercises = useMemo(() => [...customExercises, ...BUILTIN_EXERCISES], [customExercises]);
 
@@ -390,12 +467,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return programs.find((p) => p.status === 'active') ?? null;
   }, [programs, profile?.activeProgramId]);
 
-  // Trigger optional daily scheduled workout reminder once per session when active program has a workout today
+  // Trigger optional daily scheduled workout reminder once per session
   useEffect(() => {
     if (!firebaseUser?.emailVerified || !profile || !activeProgram || activeProgram.status !== 'active') return;
     if (!profile.notificationSettings?.programSchedule) return;
 
-    const jsDay = new Date().getDay(); // 0=Sun..6=Sat
+    const jsDay = new Date().getDay();
     const mondayIdx = jsDay === 0 ? 6 : jsDay - 1;
     const todaySchedule = activeProgram.scheduledDays[mondayIdx];
     if (!todaySchedule || todaySchedule.isRestDay || !todaySchedule.workoutName) return;
@@ -439,9 +516,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         return next;
       });
       if (firebaseUser?.emailVerified) {
-        updateUserProfileSettings(firebaseUser.uid, { language: lang }).catch(() => {
-          // Queued locally via offline persistence
-        });
+        updateUserProfileSettings(firebaseUser.uid, { language: lang }).catch(() => {});
       }
     },
     [firebaseUser]
@@ -457,9 +532,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         return next;
       });
       if (firebaseUser?.emailVerified) {
-        updateUserProfileSettings(firebaseUser.uid, { theme: nextTheme }).catch(() => {
-          // Queued locally via offline persistence
-        });
+        updateUserProfileSettings(firebaseUser.uid, { theme: nextTheme }).catch(() => {});
       }
     },
     [firebaseUser]
@@ -474,9 +547,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         return next;
       });
       if (firebaseUser?.emailVerified) {
-        updateUserProfileSettings(firebaseUser.uid, { unit: nextUnit }).catch(() => {
-          // Queued locally via offline persistence
-        });
+        updateUserProfileSettings(firebaseUser.uid, { unit: nextUnit }).catch(() => {});
       }
     },
     [firebaseUser]
@@ -509,6 +580,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const clearSelectedHistorySession = useCallback(() => {
     setSelectedHistorySessionId(null);
+  }, []);
+
+  const openCoachChat = useCallback((athleteUid: string) => {
+    setSelectedChatAthleteUid(athleteUid);
+    setActiveSectionState('messaging');
+  }, []);
+
+  const clearSelectedChatAthlete = useCallback(() => {
+    setSelectedChatAthleteUid(null);
+  }, []);
+
+  const clearPendingJoinCode = useCallback(() => {
+    setPendingJoinCode(null);
+    try {
+      sessionStorage.removeItem('apex_pending_join_code');
+    } catch {
+      // ignore
+    }
   }, []);
 
   const startWorkoutFromTemplate = useCallback(
@@ -637,12 +726,50 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const refreshAuthUser = useCallback(async () => {
     if (auth.currentUser) {
       await auth.currentUser.reload();
-      setFirebaseUser({ ...auth.currentUser } as User);
+      await auth.currentUser.getIdToken(true);
+      setRawFirebaseUser(auth.currentUser);
+      setAuthRefreshTick((n) => n + 1);
     }
   }, []);
 
+  const enterLocalDeviceMode = useCallback(
+    (displayName?: string) => {
+      localEnsureUserProfile(displayName || '', {
+        language: guestLang,
+        theme: guestTheme,
+        unit: 'kg',
+      });
+      setLocalDeviceModeEnabled(true);
+      setLocalDeviceMode(true);
+      setAuthReady(true);
+    },
+    [guestLang, guestTheme]
+  );
+
   const signOutUser = useCallback(async () => {
-    await signOut(auth);
+    if (auth.currentUser) {
+      await signOut(auth);
+    }
+    setLocalDeviceModeEnabled(false);
+    setLocalDeviceMode(false);
+    setProfile(null);
+    setCustomExercises([]);
+    setExerciseNotesList([]);
+    setWorkouts([]);
+    setPrograms([]);
+    setActiveSession(null);
+    setSessions([]);
+    setPrList([]);
+    setGoals([]);
+    setMeasurements([]);
+    setMacros([]);
+    setReminders([]);
+    setCoachGroups([]);
+    setCoachRoster([]);
+    setAthleteCoachLinks([]);
+    setCoachAssignments([]);
+    setCoachMessages([]);
+    setOrgs([]);
   }, []);
 
   const switchRole = useCallback(
@@ -660,6 +787,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const value: AppContextValue = {
     firebaseUser,
+    isLocalDeviceMode,
     authReady,
     dataLoading,
     profile,
@@ -679,6 +807,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     selectedHistorySessionId,
     openHistorySession,
     clearSelectedHistorySession,
+    selectedChatAthleteUid,
+    openCoachChat,
+    clearSelectedChatAthlete,
+    pendingJoinCode,
+    clearPendingJoinCode,
+    activeOrg,
     allExercises,
     customExercises,
     exerciseNotes,
@@ -707,6 +841,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     startWorkoutFromTemplate,
     startBlankWorkout,
     refreshAuthUser,
+    enterLocalDeviceMode,
     signOutUser,
   };
 

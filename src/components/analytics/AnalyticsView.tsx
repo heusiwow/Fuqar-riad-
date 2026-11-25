@@ -258,18 +258,27 @@ export const AnalyticsView: React.FC = () => {
 
   const handleToggleGoalStatus = async (g: PerformanceGoal) => {
     if (!firebaseUser) return;
-    await savePerformanceGoal(
-      firebaseUser.uid,
-      { ...g, status: g.status === 'achieved' ? 'active' : 'achieved' },
-      true,
-      profile?.coachId
-    );
+    try {
+      await savePerformanceGoal(
+        firebaseUser.uid,
+        { ...g, status: g.status === 'achieved' ? 'active' : 'achieved' },
+        true,
+        profile?.coachId
+      );
+      showToast(t.common.savedSuccess);
+    } catch {
+      showToast(t.common.errorGeneric, 'error');
+    }
   };
 
   const handleDeleteGoal = async (goalId: string) => {
     if (!firebaseUser) return;
-    await deletePerformanceGoal(firebaseUser.uid, goalId);
-    showToast(t.common.savedSuccess);
+    try {
+      await deletePerformanceGoal(firebaseUser.uid, goalId);
+      showToast(t.common.savedSuccess);
+    } catch {
+      showToast(t.common.errorGeneric, 'error');
+    }
   };
 
   const heatmapMuscles = useMemo(() => {

@@ -88,7 +88,8 @@ export const PhilosophiesView: React.FC = () => {
                 itemId: generateSafeId(`item${i}`),
               })),
             },
-            false
+            false,
+            profile?.coachId
           );
           return { dayIndex: w.dayIndex, workoutId: wId, workoutName: w.name };
         })
@@ -131,7 +132,8 @@ export const PhilosophiesView: React.FC = () => {
           completedSessions: 0,
           startDate: new Date().toISOString().slice(0, 10),
         },
-        false
+        false,
+        profile?.coachId
       );
 
       await setActiveProgramId(firebaseUser.uid, pId);

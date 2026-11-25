@@ -435,7 +435,14 @@ export const ProgressView: React.FC = () => {
                       </div>
                       {firebaseUser && (
                         <button
-                          onClick={() => deleteBodyMeasurement(firebaseUser.uid, m)}
+                          onClick={async () => {
+                            try {
+                              await deleteBodyMeasurement(firebaseUser.uid, m);
+                              showToast(t.common.savedSuccess);
+                            } catch {
+                              showToast(t.common.errorGeneric, 'error');
+                            }
+                          }}
                           className="p-1.5 rounded-lg text-neutral-400 hover:text-red-500 cursor-pointer shrink-0"
                           aria-label={t.common.delete}
                         >
@@ -569,7 +576,14 @@ export const ProgressView: React.FC = () => {
                       </div>
                       {firebaseUser && (
                         <button
-                          onClick={() => deleteManualMacroLog(firebaseUser.uid, m.dateKey)}
+                          onClick={async () => {
+                            try {
+                              await deleteManualMacroLog(firebaseUser.uid, m.dateKey);
+                              showToast(t.common.savedSuccess);
+                            } catch {
+                              showToast(t.common.errorGeneric, 'error');
+                            }
+                          }}
                           className="p-1.5 rounded-lg text-neutral-400 hover:text-red-500 cursor-pointer shrink-0"
                           aria-label={t.common.delete}
                         >

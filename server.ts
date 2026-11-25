@@ -47,6 +47,12 @@ async function startServer() {
     return null;
   };
 
+  const DEFAULT_REMOTE_APK_URL =
+    'https://github.com/heusiwow/Fuqar-riad-/releases/download/latest-apk/APEX.apk';
+
+  const getRemoteApkUrl = () =>
+    (process.env.ANDROID_APK_URL || process.env.VITE_ANDROID_APK_URL || DEFAULT_REMOTE_APK_URL).trim();
+
   app.get('/api/apk-status', (_req, res) => {
     const localApk = findLocalApkPath();
     if (localApk) {
@@ -58,11 +64,11 @@ async function startServer() {
       });
       return;
     }
-    const remoteUrl = (process.env.ANDROID_APK_URL || process.env.VITE_ANDROID_APK_URL || '').trim();
+    const remoteUrl = getRemoteApkUrl();
     if (remoteUrl) {
       res.json({
         available: true,
-        url: remoteUrl,
+        url: '/downloads/APEX.apk',
         sizeBytes: null,
       });
       return;
@@ -82,7 +88,7 @@ async function startServer() {
       res.sendFile(localApk);
       return;
     }
-    const remoteUrl = (process.env.ANDROID_APK_URL || process.env.VITE_ANDROID_APK_URL || '').trim();
+    const remoteUrl = getRemoteApkUrl();
     if (remoteUrl) {
       res.redirect(302, remoteUrl);
       return;
