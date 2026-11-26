@@ -198,7 +198,7 @@ export const ExerciseVideoViewer: React.FC<ExerciseVideoViewerProps> = ({
     setIsCachedOffline(ok);
     setCachingOffline(false);
     if (ok) {
-      showToast(language === 'ar' ? 'تم حفظ الفيديو للعمل بدون إنترنت' : 'Video saved for offline playback');
+      showToast(language === 'ar' ? 'تم حفظ الفيديو للعمل دون إنترنت' : 'Video saved for offline playback');
     } else {
       showToast(t.common.errorGeneric, 'error');
     }
@@ -220,7 +220,7 @@ export const ExerciseVideoViewer: React.FC<ExerciseVideoViewerProps> = ({
       setIsCachedOffline(true);
       showToast(
         language === 'ar'
-          ? 'تم حفظ الفيديو محلياً وسيعمل دائماً بدون نت'
+          ? 'تم حفظ الفيديو محلياً وسيعمل دائماً دون إنترنت'
           : 'Video saved locally for 100% offline playback'
       );
     } catch {
@@ -241,9 +241,9 @@ export const ExerciseVideoViewer: React.FC<ExerciseVideoViewerProps> = ({
   };
 
   const schoolTabs: { id: TrainingSchoolId; labelEn: string; labelAr: string }[] = [
-    { id: 'general', labelEn: 'Core Form', labelAr: 'الأساسي المختصر' },
+    { id: 'general', labelEn: 'Core Form', labelAr: 'الدليل الأساسي' },
     { id: 'modern', labelEn: 'Modern Science', labelAr: 'المدرسة العلمية' },
-    { id: 'old_school', labelEn: 'Old School', labelAr: 'المدرسة القديمة' },
+    { id: 'old_school', labelEn: 'Old School', labelAr: 'المدرسة الكلاسيكية' },
   ];
 
   const exerciseTitle = language === 'ar' ? exercise.nameAr : exercise.nameEn;
@@ -305,7 +305,7 @@ export const ExerciseVideoViewer: React.FC<ExerciseVideoViewerProps> = ({
               {isCachedOffline ? (
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-black/75 backdrop-blur-xs border border-emerald-500/40 text-emerald-300 text-[10px] font-semibold">
                   <CheckCircle2 className="w-3 h-3 shrink-0" />
-                  {language === 'ar' ? 'يعمل بدون نت' : 'Offline Ready'}
+                  {language === 'ar' ? 'متاح دون اتصال' : 'Offline Ready'}
                 </span>
               ) : (
                 <button
@@ -320,7 +320,7 @@ export const ExerciseVideoViewer: React.FC<ExerciseVideoViewerProps> = ({
                       ? 'جارٍ الحفظ...'
                       : 'Caching...'
                     : language === 'ar'
-                      ? 'حفظ للأوفلاين'
+                      ? 'حفظ للعمل دون اتصال'
                       : 'Save Offline'}
                 </button>
               )}
@@ -430,7 +430,7 @@ export const ExerciseVideoViewer: React.FC<ExerciseVideoViewerProps> = ({
             <div className="absolute top-2.5 start-2.5 flex items-center gap-1.5 pointer-events-none">
               <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-black/75 backdrop-blur-xs border border-emerald-500/40 text-emerald-300 text-[10px] font-semibold">
                 <CheckCircle2 className="w-3 h-3 shrink-0" />
-                {language === 'ar' ? 'دليل 3 خطوات · أوفلاين' : '3-Step Guide · Offline'}
+                {language === 'ar' ? 'دليل ٣ خطوات · متاح دون اتصال' : '3-Step Guide · Offline'}
               </span>
             </div>
 
@@ -519,7 +519,7 @@ export const ExerciseVideoViewer: React.FC<ExerciseVideoViewerProps> = ({
             <span className="text-[11px] text-neutral-500 dark:text-neutral-400 inline-flex items-center gap-1.5">
               <Film className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
               {language === 'ar'
-                ? 'يمكنك إرفاق فيديو خاص من جهازك للعمل بدون نت'
+                ? 'يمكنك إرفاق فيديو خاص من جهازك للعمل دون إنترنت'
                 : 'Optionally attach a local MP4 clip anytime'}
             </span>
             <button
@@ -580,7 +580,7 @@ export const ExerciseVideoViewer: React.FC<ExerciseVideoViewerProps> = ({
           <div className="rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 p-3 space-y-2">
             <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
               <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-              <span>{language === 'ar' ? '3 نصائح مهمة' : '3 Key Tips'}</span>
+              <span>{language === 'ar' ? '٣ نصائح مهمة' : '3 Key Tips'}</span>
             </div>
             <ul className="space-y-1.5 text-[11px] text-neutral-700 dark:text-neutral-300">
               {(language === 'ar' ? quickGuide.tipsAr : quickGuide.tipsEn).map((tip, idx) => (
@@ -597,7 +597,7 @@ export const ExerciseVideoViewer: React.FC<ExerciseVideoViewerProps> = ({
           <div className="rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 p-3 space-y-2">
             <div className="flex items-center gap-1.5 text-xs font-semibold text-amber-600 dark:text-amber-400">
               <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
-              <span>{language === 'ar' ? '3 أشياء تبتعد عنها' : '3 Things to Avoid'}</span>
+              <span>{language === 'ar' ? '٣ أخطاء ينبغي تجنبها' : '3 Things to Avoid'}</span>
             </div>
             <ul className="space-y-1.5 text-[11px] text-neutral-700 dark:text-neutral-300">
               {(language === 'ar' ? quickGuide.avoidAr : quickGuide.avoidEn).map((item, idx) => (
@@ -628,7 +628,7 @@ export const ExerciseVideoViewer: React.FC<ExerciseVideoViewerProps> = ({
                 <h3 className="text-sm font-semibold text-white truncate">{exerciseTitle}</h3>
                 <p className="text-[11px] text-neutral-400">
                   {language === 'ar'
-                    ? 'دليل الأداء المصور من 3 خطوات'
+                    ? 'دليل الأداء المصور من ٣ خطوات'
                     : '3-Step Execution Visual Guide'}
                 </p>
               </div>

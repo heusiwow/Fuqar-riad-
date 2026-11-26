@@ -12,7 +12,7 @@ import { getLocalDateKey, toDisplayWeight, toStorageKg } from '../../utils/calcu
 import { TrendLineChart } from '../common/Charts';
 
 export const ProgressView: React.FC = () => {
-  const { firebaseUser, language, unit, t, measurements, macros, showToast } = useApp();
+  const { firebaseUser, profile, language, unit, t, measurements, macros, showToast } = useApp();
 
   const [tab, setTab] = useState<'measurements' | 'macros'>('measurements');
 
@@ -92,13 +92,13 @@ export const ProgressView: React.FC = () => {
     };
 
     try {
-      await saveBodyMeasurement(firebaseUser.uid, payload, photoFile);
+      await saveBodyMeasurement(firebaseUser.uid, payload, photoFile, profile?.coachId);
       resetForm();
       showToast(t.common.savedSuccess);
     } catch {
       if (photoFile) {
         try {
-          await saveBodyMeasurement(firebaseUser.uid, payload, null);
+          await saveBodyMeasurement(firebaseUser.uid, payload, null, profile?.coachId);
           resetForm();
           showToast(t.progress.photoUploadFailedFallback, 'info');
           return;

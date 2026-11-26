@@ -18,7 +18,14 @@ import {
   PHILOSOPHY_COMPARISON_MATRIX,
   buildSystemProgram,
 } from '../../data/trainingPhilosophies';
-import { EQUIPMENT_LABELS, GOAL_LABELS, SPLIT_LABELS, WEEKDAYS, tLabel } from '../../i18n/translations';
+import {
+  EQUIPMENT_LABELS,
+  formatArabicCount,
+  GOAL_LABELS,
+  SPLIT_LABELS,
+  WEEKDAYS,
+  tLabel,
+} from '../../i18n/translations';
 import {
   generateSafeId,
   saveTrainingProgram,
@@ -108,7 +115,7 @@ export const PhilosophiesView: React.FC = () => {
       });
 
       const originNote = isAr
-        ? `مبني بواسطة منشئ الأنظمة (${philosophy === 'hybrid' ? 'هجين' : philosophy === 'old_school' ? 'المدرسة القديمة' : 'علمي حديث'}) — ${daysPerWeek} أيام أسبوعياً`
+        ? `مبني بواسطة منشئ الأنظمة (${philosophy === 'hybrid' ? 'هجين' : philosophy === 'old_school' ? 'المدرسة الكلاسيكية' : 'علمي حديث'}) — ${formatArabicCount(daysPerWeek, 'يوم', 'يومان', 'أيام', 'يوماً')} أسبوعياً`
         : `Generated via APEX ${philosophy.replace('_', ' ')} system builder (${daysPerWeek} days/wk)`;
 
       await saveTrainingProgram(
@@ -271,7 +278,7 @@ export const PhilosophiesView: React.FC = () => {
             <ShieldAlert className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
               {isAr
-                ? 'تحترم المدرسة القديمة التمارين الحرة الأساسية، الانضباط وتدوين السجلات عبر السنوات، والاتصال الذهني العضلي. لا تروّج APEX لرفع الأوزان بأداء عشوائي أو التمرين مع الألم الحاد.'
+                ? 'تحترم المدرسة الكلاسيكية التمارين الحرة الأساسية، والانضباط وتدوين السجلات عبر السنوات، والاتصال الذهني العضلي. لا تروّج APEX لرفع الأوزان بأداء عشوائي أو التمرين مع الألم الحاد.'
                 : 'Classic bodybuilding and strength culture prized foundational compound lifts, relentless logbook tracking, controlled reps, and balanced physiques—presented here with safety boundaries and modern evidence context.'}
             </p>
           </div>
@@ -359,7 +366,7 @@ export const PhilosophiesView: React.FC = () => {
           <div className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 sm:p-5">
             <p className="text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
               {isAr
-                ? 'المدرستان ليستا عدوتين؛ البرنامج الذكي يجمع بين بساطة وانضباط المدرسة القديمة في التمارين المركبة والالتزام، مع الضبط العلمي الحديث للحجم التدريبي والاستشفاء ومؤشرات RIR.'
+                ? 'المدرستان ليستا عدوتين؛ فالبرنامج الذكي يجمع بين بساطة المدرسة الكلاسيكية وانضباطها في التمارين المركبة والالتزام، مع الضبط العلمي الحديث للحجم التدريبي والاستشفاء ومؤشرات RIR.'
                 : 'Evidence-based training and Old School culture are not enemies. The strongest long-term programs combine Old School compound discipline and consistency with Modern Science volume, recovery, and autoregulation limits.'}
             </p>
           </div>
@@ -483,7 +490,7 @@ export const PhilosophiesView: React.FC = () => {
                 >
                   {[2, 3, 4, 5, 6].map((d) => (
                     <option key={d} value={d}>
-                      {d} {isAr ? 'أيام / أسبوع' : 'days / week'}
+                      {isAr ? `${formatArabicCount(d, 'يوم', 'يومان', 'أيام', 'يوماً')} / أسبوع` : `${d} days / week`}
                     </option>
                   ))}
                 </select>
@@ -531,8 +538,10 @@ export const PhilosophiesView: React.FC = () => {
                 <p className="text-xs text-neutral-500">
                   {tLabel(SPLIT_LABELS[generated.splitType], language)} ·{' '}
                   <span className="tabular-nums">
-                    {generated.weeklyFrequency}×/{isAr ? 'أسبوع' : 'wk'} · {generated.durationWeeks}{' '}
-                    {isAr ? 'أسابيع' : 'wks'}
+                    {generated.weeklyFrequency}×/{isAr ? 'أسبوع' : 'wk'} ·{' '}
+                    {isAr
+                      ? formatArabicCount(generated.durationWeeks, 'أسبوع', 'أسبوعان', 'أسابيع', 'أسبوعاً')
+                      : `${generated.durationWeeks} wks`}
                   </span>
                 </p>
               </div>
@@ -580,7 +589,8 @@ export const PhilosophiesView: React.FC = () => {
                             {isAr ? ex.exerciseNameAr : ex.exerciseNameEn}
                           </span>
                           <span className="font-mono text-neutral-500 tabular-nums">
-                            {ex.sets} × {ex.targetRepsMin}–{ex.targetRepsMax} · RPE {ex.targetRpe ?? 8} · {ex.restSeconds}s
+                            {ex.sets} × {ex.targetRepsMin}–{ex.targetRepsMax} · RPE {ex.targetRpe ?? 8} · {ex.restSeconds}
+                            {isAr ? ' ث' : 's'}
                           </span>
                         </div>
                       ))}

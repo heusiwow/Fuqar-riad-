@@ -14,6 +14,7 @@ import { CoachDashboardView } from './components/coach/CoachDashboardView';
 import { MessagingView } from './components/messaging/MessagingView';
 import { GymAdminView } from './components/admin/GymAdminView';
 import { PhilosophiesView } from './components/philosophies/PhilosophiesView';
+import { RoleOnboardingScreen } from './components/auth/RoleOnboardingScreen';
 import { AppShell } from './components/layout/AppShell';
 import { AppProvider, useApp } from './context/AppContext';
 
@@ -69,7 +70,7 @@ class ErrorBoundary extends Component<
 }
 
 const IronlogRouter: React.FC = () => {
-  const { firebaseUser, authReady, activeSection } = useApp();
+  const { firebaseUser, authReady, dataLoading, profile, needsRoleOnboarding, activeSection } = useApp();
 
   if (!authReady) {
     return (
@@ -81,6 +82,18 @@ const IronlogRouter: React.FC = () => {
 
   if (!firebaseUser || !firebaseUser.emailVerified) {
     return <AuthScreen />;
+  }
+
+  if (dataLoading && !profile) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-[#090A0B] text-neutral-500 text-sm font-display font-bold tracking-widest">
+        APEX
+      </div>
+    );
+  }
+
+  if (needsRoleOnboarding) {
+    return <RoleOnboardingScreen />;
   }
 
   const renderSection = () => {

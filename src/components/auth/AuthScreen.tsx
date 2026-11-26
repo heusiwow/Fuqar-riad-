@@ -267,7 +267,7 @@ export const AuthScreen: React.FC = () => {
           {
             icon: CalendarRange,
             title: 'بناء البرامج والتقسيمات التدريبية',
-            desc: 'صمّم جداول Push / Pull / Legs أو Upper / Lower أو تقسيمتك الخاصة مع توزيع الأيام الأسبوعي.',
+            desc: 'صمّم جداول الدفع والسحب والأرجل، أو الجزء العلوي والسفلي، أو تقسيمتك الخاصة مع توزيع الأيام الأسبوعي.',
           },
           {
             icon: Activity,
@@ -387,7 +387,7 @@ export const AuthScreen: React.FC = () => {
               {!isOnline && (
                 <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/35 text-xs text-amber-700 dark:text-amber-300 leading-relaxed">
                   {language === 'ar'
-                    ? 'الاتصال بالإنترنت غير متاح حالياً. تسجيل الدخول لأول مرة يتطلب شبكة، وبعدها يعمل التطبيق بكامله أوفلاين.'
+                    ? 'الاتصال بالإنترنت غير متاح حالياً. يتطلب تسجيل الدخول لأول مرة اتصالاً بالشبكة، وبعدها يعمل التطبيق كاملاً دون اتصال.'
                     : 'Currently offline. Signing in for the first time requires internet; once signed in, the app works fully offline.'}
                 </div>
               )}
@@ -402,13 +402,13 @@ export const AuthScreen: React.FC = () => {
               <Smartphone className="w-4 h-4 shrink-0" />
               <span>
                 {language === 'ar'
-                  ? 'الدخول الفوري على الجهاز (بدون حساب / أوفلاين)'
+                  ? 'الدخول الفوري على الجهاز (دون حساب ودون اتصال)'
                   : 'Start Now on This Device (Offline / No Account)'}
               </span>
             </button>
             <p className="text-[11px] text-neutral-700 dark:text-neutral-300 leading-relaxed text-center">
               {language === 'ar'
-                ? 'يعمل فوراً بدون تسجيل دخول أو إنترنت، مع حفظ التمارين والجداول والسجلات على هاتفك.'
+                ? 'يعمل فوراً دون تسجيل دخول أو إنترنت، مع حفظ التمارين والجداول والسجلات على هاتفك.'
                 : 'Works immediately offline with workouts, guides, and logs saved locally on your device.'}
             </p>
           </div>
@@ -416,7 +416,7 @@ export const AuthScreen: React.FC = () => {
           {isNativeApp ? (
             <div className="p-3 rounded-xl bg-neutral-100 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 text-[11px] text-neutral-600 dark:text-neutral-400 leading-relaxed">
               {language === 'ar'
-                ? 'داخل تطبيق الأندرويد (APK)، سجّل الدخول بالبريد الإلكتروني أدناه للمزامنة السحابية بين المدرب واللاعب، أو اضغط الزر الأخضر أعلاه للاستخدام الفوري بدون إنترنت.'
+                ? 'داخل تطبيق أندرويد (APK)، سجّل الدخول بالبريد الإلكتروني أدناه للمزامنة السحابية بين المدرب والمتدرّب، أو اضغط الزر الأخضر أعلاه للاستخدام الفوري دون إنترنت.'
                 : 'Inside the Android APK, use Email & Password below for cloud coach-athlete sync, or tap the green button above for instant offline training.'}
             </div>
           ) : (
@@ -585,7 +585,7 @@ export const AuthScreen: React.FC = () => {
                         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-200 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 text-[11px] font-semibold cursor-pointer"
                       >
                         <Smartphone className="w-3.5 h-3.5" />
-                        {language === 'ar' ? 'الدخول الآن بدون حساب' : 'Use Offline Now'}
+                        {language === 'ar' ? 'الدخول الآن دون حساب' : 'Use Offline Now'}
                       </button>
                     </div>
                   </div>

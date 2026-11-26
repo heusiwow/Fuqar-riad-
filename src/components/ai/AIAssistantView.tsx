@@ -12,7 +12,14 @@ import {
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { useOnlineStatus } from '../../hooks/usePWAInstall';
-import { DIFFICULTY_LABELS, EQUIPMENT_LABELS, GOAL_LABELS, SPLIT_LABELS, tLabel } from '../../i18n/translations';
+import {
+  DIFFICULTY_LABELS,
+  EQUIPMENT_LABELS,
+  formatArabicCount,
+  GOAL_LABELS,
+  SPLIT_LABELS,
+  tLabel,
+} from '../../i18n/translations';
 import {
   generateSafeId,
   saveTrainingProgram,
@@ -232,7 +239,7 @@ export const AIAssistantView: React.FC = () => {
     if (!isOnline) {
       showToast(
         language === 'ar'
-          ? 'المساعد الذكي يحتاج اتصالاً بالإنترنت. جميع التمارين والبرامج والتسجيل الحر تعمل أوفلاين.'
+          ? 'المساعد الذكي يحتاج إلى اتصال بالإنترنت. جميع التمارين والبرامج والتسجيل الحر تعمل بالكامل دون اتصال.'
           : 'AI Assistant requires an internet connection. Exercises, programs, and live tracking remain fully offline.',
         'info'
       );
@@ -416,7 +423,7 @@ export const AIAssistantView: React.FC = () => {
           philosophy: genPhilosophy,
           originNote:
             language === 'ar'
-              ? `تم توليده بالمدرب الذكي (${genPhilosophy === 'hybrid' ? 'هجين' : genPhilosophy === 'old_school' ? 'المدرسة القديمة' : 'علمي حديث'})`
+              ? `تم توليده بالمدرب الذكي (${genPhilosophy === 'hybrid' ? 'هجين' : genPhilosophy === 'old_school' ? 'المدرسة الكلاسيكية' : 'علمي حديث'})`
               : `AI-designed draft (${genPhilosophy.replace('_', ' ')})`,
           scheduledDays,
           completedSessions: 0,
@@ -679,7 +686,7 @@ export const AIAssistantView: React.FC = () => {
           <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
           <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
             {language === 'ar'
-              ? 'أنت الآن في وضع عدم الاتصال: ميزة المحادثة وتوليد البرامج بالذكاء الاصطناعي تحتاج إنترنت، بينما مكتبة التمارين والصور والفيديوهات وتسجيل التمارين تعمل بالكامل بدون نت.'
+              ? 'أنت الآن في وضع عدم الاتصال: ميزة المحادثة وتوليد البرامج بالذكاء الاصطناعي تتطلب اتصالاً بالإنترنت، بينما مكتبة التمارين والصور الإيضاحية ومقاطع الفيديو المحفوظة وتسجيل التمارين تعمل بالكامل دون اتصال.'
               : 'You are currently offline: AI generation requires an internet connection, while your exercise library, illustrated guides, saved videos, programs, and live workout logging work 100% offline.'}
           </p>
         </div>
@@ -1043,8 +1050,9 @@ export const AIAssistantView: React.FC = () => {
                   />
                   <p className="text-xs text-neutral-500 mt-1">
                     {tLabel(SPLIT_LABELS[programDraft.splitType] || SPLIT_LABELS.custom, language)} ·{' '}
-                    {programDraft.weeklyFrequency} {language === 'ar' ? 'أيام/أسبوع' : 'd/wk'} ·{' '}
-                    {programDraft.durationWeeks} {language === 'ar' ? 'أسبوع' : 'w'}
+                    {language === 'ar'
+                      ? `${formatArabicCount(programDraft.weeklyFrequency, 'يوم', 'يومان', 'أيام', 'يوماً')}/أسبوع · ${formatArabicCount(programDraft.durationWeeks, 'أسبوع', 'أسبوعان', 'أسابيع', 'أسبوعاً')}`
+                      : `${programDraft.weeklyFrequency} d/wk · ${programDraft.durationWeeks} w`}
                   </p>
                 </div>
                 <button
@@ -1189,7 +1197,7 @@ export const AIAssistantView: React.FC = () => {
               <h2 className="text-base font-semibold">{t.apex.aiAnalysisTab}</h2>
               <p className="text-xs text-neutral-500">
                 {language === 'ar'
-                  ? `سيتم التحليل اعتماداً على ${sessions.length} جلسة مسجلة فقط.`
+                  ? `سيتم التحليل اعتماداً على ${formatArabicCount(sessions.length, 'جلسة مسجلة', 'جلستين مسجلتين', 'جلسات مسجلة', 'جلسة مسجلة')} فقط.`
                   : `Analysis strictly grounded in your ${sessions.length} recorded workout sessions.`}
               </p>
             </div>

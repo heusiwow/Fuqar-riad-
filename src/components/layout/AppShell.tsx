@@ -457,8 +457,10 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                             {language === 'ar' ? ex.nameAr : ex.nameEn}
                           </p>
                           <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate">
-                            {ex.primaryMuscles.map((m) => tLabel(MUSCLE_LABELS[m], language)).join(', ')} ·{' '}
-                            {tLabel(EQUIPMENT_LABELS[ex.equipment], language)}
+                            {ex.primaryMuscles
+                              .map((m) => tLabel(MUSCLE_LABELS[m], language))
+                              .join(language === 'ar' ? '، ' : ', ')}{' '}
+                            · {tLabel(EQUIPMENT_LABELS[ex.equipment], language)}
                           </p>
                         </div>
                       </button>
@@ -555,13 +557,32 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                     }`}
                   >
                     <div className="flex items-start justify-between gap-2">
-                      <div className="space-y-1 min-w-0">
+                      <div className="space-y-1 min-w-0 flex-1">
                         <p className="text-sm font-medium">
                           {language === 'ar' ? rem.titleAr : rem.titleEn}
                         </p>
                         <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
                           {language === 'ar' ? rem.messageAr : rem.messageEn}
                         </p>
+                        {(rem.type === 'program_change' || rem.type === 'program_schedule') && (
+                          <div className="pt-1.5 flex flex-wrap gap-2">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (!rem.read && firebaseUser) {
+                                  void handleMarkReminderRead(rem.id);
+                                }
+                                setActiveSection(rem.type === 'program_schedule' ? 'live' : 'programs');
+                                setRemindersOpen(false);
+                              }}
+                              className="min-h-[32px] px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-semibold cursor-pointer"
+                            >
+                              {rem.type === 'program_schedule'
+                                ? t.apex.startCourseTodayBtn
+                                : t.apex.viewCourseBtn}
+                            </button>
+                          </div>
+                        )}
                       </div>
                       <div className="flex items-center gap-1 shrink-0">
                         {!rem.read && firebaseUser && (

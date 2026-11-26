@@ -108,7 +108,7 @@ export const InstallGuideModal: React.FC<InstallGuideModalProps> = ({ open, onCl
         await navigator.share({
           title: 'APEX Fitness & Coaching',
           text: isAr
-            ? 'حمّل تطبيق APEX للتمارين والعمل بدون إنترنت:'
+            ? 'حمّل تطبيق APEX للتمارين والعمل دون إنترنت:'
             : 'Download & install APEX Fitness for offline training:',
           url: shareUrl,
         });
@@ -150,7 +150,7 @@ export const InstallGuideModal: React.FC<InstallGuideModalProps> = ({ open, onCl
               </h3>
               <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
                 {isAr
-                  ? 'يعمل كتطبيق مستقل على الشاشة الرئيسية وبدون إنترنت'
+                  ? 'يعمل كتطبيق مستقل على الشاشة الرئيسية ودون إنترنت'
                   : 'Runs standalone from your Home Screen and works offline'}
               </p>
             </div>
@@ -198,7 +198,7 @@ export const InstallGuideModal: React.FC<InstallGuideModalProps> = ({ open, onCl
             </p>
             <p className="text-[11px] text-neutral-600 dark:text-neutral-400 leading-relaxed">
               {isAr
-                ? 'لا يمكن لهذه الصفحة تنزيل ملف APK تلقائياً إلا بعد بنائه عبر GitHub Actions (أو Android Studio) وإرفاقه. يمكنك تثبيت التطبيق كاملاً بدون نت الآن عبر المتصفح بالخطوات أدناه، أو بناء APEX.apk وتفعيله للتحميل المباشر.'
+                ? 'لا يمكن لهذه الصفحة تنزيل ملف APK تلقائياً إلا بعد بنائه عبر GitHub Actions (أو Android Studio) وإرفاقه. يمكنك تثبيت التطبيق كاملاً دون اتصال بالإنترنت الآن عبر المتصفح بالخطوات أدناه، أو بناء APEX.apk وتفعيله للتحميل المباشر.'
                 : 'Direct APK download activates once APEX.apk is built (via GitHub Actions or Android Studio) and hosted. Meanwhile, you can install the full offline standalone app right now using the browser steps below.'}
             </p>
           </div>
@@ -222,7 +222,7 @@ export const InstallGuideModal: React.FC<InstallGuideModalProps> = ({ open, onCl
             }`}
           >
             <Download className="w-4 h-4" />
-            <span>{isAr ? 'تثبيت فوري من المتصفح (بلا ملفات)' : 'Install Instantly via Browser (1-Tap)'}</span>
+            <span>{isAr ? 'تثبيت فوري من المتصفح (دون ملفات)' : 'Install Instantly via Browser (1-Tap)'}</span>
           </button>
         )}
 
@@ -234,7 +234,7 @@ export const InstallGuideModal: React.FC<InstallGuideModalProps> = ({ open, onCl
           />
           <div className="flex-1 space-y-2.5 text-center sm:text-start">
             <p className="text-xs font-bold text-neutral-900 dark:text-neutral-100">
-              {isAr ? 'امسح الكود بكاميرا الهاتف أو أرسل الرابط' : 'Scan with Phone Camera or Share Link'}
+              {isAr ? 'امسح الرمز بكاميرا الهاتف أو أرسل الرابط' : 'Scan with Phone Camera or Share Link'}
             </p>
             <p className="text-[11px] text-neutral-600 dark:text-neutral-400 leading-relaxed">
               {isAr
@@ -325,7 +325,7 @@ export const InstallGuideModal: React.FC<InstallGuideModalProps> = ({ open, onCl
                 </li>
                 <li>
                   {isAr
-                    ? 'اختر «تثبيت التطبيق» (Install app) ليصبح تطبيقاً كاملاً بلا إنترنت على شاشتك.'
+                    ? 'اختر «تثبيت التطبيق» (Install app) ليصبح تطبيقاً كاملاً دون إنترنت على شاشتك.'
                     : 'Select "Install app" or "Add to Home screen" to run standalone offline.'}
                 </li>
               </ol>
@@ -338,7 +338,7 @@ export const InstallGuideModal: React.FC<InstallGuideModalProps> = ({ open, onCl
                 </li>
                 <li>
                   {isAr
-                    ? 'اختر «تثبيت APEX» ليفتح كتطبيق مستقل أوفلاين.'
+                    ? 'اختر «تثبيت APEX» ليفتح كتطبيق مستقل دون اتصال بالإنترنت.'
                     : 'Click "Install APEX" to run as a standalone offline app.'}
                 </li>
               </ol>
@@ -351,10 +351,10 @@ export const InstallGuideModal: React.FC<InstallGuideModalProps> = ({ open, onCl
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
             {offlineReady
               ? isAr
-                ? 'جاهز للعمل بلا نت — التمارين والصور والفيديوهات محفوظة محلياً'
+                ? 'جاهز للعمل دون اتصال بالإنترنت — التمارين والصور والفيديوهات محفوظة محلياً'
                 : 'Ready offline — guides, diagrams & videos cached locally'
               : isAr
-                ? 'جارٍ حفظ ملفات التطبيق للعمل بلا نت...'
+                ? 'جارٍ حفظ ملفات التطبيق للعمل دون اتصال بالإنترنت...'
                 : 'Preparing offline local storage...'}
           </span>
         </div>
@@ -447,11 +447,11 @@ export const SmartInstallBanner: React.FC = () => {
           </div>
           <div className="min-w-0">
             <p className="text-xs sm:text-sm font-bold text-neutral-900 dark:text-neutral-100">
-              {isAr ? 'حمّل تطبيق APEX على جهازك للعمل بدون نت' : 'Get the APEX App on Your Device'}
+              {isAr ? 'حمّل تطبيق APEX على جهازك للعمل دون إنترنت' : 'Get the APEX App on Your Device'}
             </p>
             <p className="text-[11px] text-neutral-600 dark:text-neutral-400 truncate sm:whitespace-normal">
               {isAr
-                ? 'افتحه مباشرة من الشاشة الرئيسية مع التمارين والصور والفيديوهات بلا إنترنت.'
+                ? 'افتحه مباشرة من الشاشة الرئيسية مع التمارين والصور والفيديوهات دون إنترنت.'
                 : 'Launch straight from your Home Screen with exercises, guides, and logs offline.'}
             </p>
           </div>
@@ -537,7 +537,7 @@ export const OfflineAppCard: React.FC = () => {
       setCacheResult(stats);
       showToast(
         isAr
-          ? 'تم تجهيز وتخزين التمارين والصور والفيديوهات للعمل بدون إنترنت'
+          ? 'تم تجهيز وتخزين التمارين والصور والفيديوهات للعمل دون إنترنت'
           : 'Offline cache verified: guides, images, and videos ready offline'
       );
     } catch {
@@ -556,11 +556,11 @@ export const OfflineAppCard: React.FC = () => {
         <div>
           <h2 className="text-base font-semibold flex items-center gap-2">
             <HardDriveDownload className="w-4 h-4 text-emerald-500" />
-            {isAr ? 'تثبيت التطبيق والعمل بدون إنترنت' : 'App Installation & Offline Mode'}
+            {isAr ? 'تثبيت التطبيق والعمل دون إنترنت' : 'App Installation & Offline Mode'}
           </h2>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
             {isAr
-              ? 'ثبّت APEX على الهاتف أو شارك رابط التحميل ورمز QR مع المتدربين للعمل أوفلاين بالكامل.'
+              ? 'ثبّت APEX على الهاتف أو شارك رابط التحميل ورمز QR مع المتدربين للعمل دون اتصال بالإنترنت بالكامل.'
               : 'Install APEX on any device or share the QR code & link with athletes for full offline training.'}
           </p>
         </div>
@@ -593,12 +593,12 @@ export const OfflineAppCard: React.FC = () => {
 
         <div className="p-3 rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 space-y-1">
           <span className="text-[11px] text-neutral-500 block">
-            {isAr ? 'محرك العمل أوفلاين' : 'Offline Cache Engine'}
+            {isAr ? 'محرك العمل دون اتصال' : 'Offline Cache Engine'}
           </span>
           <span className="font-semibold text-emerald-600 dark:text-emerald-400">
             {offlineReady || swRegistered
               ? isAr
-                ? 'نشط — 61 تمريناً وصوراً محفوظة'
+                ? 'نشط — التمارين والصور محفوظة محلياً'
                 : 'Active — Guides & Assets Cached'
               : isAr
                 ? 'نشط عند البناء والإنتاج'
@@ -616,7 +616,7 @@ export const OfflineAppCard: React.FC = () => {
                 ? 'متصل (حفظ محلي + سحابي فوري)'
                 : 'Online (Local + Cloud Sync)'
               : isAr
-                ? 'أوفلاين (يُحفظ محلياً للمزامنة)'
+                ? 'غير متصل (يُحفظ محلياً للمزامنة)'
                 : 'Offline (Queued Locally for Sync)'}
           </span>
         </div>
@@ -654,7 +654,7 @@ export const OfflineAppCard: React.FC = () => {
                 ? 'جارٍ التحقق والتخزين...'
                 : 'Caching offline assets...'
               : isAr
-                ? 'تجهيز وتأكيد الحفظ أوفلاين'
+                ? 'تجهيز وتأكيد الحفظ للعمل دون اتصال'
                 : 'Verify & Cache Offline Bundle'}
           </span>
         </button>

@@ -58,7 +58,7 @@ service cloud.firestore {
     function isValidUserProfile(data, userId) {
       return data.keys().hasAll(['uid', 'displayName', 'language', 'theme', 'unit', 'createdAt', 'updatedAt'])
         && data.keys().hasOnly([
-          'uid', 'displayName', 'role', 'coachId', 'coachName', 'organizationId', 'ageGroup',
+          'uid', 'displayName', 'role', 'roleSelected', 'coachId', 'coachName', 'organizationId', 'ageGroup',
           'language', 'theme', 'unit',
           'heightCm', 'weightKg', 'experienceLevel', 'trainingAgeMonths',
           'weeklyFrequency', 'trainingGoal', 'preferredSplit', 'personalNotes',
@@ -69,6 +69,7 @@ service cloud.firestore {
         && isValidId(data.uid)
         && data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 100
         && (!('role' in data) || data.role in ['athlete', 'coach', 'gym_admin'])
+        && (!('roleSelected' in data) || data.roleSelected is bool)
         && (!('coachId' in data) || (data.coachId is string && data.coachId.size() <= 128))
         && (!('coachName' in data) || (data.coachName is string && data.coachName.size() <= 100))
         && (!('organizationId' in data) || (data.organizationId is string && data.organizationId.size() <= 128))
@@ -323,12 +324,13 @@ service cloud.firestore {
     function isValidBodyMeasurement(data, userId, measurementId) {
       return data.keys().hasAll(['id', 'userId', 'date', 'createdAt'])
         && data.keys().hasOnly([
-          'id', 'userId', 'date', 'bodyWeightKg', 'armCm', 'chestCm',
+          'id', 'userId', 'coachId', 'date', 'bodyWeightKg', 'armCm', 'chestCm',
           'waistCm', 'thighCm', 'customLabel', 'customValue', 'notes',
           'photoPath', 'photoUrl', 'isPrivatePhoto', 'createdAt'
         ])
         && data.id == measurementId && isValidId(data.id)
         && data.userId == userId && isValidId(data.userId)
+        && (!('coachId' in data) || (data.coachId is string && data.coachId.size() <= 128))
         && data.date is string && data.date.size() >= 1 && data.date.size() <= 40
         && (!('bodyWeightKg' in data) || (data.bodyWeightKg is number && data.bodyWeightKg >= 20 && data.bodyWeightKg <= 400))
         && (!('armCm' in data) || (data.armCm is number && data.armCm >= 10 && data.armCm <= 120))
@@ -520,7 +522,7 @@ service cloud.firestore {
         && (!('role' in incoming()) || incoming().role in ['athlete', 'coach'] || isAdmin())
         && (
           incoming().diff(existing()).affectedKeys().hasOnly([
-            'displayName', 'role', 'coachId', 'coachName', 'organizationId', 'ageGroup',
+            'displayName', 'role', 'roleSelected', 'coachId', 'coachName', 'organizationId', 'ageGroup',
             'language', 'theme', 'unit', 'heightCm', 'weightKg', 'experienceLevel',
             'trainingAgeMonths', 'weeklyFrequency', 'trainingGoal', 'preferredSplit',
             'personalNotes', 'notificationSettings', 'updatedAt'
@@ -748,14 +750,20 @@ service cloud.firestore {
 
       // Body Measurements
       match /measurements/{measurementId} {
-        allow get: if isValidId(userId) && isValidId(measurementId) && isOwner(userId);
-        allow list: if isOwner(userId) && resource.data.userId == request.auth.uid;
+        allow get: if isValidId(userId) && isValidId(measurementId) && (isOwner(userId) || isAuthorizedCoach(userId));
+        allow list: if isVerifiedUser() && (resource.data.userId == request.auth.uid || resource.data.coachId == request.auth.uid);
         allow create: if isValidId(userId) && isValidId(measurementId)
           && isOwner(userId)
           && isValidBodyMeasurement(incoming(), userId, measurementId)
           && incoming().createdAt == request.time
           && userExists(userId);
-        allow update: if false;
+        allow update: if isValidId(userId) && isValidId(measurementId)
+          && isOwner(userId)
+          && isValidBodyMeasurement(incoming(), userId, measurementId)
+          && incoming().id == existing().id
+          && incoming().userId == existing().userId
+          && incoming().createdAt == existing().createdAt
+          && incoming().diff(existing()).affectedKeys().hasOnly(['coachId']);
         allow delete: if isValidId(userId) && isValidId(measurementId) && isOwner(userId);
       }
 

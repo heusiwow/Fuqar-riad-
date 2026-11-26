@@ -44,6 +44,7 @@ import {
   WorkoutTemplate,
 } from '../types/ironlog';
 import { evaluatePersonalRecord } from '../utils/calculations';
+import { formatArabicCount } from '../i18n/translations';
 import {
   isLocalDeviceModeEnabled,
   isLocalDeviceUid,
@@ -159,6 +160,7 @@ export async function ensureUserProfile(
           return {
             ...data,
             role: data.role ?? (email.toLowerCase() === 'abdulhamidraghad093@gmail.com' ? 'gym_admin' : 'athlete'),
+            roleSelected: data.roleSelected ?? (email.toLowerCase() === 'abdulhamidraghad093@gmail.com' ? true : false),
             ageGroup: data.ageGroup ?? 'adult',
           };
         }
@@ -176,6 +178,7 @@ export async function ensureUserProfile(
       const hydrated: UserProfile = {
         ...data,
         role: data.role ?? (email.toLowerCase() === 'abdulhamidraghad093@gmail.com' ? 'gym_admin' : 'athlete'),
+        roleSelected: data.roleSelected ?? (email.toLowerCase() === 'abdulhamidraghad093@gmail.com' ? true : false),
         ageGroup: data.ageGroup ?? 'adult',
       };
       saveCachedProfile(uid, hydrated);
@@ -189,6 +192,7 @@ export async function ensureUserProfile(
       uid,
       displayName: safeName,
       role: initialRole,
+      roleSelected: isBootstrapAdmin,
       ageGroup: 'adult',
       language: defaults?.language ?? 'en',
       theme: defaults?.theme ?? 'dark',
@@ -242,6 +246,7 @@ export async function updateUserProfileSettings(
       UserProfile,
       | 'displayName'
       | 'role'
+      | 'roleSelected'
       | 'ageGroup'
       | 'language'
       | 'theme'
@@ -265,6 +270,7 @@ export async function updateUserProfileSettings(
     };
     if (updates.displayName !== undefined) payload.displayName = clampString(updates.displayName, 100) || 'Athlete';
     if (updates.role !== undefined) payload.role = updates.role;
+    if (updates.roleSelected !== undefined) payload.roleSelected = Boolean(updates.roleSelected);
     if (updates.ageGroup !== undefined) payload.ageGroup = updates.ageGroup;
     if (updates.language !== undefined) payload.language = updates.language;
     if (updates.theme !== undefined) payload.theme = updates.theme;
@@ -308,6 +314,7 @@ export async function updateUserProfileSettings(
       const localUpdates: Partial<UserProfile> = {};
       if (updates.displayName !== undefined) localUpdates.displayName = payload.displayName as string;
       if (updates.role !== undefined) localUpdates.role = updates.role;
+      if (updates.roleSelected !== undefined) localUpdates.roleSelected = Boolean(updates.roleSelected);
       if (updates.ageGroup !== undefined) localUpdates.ageGroup = updates.ageGroup;
       if (updates.language !== undefined) localUpdates.language = updates.language;
       if (updates.theme !== undefined) localUpdates.theme = updates.theme;
@@ -888,7 +895,7 @@ export async function completeWorkoutSession(
         titleEn: `Workout completed: ${savedSession.workoutName}`.slice(0, 120),
         titleAr: `تم إتمام التمرين: ${savedSession.workoutName}`.slice(0, 120),
         messageEn: `Logged ${savedSession.totalSets} sets across ${Math.round(savedSession.totalVolumeKg)} kg total volume.`.slice(0, 300),
-        messageAr: `تم تسجيل ${savedSession.totalSets} جولة بإجمالي حجم ${Math.round(savedSession.totalVolumeKg)} كجم.`.slice(0, 300),
+        messageAr: `تم تسجيل ${formatArabicCount(savedSession.totalSets, 'جولة', 'جولتين', 'جولات', 'جولة')} بإجمالي حجم ${Math.round(savedSession.totalVolumeKg)} كجم.`.slice(0, 300),
         read: false,
       });
     }
@@ -903,7 +910,7 @@ export async function completeWorkoutSession(
         titleEn: `New Personal Record (${unlockedPRs.length})`.slice(0, 120),
         titleAr: `رقم قياسي جديد (${unlockedPRs.length})`.slice(0, 120),
         messageEn: `Achieved new personal bests in: ${namesEn}`.slice(0, 300),
-        messageAr: `تحقيق أرقام قياسية جديدة في: ${namesAr}`.slice(0, 300),
+        messageAr: `تم تحقيق أرقام قياسية جديدة في: ${namesAr}`.slice(0, 300),
         read: false,
       });
     }
@@ -995,7 +1002,7 @@ export async function completeWorkoutSession(
         titleEn: `Workout completed: ${savedSession.workoutName}`.slice(0, 120),
         titleAr: `تم إتمام التمرين: ${savedSession.workoutName}`.slice(0, 120),
         messageEn: `Logged ${savedSession.totalSets} sets across ${Math.round(savedSession.totalVolumeKg)} kg total volume.`.slice(0, 300),
-        messageAr: `تم تسجيل ${savedSession.totalSets} جولة بإجمالي حجم ${Math.round(savedSession.totalVolumeKg)} كجم.`.slice(0, 300),
+        messageAr: `تم تسجيل ${formatArabicCount(savedSession.totalSets, 'جولة', 'جولتين', 'جولات', 'جولة')} بإجمالي حجم ${Math.round(savedSession.totalVolumeKg)} كجم.`.slice(0, 300),
         read: false,
         createdAt: serverTimestamp(),
       });
@@ -1012,7 +1019,7 @@ export async function completeWorkoutSession(
         titleEn: `New Personal Record (${unlockedPRs.length})`.slice(0, 120),
         titleAr: `رقم قياسي جديد (${unlockedPRs.length})`.slice(0, 120),
         messageEn: `Achieved new personal bests in: ${namesEn}`.slice(0, 300),
-        messageAr: `تحقيق أرقام قياسية جديدة في: ${namesAr}`.slice(0, 300),
+        messageAr: `تم تحقيق أرقام قياسية جديدة في: ${namesAr}`.slice(0, 300),
         read: false,
         createdAt: serverTimestamp(),
       });
@@ -1065,7 +1072,8 @@ export async function deleteSessionHistory(uid: string, sessionId: string): Prom
 export async function saveBodyMeasurement(
   uid: string,
   measurement: Omit<BodyMeasurement, 'userId' | 'createdAt'>,
-  photoFile?: File | null
+  photoFile?: File | null,
+  coachId?: string
 ): Promise<void> {
   const path = `users/${uid}/measurements/${measurement.id}`;
   try {
@@ -1093,9 +1101,11 @@ export async function saveBodyMeasurement(
       }
     }
 
+    const resolvedCoachId = clampString(coachId || measurement.coachId, 128);
     const payload: Record<string, unknown> = {
       id: measurement.id,
       userId: uid,
+      ...(resolvedCoachId ? { coachId: resolvedCoachId } : {}),
       date: clampString(measurement.date, 40),
       createdAt: serverTimestamp(),
     };
@@ -1660,7 +1670,7 @@ export async function claimCoachInviteCode(
       match = {
         id: 'APEX-DEMO',
         coachId: 'local-demo-coach',
-        coachName: 'Coach Kareem / كابتن كريم',
+        coachName: 'Coach Kareem / المدرب كريم',
         athleteUid: '',
         athleteName: clampString(athleteName, 100) || 'Athlete',
         inviteCode: 'APEX-DEMO',
@@ -1684,7 +1694,7 @@ export async function claimCoachInviteCode(
     });
     localUpdateProfile({ coachId: match.coachId, coachName: match.coachName });
 
-    const cols = ['workouts', 'programs', 'sessions', 'personalRecords', 'goals'];
+    const cols = ['workouts', 'programs', 'sessions', 'personalRecords', 'goals', 'measurements'];
     for (const sub of cols) {
       const items = localGetSubcollection<Record<string, unknown>>(sub);
       for (const item of items) {
@@ -1723,7 +1733,7 @@ export async function claimCoachInviteCode(
     });
     await batch.commit();
 
-    // Backfill coachId onto existing workouts, programs, PRs, goals (include updatedAt for rules) and sessions (coachId only)
+    // Backfill coachId onto existing workouts, programs, PRs, goals (include updatedAt for rules) and sessions/measurements (coachId only)
     const timestampedCols = ['workouts', 'programs', 'personalRecords', 'goals'];
     for (const sub of timestampedCols) {
       const subSnap = await getDocs(
@@ -1740,16 +1750,19 @@ export async function claimCoachInviteCode(
       }
     }
 
-    const sessSnap = await getDocs(
-      query(collection(db, 'users', athleteUid, 'sessions'), where('userId', '==', athleteUid))
-    );
-    if (!sessSnap.empty) {
-      for (let i = 0; i < sessSnap.docs.length; i += 400) {
-        const sessBatch = writeBatch(db);
-        sessSnap.docs.slice(i, i + 400).forEach((d) => {
-          sessBatch.update(d.ref, { coachId: data.coachId });
-        });
-        await sessBatch.commit();
+    const coachOnlyCols = ['sessions', 'measurements'];
+    for (const sub of coachOnlyCols) {
+      const colSnap = await getDocs(
+        query(collection(db, 'users', athleteUid, sub), where('userId', '==', athleteUid))
+      );
+      if (!colSnap.empty) {
+        for (let i = 0; i < colSnap.docs.length; i += 400) {
+          const colBatch = writeBatch(db);
+          colSnap.docs.slice(i, i + 400).forEach((d) => {
+            colBatch.update(d.ref, { coachId: data.coachId });
+          });
+          await colBatch.commit();
+        }
       }
     }
 
@@ -1810,6 +1823,7 @@ export async function fetchLinkedAthleteData(
   workouts: WorkoutTemplate[];
   prs: PersonalRecord[];
   goals: PerformanceGoal[];
+  measurements: BodyMeasurement[];
 }> {
   if (isLocalDeviceUid(athleteUid) || isLocalDeviceUid(coachId)) {
     const bundle = localGetAthleteBundle(athleteUid);
@@ -1818,20 +1832,26 @@ export async function fetchLinkedAthleteData(
       sessions: [...bundle.sessions].sort(
         (a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
       ),
+      measurements: [...(bundle.measurements ?? [])].sort((a, b) => b.date.localeCompare(a.date)),
     };
   }
   try {
-    const [sessSnap, progSnap, workSnap, prSnap, goalSnap] = await Promise.all([
+    const [sessSnap, progSnap, workSnap, prSnap, goalSnap, measSnap] = await Promise.all([
       getDocs(query(collection(db, 'users', athleteUid, 'sessions'), where('coachId', '==', coachId))),
       getDocs(query(collection(db, 'users', athleteUid, 'programs'), where('coachId', '==', coachId))),
       getDocs(query(collection(db, 'users', athleteUid, 'workouts'), where('coachId', '==', coachId))),
       getDocs(query(collection(db, 'users', athleteUid, 'personalRecords'), where('coachId', '==', coachId))),
       getDocs(query(collection(db, 'users', athleteUid, 'goals'), where('coachId', '==', coachId))),
+      getDocs(query(collection(db, 'users', athleteUid, 'measurements'), where('coachId', '==', coachId))),
     ]);
 
     const sessions = sessSnap.docs
       .map((d) => d.data() as WorkoutSessionHistory)
       .sort((a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime());
+
+    const measurements = measSnap.docs
+      .map((d) => d.data() as BodyMeasurement)
+      .sort((a, b) => b.date.localeCompare(a.date));
 
     return {
       sessions,
@@ -1839,6 +1859,7 @@ export async function fetchLinkedAthleteData(
       workouts: workSnap.docs.map((d) => d.data() as WorkoutTemplate),
       prs: prSnap.docs.map((d) => d.data() as PersonalRecord),
       goals: goalSnap.docs.map((d) => d.data() as PerformanceGoal),
+      measurements,
     };
   } catch (error) {
     handleFirestoreError(error, OperationType.LIST, `users/${athleteUid}`);
@@ -1849,35 +1870,68 @@ export async function fetchLinkedAthleteData(
 export async function sendCoachAssignment(
   assignment: Omit<CoachAssignment, 'createdAt' | 'updatedAt'>
 ): Promise<void> {
+  const cleanProgName = clampString(assignment.programName, 120);
+  const cleanNotes = clampString(assignment.notes, 600);
+  const announceEn = `Coach ${assignment.coachName} assigned this course to you: "${cleanProgName}"${cleanNotes ? ` — ${cleanNotes}` : ''}`.slice(0, 300);
+  const announceAr = `الكابتن ${assignment.coachName} أعطاك هذا الكورس: «${cleanProgName}»${cleanNotes ? ` — ${cleanNotes}` : ''}`.slice(0, 300);
+
   if (isLocalDeviceUid(assignment.coachId) || isLocalDeviceUid(assignment.athleteUid)) {
     localUpsertCollectionItem('coachAssignments', 'id', {
       ...assignment,
-      programName: clampString(assignment.programName, 120),
-      notes: clampString(assignment.notes, 600),
+      programName: cleanProgName,
+      notes: cleanNotes,
     } as unknown as Record<string, unknown>);
     if (assignment.linkId) {
       localPatchCollectionItem('coachingLinks', 'id', assignment.linkId, {
-        assignedProgramName: clampString(assignment.programName, 120),
+        assignedProgramName: cleanProgName,
       });
     }
     if (assignment.athleteUid && assignment.athleteUid !== LOCAL_DEVICE_UID) {
       const bundle = localGetAthleteBundle(assignment.athleteUid);
+      const newWorkouts: WorkoutTemplate[] = (assignment.workoutsData || []).map((w) => ({
+        ...w,
+        userId: assignment.athleteUid,
+        coachId: assignment.coachId,
+        assignedByCoachId: assignment.coachId,
+      }));
       const newProg: TrainingProgram = {
         ...assignment.programData,
         userId: assignment.athleteUid,
+        coachId: assignment.coachId,
+        assignedByCoachId: assignment.coachId,
+        assignedByCoachName: assignment.coachName,
         status: 'active',
       };
-      bundle.programs = [newProg, ...bundle.programs.filter((p) => p.id !== newProg.id)];
+      const pausedPrograms = bundle.programs
+        .filter((p) => p.id !== newProg.id)
+        .map((p) => (p.status === 'active' ? { ...p, status: 'paused' as const } : p));
+      const workoutIds = new Set(newWorkouts.map((w) => w.id));
+      bundle.workouts = [...newWorkouts, ...bundle.workouts.filter((w) => !workoutIds.has(w.id))];
+      bundle.programs = [newProg, ...pausedPrograms];
       localSaveAthleteBundle(assignment.athleteUid, bundle);
     } else if (assignment.athleteUid === LOCAL_DEVICE_UID) {
       localUpsertSubcollectionItem('reminders', 'id', {
         id: generateSafeId('remprog'),
         userId: LOCAL_DEVICE_UID,
         type: 'program_change',
-        titleEn: `New coach program: ${assignment.programName}`.slice(0, 120),
-        titleAr: `برنامج جديد من المدرب: ${assignment.programName}`.slice(0, 120),
-        messageEn: `${assignment.coachName} assigned "${assignment.programName}". Review and activate it in Programs.`.slice(0, 300),
-        messageAr: `أرسل لك المدرب ${assignment.coachName} برنامج "${assignment.programName}". راجعه وفعّله من صفحة البرامج.`.slice(0, 300),
+        titleEn: `New course from ${assignment.coachName}`.slice(0, 120),
+        titleAr: `الكابتن ${assignment.coachName} أعطاك كورساً جديداً`.slice(0, 120),
+        messageEn: announceEn,
+        messageAr: announceAr,
+        read: false,
+      });
+    }
+    if (assignment.athleteUid) {
+      localUpsertCollectionItem('coachMessages', 'id', {
+        id: generateSafeId('msg'),
+        coachId: assignment.coachId,
+        athleteUid: assignment.athleteUid,
+        groupId: assignment.groupId || undefined,
+        senderId: assignment.coachId,
+        senderName: assignment.coachName,
+        senderRole: 'coach',
+        type: 'direct',
+        text: `${announceAr}\n${announceEn}`.slice(0, 1500),
         read: false,
       });
     }
@@ -1888,15 +1942,15 @@ export async function sendCoachAssignment(
   try {
     await setDoc(doc(db, 'coachAssignments', assignment.id), {
       ...assignment,
-      programName: clampString(assignment.programName, 120),
-      notes: clampString(assignment.notes, 600),
+      programName: cleanProgName,
+      notes: cleanNotes,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
 
     if (assignment.athleteUid) {
       await updateDoc(doc(db, 'coachingLinks', assignment.linkId), {
-        assignedProgramName: clampString(assignment.programName, 120),
+        assignedProgramName: cleanProgName,
         updatedAt: serverTimestamp(),
       });
       const remId = generateSafeId('remprog');
@@ -1904,13 +1958,31 @@ export async function sendCoachAssignment(
         id: remId,
         userId: assignment.athleteUid,
         type: 'program_change',
-        titleEn: `New coach program: ${assignment.programName}`.slice(0, 120),
-        titleAr: `برنامج جديد من المدرب: ${assignment.programName}`.slice(0, 120),
-        messageEn: `${assignment.coachName} assigned "${assignment.programName}". Review and activate it in Programs.`.slice(0, 300),
-        messageAr: `أرسل لك المدرب ${assignment.coachName} برنامج "${assignment.programName}". راجعه وفعّله من صفحة البرامج.`.slice(0, 300),
+        titleEn: `New course from ${assignment.coachName}`.slice(0, 120),
+        titleAr: `الكابتن ${assignment.coachName} أعطاك كورساً جديداً`.slice(0, 120),
+        messageEn: announceEn,
+        messageAr: announceAr,
         read: false,
         createdAt: serverTimestamp(),
       });
+      try {
+        const msgId = generateSafeId('msg');
+        await setDoc(doc(db, 'coachMessages', msgId), {
+          id: msgId,
+          coachId: assignment.coachId,
+          athleteUid: assignment.athleteUid,
+          ...(assignment.groupId ? { groupId: assignment.groupId } : {}),
+          senderId: assignment.coachId,
+          senderName: clampString(assignment.coachName, 100),
+          senderRole: 'coach',
+          type: 'direct',
+          text: announceAr,
+          read: false,
+          createdAt: serverTimestamp(),
+        });
+      } catch {
+        // non-blocking message creation
+      }
     }
   } catch (error) {
     handleFirestoreError(error, OperationType.CREATE, path);
@@ -1919,9 +1991,25 @@ export async function sendCoachAssignment(
 
 export async function acceptCoachAssignment(
   athleteUid: string,
-  assignment: CoachAssignment
-): Promise<void> {
+  assignment: CoachAssignment,
+  existingPrograms?: TrainingProgram[]
+): Promise<string> {
   try {
+    // Pause any previously active programs so the newly assigned coach course is the active schedule
+    const priorPrograms =
+      existingPrograms ??
+      (isLocalDeviceUid(athleteUid)
+        ? localGetSubcollection<TrainingProgram & Record<string, unknown>>('programs')
+        : (await getDocs(query(collection(db, 'users', athleteUid, 'programs'), where('userId', '==', athleteUid)))).docs.map(
+            (d) => d.data() as TrainingProgram
+          ));
+
+    for (const p of priorPrograms) {
+      if (p.status === 'active') {
+        await updateProgramStatus(athleteUid, p.id, 'paused');
+      }
+    }
+
     const workoutIdMap = new Map<string, string>();
     for (const w of assignment.workoutsData || []) {
       const newWId = generateSafeId('wrk');
@@ -1968,7 +2056,7 @@ export async function acceptCoachAssignment(
           assignedProgramName: clampString(assignment.programName, 120),
         });
       }
-      return;
+      return newProgId;
     }
 
     await updateDoc(doc(db, 'coachAssignments', assignment.id), {
@@ -1985,6 +2073,7 @@ export async function acceptCoachAssignment(
         // Ignore if link was archived/deleted
       }
     }
+    return newProgId;
   } catch (error) {
     handleFirestoreError(error, OperationType.WRITE, `coachAssignments/${assignment.id}`);
   }

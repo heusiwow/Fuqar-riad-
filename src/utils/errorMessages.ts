@@ -3,7 +3,7 @@ import { Language } from '../types/ironlog';
 const AUTH_ERROR_MAP: Record<string, { en: string; ar: string }> = {
   'auth/invalid-credential': {
     en: 'Incorrect email or password. Please check your credentials and try again.',
-    ar: 'البريد الإلكتروني أو كلمة المرور غير صحيحة. يرجى التحقق والمحاولة مجدداً.',
+    ar: 'البريد الإلكتروني أو كلمة المرور غير صحيحة. يُرجى التحقق والمحاولة مجدداً.',
   },
   'auth/wrong-password': {
     en: 'Incorrect password. Please try again or reset your password.',
@@ -31,7 +31,7 @@ const AUTH_ERROR_MAP: Record<string, { en: string; ar: string }> = {
   },
   'auth/network-request-failed': {
     en: 'Network connection error. Please check your internet connection.',
-    ar: 'تعذّر الاتصال بالشبكة. تحقق من اتصالك بالإنترنت وحاول مجدداً.',
+    ar: 'تعذّر الاتصال بالشبكة. تحقّق من اتصالك بالإنترنت وحاول مجدداً.',
   },
   'auth/popup-blocked': {
     en: 'Sign-in popup was blocked by the browser. Please allow popups and try again.',
@@ -39,15 +39,15 @@ const AUTH_ERROR_MAP: Record<string, { en: string; ar: string }> = {
   },
   'auth/operation-not-allowed': {
     en: 'Email/Password sign-in is not yet enabled in Firebase Console. Enable it under Authentication -> Sign-in method, or use Google on web / Offline Mode.',
-    ar: 'تسجيل الدخول بالبريد الإلكتروني غير مفعّل حالياً في Firebase Console. فعّله من Authentication ثم Sign-in method، أو استخدم Google في المتصفح أو الدخول الفوري على الجهاز.',
+    ar: 'تسجيل الدخول بالبريد الإلكتروني غير مفعّل حالياً في إعدادات الخدمة. استخدم تسجيل الدخول عبر Google أو الوضع المحلي على الجهاز.',
   },
   'auth/unauthorized-domain': {
     en: 'This web address is not yet added to Firebase Authorized Domains. Add it in Firebase Console -> Authentication -> Settings -> Authorized domains.',
-    ar: 'عنوان الموقع الحالي غير مضاف في النطاقات المصرّح بها (Authorized domains) داخل Firebase Console.',
+    ar: 'عنوان الموقع الحالي غير مضاف ضمن النطاقات المصرّح بها في إعدادات المصادقة.',
   },
   'auth/operation-not-supported-in-this-environment': {
     en: 'Google popup sign-in is not supported in this browser/WebView environment. Open in Chrome or use Email & Password / Local Device Mode.',
-    ar: 'تسجيل الدخول بنافذة Google غير مدعوم في هذا المتصفح المدمج. افتح الرابط في Chrome أو استخدم البريد الإلكتروني أو الدخول الفوري على الجهاز.',
+    ar: 'تسجيل الدخول عبر نافذة Google غير مدعوم داخل هذا المتصفح المدمج. افتح التطبيق في Chrome أو استخدم البريد الإلكتروني أو الوضع المحلي على الجهاز.',
   },
   'auth/cancelled-popup-request': {
     en: 'Previous sign-in window was cancelled. Please tap once and complete sign-in in the opened window.',
@@ -55,7 +55,7 @@ const AUTH_ERROR_MAP: Record<string, { en: string; ar: string }> = {
   },
   'auth/web-storage-unsupported': {
     en: 'Browser storage or third-party cookies are blocked here. Allow cookies/storage or use Email & Password / Local Device Mode.',
-    ar: 'تخزين المتصفح أو ملفات الارتباط محجوب حالياً. فعّلها في المتصفح أو استخدم البريد الإلكتروني أو الدخول الفوري على الجهاز.',
+    ar: 'تخزين المتصفح أو ملفات الارتباط محجوبة حالياً. فعّلها من إعدادات المتصفح أو استخدم البريد الإلكتروني أو الوضع المحلي على الجهاز.',
   },
   'auth/invalid-action-code': {
     en: 'This verification or reset link is invalid or has already been used. Request a fresh link.',
@@ -63,7 +63,7 @@ const AUTH_ERROR_MAP: Record<string, { en: string; ar: string }> = {
   },
   'auth/expired-action-code': {
     en: 'This link has expired. Please request a new verification or password reset email.',
-    ar: 'انتهت صلاحية هذا الرابط. يرجى طلب رسالة جديدة.',
+    ar: 'انتهت صلاحية هذا الرابط. يُرجى طلب رسالة جديدة.',
   },
   'auth/account-exists-with-different-credential': {
     en: 'An account already exists with this email using a different sign-in method.',
@@ -71,7 +71,7 @@ const AUTH_ERROR_MAP: Record<string, { en: string; ar: string }> = {
   },
   'auth/internal-error': {
     en: 'Authentication service encountered a temporary browser error. Try again, open in Chrome, or use Local Device Mode.',
-    ar: 'حدث خطأ مؤقت في نافذة المصادقة. أعد المحاولة أو افتح التطبيق في Chrome أو استخدم الدخول الفوري على الجهاز.',
+    ar: 'حدث خطأ مؤقت في خدمة المصادقة. أعد المحاولة أو افتح التطبيق في Chrome أو استخدم الوضع المحلي على الجهاز.',
   },
   'auth/requires-recent-login': {
     en: 'For security reasons, please sign out and sign back in before performing this action.',
@@ -87,32 +87,32 @@ const APP_MESSAGE_MAP: { match: string; en: string; ar: string }[] = [
   {
     match: 'Invalid invite code',
     en: 'Invalid invite code.',
-    ar: 'كود الدعوة غير صالح.',
+    ar: 'رمز الدعوة غير صالح.',
   },
   {
     match: 'Invite code not found',
     en: 'Invite code not found. Please double-check the code from your coach.',
-    ar: 'لم يتم العثور على كود الدعوة. تأكد من كتابته كما أرسله المدرب.',
+    ar: 'لم يتم العثور على رمز الدعوة. تأكد من كتابته كما أرسله المدرب.',
   },
   {
     match: 'Invite code has already been used',
     en: 'This invite code has already been claimed.',
-    ar: 'تم استخدام كود الدعوة هذا مسبقاً.',
+    ar: 'تم استخدام رمز الدعوة هذا مسبقاً.',
   },
   {
     match: 'GEMINI_API_KEY is not configured',
     en: 'AI Coaching service is not configured on this server.',
-    ar: 'خدمة المدرب الذكي غير مهيأة حالياً على الخادم.',
+    ar: 'خدمة المساعد التدريبي الذكي غير مهيأة حالياً على الخادم.',
   },
   {
     match: 'No coach program selected',
     en: 'Please select a coaching program first.',
-    ar: 'يرجى اختيار برنامج تدريبي أولاً.',
+    ar: 'يُرجى اختيار برنامج تدريبي أولاً.',
   },
   {
     match: 'Cannot link to your own invite code',
     en: 'Switch to Athlete mode or sign in with an athlete account to claim this code.',
-    ar: 'بدّل إلى وضع الرياضي أو سجّل بحساب لاعب لاستخدام كود الدعوة.',
+    ar: 'بدّل إلى وضع الرياضي أو سجّل الدخول بحساب لاعب لاستخدام رمز الدعوة.',
   },
 ];
 

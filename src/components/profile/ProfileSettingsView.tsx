@@ -752,7 +752,7 @@ export const ProfileSettingsView: React.FC = () => {
             <p className="text-xs font-mono text-neutral-500 mt-0.5">
               {isLocalDeviceMode
                 ? language === 'ar'
-                  ? 'حساب محلي على هذا الجهاز (أوفلاين)'
+                  ? 'حساب محلي على هذا الجهاز (دون اتصال بالإنترنت)'
                   : 'On-Device Offline Profile'
                 : firebaseUser?.email}
             </p>

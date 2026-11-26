@@ -199,7 +199,7 @@ export const MessagingView: React.FC = () => {
         <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
           {isCoach
             ? language === 'ar'
-              ? 'تواصل مع لاعبيك، أرسل متابعات دورية وإعلانات.'
+              ? 'تواصل مع متدرّبيك، وأرسل متابعات دورية وإعلانات.'
               : 'Direct coach-to-athlete messaging, check-ins, and updates.'
             : language === 'ar'
               ? 'اربط حسابك بمدربك وتواصل معه مباشرة.'
@@ -216,11 +216,11 @@ export const MessagingView: React.FC = () => {
           </div>
           <p className="text-xs text-neutral-500 leading-relaxed">
             {language === 'ar'
-              ? 'أدخل كود الدعوة الذي أرسله لك مدربك لربط حسابك واستقبال البرامج والملاحظات.'
+              ? 'أدخل رمز الدعوة الذي أرسله لك مدربك لربط حسابك واستقبال البرامج والملاحظات.'
               : 'Enter the invite code shared by your coach to link your account and receive custom programs.'}
             {isLocalDeviceMode && (
               <span className="block mt-1 font-mono text-emerald-600 dark:text-emerald-400">
-                {language === 'ar' ? 'كود تجريبي متاح: APEX-DEMO' : 'Demo code available: APEX-DEMO'}
+                {language === 'ar' ? 'رمز تجريبي متاح: APEX-DEMO' : 'Demo code available: APEX-DEMO'}
               </span>
             )}
           </p>
@@ -455,7 +455,7 @@ export const MessagingView: React.FC = () => {
       ) : isCoach ? (
         <div className="bg-white dark:bg-[#121417] border border-dashed border-neutral-300 dark:border-neutral-800 rounded-2xl p-10 text-center text-sm text-neutral-500">
           {language === 'ar'
-            ? 'بانتظار اتصال أول لاعب بك عبر كود الدعوة لبدء المحادثة.'
+            ? 'بانتظار انضمام أول متدرّب إليك عبر رمز الدعوة لبدء المحادثة.'
             : 'Messages unlock once at least one athlete links their account using an invite code.'}
         </div>
       ) : null}

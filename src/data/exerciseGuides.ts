@@ -1,25 +1,25 @@
 import stepBandChestPress from '../assets/images/step_band_chest_press_1795622285558.jpg';
-import stepBandRow from '../assets/images/step_band_row_1795622285747.jpg';
+import stepBandRow from '../assets/images/step_band_row_1795706333846.jpg';
 import stepBarbellRow from '../assets/images/step_barbell_row_1795384188059.jpg';
 import stepBarbellSquat from '../assets/images/step_barbell_squat_1795622203169.jpg';
 import stepBenchDips from '../assets/images/step_bench_dips_1795695814431.jpg';
 import stepBenchPress from '../assets/images/step_bench_press_1795617482435.jpg';
 import stepBicepCurl from '../assets/images/step_bicep_curl_1795622201415.jpg';
 import stepCableBicepCurl from '../assets/images/step_cable_bicep_curl_1795622333890.jpg';
-import stepCableCrunch from '../assets/images/step_cable_crunch_1795617489599.jpg';
+import stepCableCrunch from '../assets/images/step_cable_crunch_1795706325936.jpg';
 import stepCableFly from '../assets/images/step_cable_fly_1795617483962.jpg';
-import stepCableLateralRaise from '../assets/images/step_cable_lateral_raise_1795622328057.jpg';
+import stepCableLateralRaise from '../assets/images/step_cable_lateral_raise_1795706314794.jpg';
 import stepCalfRaise from '../assets/images/step_calf_raise_1795617488452.jpg';
-import stepChestDips from '../assets/images/step_chest_dips_1795617327691.jpg';
-import stepChestPressMachine from '../assets/images/step_chest_press_machine_1795622251831.jpg';
-import stepChestSupportedRow from '../assets/images/step_chest_supported_row_1795622256434.jpg';
+import stepChestDips from '../assets/images/step_chest_dips_1795706470839.jpg';
+import stepChestPressMachine from '../assets/images/step_chest_machine_1795706477153.jpg';
+import stepChestSupportedRow from '../assets/images/step_supported_row_1795706472033.jpg';
 import stepChinUps from '../assets/images/step_chin_ups_1795622285647.jpg';
-import stepConventionalDeadlift from '../assets/images/step_conventional_deadlift_1795622205502.jpg';
+import stepConventionalDeadlift from '../assets/images/step_deadlift_1795706477177.jpg';
 import stepDumbbellBenchPress from '../assets/images/step_dumbbell_bench_press_1795622286033.jpg';
 import stepDumbbellRdl from '../assets/images/step_dumbbell_rdl_1795695847295.jpg';
 import stepDumbbellRow from '../assets/images/step_dumbbell_row_1795617484991.jpg';
-import stepEzSkullcrusher from '../assets/images/step_ez_skullcrusher_1795695812446.jpg';
-import stepFacePull from '../assets/images/step_face_pull_1795617330693.jpg';
+import stepEzSkullcrusher from '../assets/images/step_ez_skullcrusher_1795706315581.jpg';
+import stepFacePull from '../assets/images/step_face_pull_1795706323547.jpg';
 import stepFrontSquat from '../assets/images/step_front_squat_1795695820092.jpg';
 import stepGluteKickback from '../assets/images/step_glute_kickback_1795695847249.jpg';
 import stepGobletSquat from '../assets/images/step_goblet_squat_1795695938678.jpg';
@@ -29,36 +29,36 @@ import stepInclineBarbellPress from '../assets/images/step_incline_barbell_press
 import stepInclineCurl from '../assets/images/step_incline_curl_1795646672569.jpg';
 import stepInclineDumbbellPress from '../assets/images/step_incline_dumbbell_press_1795384187243.jpg';
 import stepLatPulldown from '../assets/images/step_lat_pulldown_1795622199207.jpg';
-import stepLateralRaise from '../assets/images/step_lateral_raise_1795622200900.jpg';
+import stepLateralRaise from '../assets/images/step_lateral_raise_1795706321799.jpg';
 import stepLegCurl from '../assets/images/step_leg_curl_1795617487952.jpg';
 import stepLegExtension from '../assets/images/step_leg_extension_1795617331618.jpg';
 import stepLegPress from '../assets/images/step_leg_press_1795622204292.jpg';
 import stepLegRaise from '../assets/images/step_leg_raise_1795617427609.jpg';
 import stepMachineLateralRaise from '../assets/images/step_machine_lateral_raise_1795622329650.jpg';
-import stepOverheadEzTricep from '../assets/images/step_overhead_ez_tricep_1795695817007.jpg';
+import stepOverheadEzTricep from '../assets/images/step_overhead_ez_tricep_1795706317632.jpg';
 import stepOverheadPress from '../assets/images/step_overhead_press_1795622200788.jpg';
-import stepOverheadTricep from '../assets/images/step_overhead_tricep_1795617330019.jpg';
+import stepOverheadTricep from '../assets/images/step_overhead_tricep_1795706513736.jpg';
 import stepPallofPress from '../assets/images/step_pallof_press_1795695936454.jpg';
 import stepPecDeck from '../assets/images/step_pec_deck_1795617325182.jpg';
 import stepPendlayRow from '../assets/images/step_pendlay_row_1795622259009.jpg';
-import stepPlankHold from '../assets/images/step_plank_hold_1795617545642.jpg';
-import stepPreacherCurl from '../assets/images/step_preacher_curl_1795617331069.jpg';
+import stepPlankHold from '../assets/images/step_plank_hold_1795706473774.jpg';
+import stepPreacherCurl from '../assets/images/step_preacher_curl_1795706318437.jpg';
 import stepPullUps from '../assets/images/step_pull_ups_1795617328308.jpg';
 import stepPushUps from '../assets/images/step_push_ups_1795617484602.jpg';
 import stepRearDeltFly from '../assets/images/step_rear_delt_fly_1795622330677.jpg';
 import stepReverseWristCurl from '../assets/images/step_reverse_wrist_curl_1795695955379.jpg';
 import stepRomanianDeadlift from '../assets/images/step_romanian_deadlift_1795622205467.jpg';
-import stepSeatedCableRow from '../assets/images/step_seated_cable_row_1795622199411.jpg';
-import stepSeatedCalf from '../assets/images/step_seated_calf_1795695847041.jpg';
+import stepSeatedCableRow from '../assets/images/step_seated_cable_row_1795706331201.jpg';
+import stepSeatedCalf from '../assets/images/step_seated_calf_1795706474299.jpg';
 import stepSeatedDbPress from '../assets/images/step_seated_db_press_1795622325979.jpg';
 import stepSmithBenchPress from '../assets/images/step_smith_bench_press_1795622250921.jpg';
 import stepSmithCalf from '../assets/images/step_smith_calf_1795695822664.jpg';
-import stepSmithOverheadPress from '../assets/images/step_smith_overhead_press_1795622328689.jpg';
-import stepSmithSquat from '../assets/images/step_smith_squat_1795646680166.jpg';
-import stepSplitSquat from '../assets/images/step_split_squat_1795617368909.jpg';
+import stepSmithOverheadPress from '../assets/images/step_smith_ohp_1795706475274.jpg';
+import stepSmithSquat from '../assets/images/step_smith_squat_1795706405792.jpg';
+import stepSplitSquat from '../assets/images/step_split_squat_1795706327418.jpg';
 import stepTricepKickback from '../assets/images/step_tricep_kickback_1795695813908.jpg';
 import stepTricepPushdown from '../assets/images/step_tricep_pushdown_1795384187535.jpg';
-import stepWristCurl from '../assets/images/step_wrist_curl_1795695816752.jpg';
+import stepWristCurl from '../assets/images/step_wrist_curl_1795706470043.jpg';
 import { Exercise } from '../types/ironlog';
 
 export interface ExerciseQuickGuide {
@@ -83,23 +83,23 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Touch the chest lightly without bouncing, then drive through your legs and press the bar up and slightly back above your shoulders.',
     ],
     stepCaptionsAr: [
-      'ثبّت لوحي الكتف للأسفل والخلف على المقعد، اضغط القدمين بالأرض، وأمسك البار أعرض قليلاً من الكتفين مع استقامة المعصم.',
-      'أنزل البار ببطء خلال 2–3 ثوانٍ في مسار مائل قليلاً نحو أسفل منتصف الصدر (خط الحلمة) مع إبقاء المرفقين بزاوية ~45°.',
+      'ثبّت لوحي الكتف للأسفل والخلف على المقعد، اضغط القدمين بالأرض، وأمسك البار أعرض قليلاً من الكتفين مع استقامة المعصمين.',
+      'أنزل البار بتحكم خلال 2–3 ثوانٍ في مسار مائل قليلاً نحو أسفل منتصف الصدر مع إبقاء المرفقين بزاوية تقارب 45°.',
       'لامس الصدر برفق دون ارتداد، ثم ادفع الأرض بقدميك وارفع البار للأعلى وللخلف قليلاً ليستقر فوق الكتفين.',
     ],
     simpleExplanationEn:
       'Lie flat with your upper back anchored and a slight natural arch so the chest—not the front shoulders—sits highest. The bar travels along a gentle diagonal line from directly over the shoulders to the lower-mid sternum and back up, keeping the forearms vertical underneath the bar to maximize chest power and protect the shoulder joints.',
     simpleExplanationAr:
-      'تستلقي على المقعد المستوي مع سحب لوحي الكتف للخلف والأسفل ليكون القفص الصدري مرتفعاً ومستعداً لتحمل الوزن بدلاً من مفصل الكتف. يتحرك البار في مسار مائل طفيف من فوق الكتفين إلى أسفل منتصف الصدر (وليس نحو الرقبة)، مع بقاء الساعدين عموديين تماماً تحت البار لتوجيه كامل القوة إلى ألياف الصدر الوسطى.',
+      'استلقِ على المقعد المستوي مع سحب لوحي الكتف للخلف وللأسفل ليرتفع القفص الصدري ويتحمّل العبء بدلاً من مفصل الكتف. يتحرك البار في مسار مائل طفيف من فوق الكتفين نحو أسفل منتصف الصدر ثم يعود للأعلى، مع بقاء الساعدين عموديين تماماً تحت البار لتوجيه كامل القوة إلى ألياف الصدر الوسطى.',
     tipsEn: [
       'Keep wrists straight (knuckles pointing up) directly above your elbows so force transfers straight into the bar.',
       'Push your heels steadily into the floor throughout the set to lock your lower body and stabilize the bench arch.',
       'Pause for a fraction of a second on the chest before pressing—this eliminates momentum and strengthens your weakest point.',
     ],
     tipsAr: [
-      'أبقِ المعصمين مستقيمين تماماً فوق المرفقين (لا تثنهما للخلف) حتى لا يضيع العزم أو تتأذى الأوتار.',
-      'ادفع الأرض بقدميك بثبات طوال التكرار لتثبيت الحوض والعمود الفقري ومنع اهتزاز الجسم.',
-      'توقف لحظة خاطفة عند ملامسة الصدر قبل الدفع لإلغاء الزخم وتقوية أصعب نقطة في الرفعة.',
+      'أبقِ المعصمين مستقيمين تماماً فوق المرفقين دون ثنيهما للخلف حتى ينتقل الدفع مباشرة إلى البار دون إجهاد الأوتار.',
+      'ادفع الأرض بقدميك بثبات طوال الجولة لتثبيت الحوض والعمود الفقري ومنع اهتزاز الجسم.',
+      'توقف لحظة خاطفة عند ملامسة الصدر قبل الدفع لإلغاء الاندفاع وتقوية أضعف نقطة في الرفعة.',
     ],
     avoidEn: [
       'Flaring elbows out to 90° in a T-shape, which pinches the front shoulder tendons under heavy load.',
@@ -107,8 +107,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Lowering the bar high toward your neck/collarbone instead of mid-lower sternum.',
     ],
     avoidAr: [
-      'فتح المرفقين بزاوية 90° على شكل حرف T لأن ذلك يضغط مباشرة على أوتار الكتف الأمامية.',
-      'ضرب البار بالصدر للارتداد أو رفع الأرداف عن المقعد لاختصار المسافة وسرقة الرفعة.',
+      'فتح المرفقين بزاوية 90° للخارج لأن ذلك يضغط مباشرة على أوتار الكتف الأمامية.',
+      'ضرب البار بالصدر للارتداد أو رفع الأرداف عن المقعد لاختصار المسافة.',
       'إنزال البار عالياً باتجاه الرقبة أو الترقوة بدلاً من أسفل منتصف الصدر.',
     ],
   },
@@ -194,23 +194,23 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Press forcefully straight up the rail without bouncing off the chest or safety stops.',
     ],
     stepCaptionsAr: [
-      'ضع البنش في نقطة ينزل فيها البار فوق منتصف/أسفل الصدر مباشرة، واضبط مصدّات الأمان السفلية.',
-      'أنزل البار بتحكم خلال 2–3 ثوانٍ ليلامس أسفل منتصف الصدر بمرفقين بزاوية ~45°.',
+      'ضع المقعد بحيث ينزل البار فوق منتصف الصدر إلى أسفله مباشرة، واضبط مصدّات الأمان السفلية.',
+      'أنزل البار بتحكم خلال 2–3 ثوانٍ ليلامس أسفل منتصف الصدر بمرفقين بزاوية 45° تقريباً.',
       'ادفع للأعلى باستقامة على المسار الثابت دون ارتداد على الصدر.',
     ],
     simpleExplanationEn:
       'Guided along fixed steel rails, the Smith machine removes side-to-side stabilization so you can apply pure pressing force safely to failure. Position the bench carefully so the bar lowers perpendicularly straight onto your lower-mid chest, while safety latches lock any missed lift immediately.',
     simpleExplanationAr:
-      'تتحرك الرافعة هنا على مسار حديدي ثابت يلغي الحاجة لموازنة البار، مما يسمح بالتركيز الكامل على دفع الصدر بأمان حتى بدون شريك مساعدة. المهم هو وضع المقعد في نقطة تجعل البار ينزل عمودياً على أسفل منتصف الصدر تماماً مع ضبط أقفال الأمان السفلية.',
+      'يتحرك البار هنا على مسار حديدي موجَّه يلغي الحاجة لموازنة الوزن جانبياً، مما يتيح التركيز الكامل على دفع الصدر بأمان حتى بدون شريك مساعدة. احرص على وضع المقعد بحيث ينزل البار عمودياً على أسفل منتصف الصدر تماماً مع ضبط أقفال الأمان السفلية.',
     tipsEn: [
       'Test bar alignment with an empty bar first so touch-down lands cleanly at lower-mid chest.',
       'Keep shoulder blades pinned down into the bench even though the track is guided.',
       'Set the lower safety stoppers 1–2 cm below your chest touch level before loading plates.',
     ],
     tipsAr: [
-      'جرّب مسار البار فارغاً أولاً لتتأكد أنه يلامس منتصف/أسفل الصدر لا أعلى الصدر أو البطن.',
-      'حافظ على خفض وتثبيت لوحي الكتف على البنش كما تفعل تماماً في البار الحر.',
-      'اضبط مصدّات الأمان السفلية أسفل مستوى الصدر بقليل قبل إضافة الأوزان الثقيلة.',
+      'جرّب مسار البار فارغاً أولاً لتتأكد أنه يلامس منتصف الصدر إلى أسفله لا أعلى الصدر أو البطن.',
+      'حافظ على خفض وتثبيت لوحي الكتف على المقعد كما تفعل تماماً في البار الحر.',
+      'اضبط مصدّات الأمان السفلية أسفل مستوى ملامسة الصدر بقليل قبل إضافة الأوزان الثقيلة.',
     ],
     avoidEn: [
       'Placing the bench carelessly so the fixed rail forces the bar onto your throat or belly.',
@@ -218,8 +218,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Bouncing off the bottom stoppers instead of maintaining muscular control.',
     ],
     avoidAr: [
-      'وضع المقعد في مكان خاطئ يجبر البار على النزول باتجاه الرقبة أو البطن.',
-      'ثني المعصمين للخلف أثناء تدوير البار لفتح أو إغلاق الخطافات.',
+      'وضع المقعد في موضع خاطئ يجبر البار على النزول باتجاه الرقبة أو البطن.',
+      'ثني المعصمين للخلف أثناء تدوير البار لتحرير خطافات الأمان أو قفلها.',
       'الاعتماد على ارتداد البار عن مصدّات الأمان بدلاً من التحكم العضلي.',
     ],
   },
@@ -268,14 +268,14 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Pause briefly just above the floor, then push forcefully back up to full rigid plank.',
     ],
     stepCaptionsAr: [
-      'ضع اليدين أعرض قليلاً من الكتفين في وضعية بلانك مستقيمة مع شد البطن والأرداف بقوة.',
-      'أنزل الصدر بتحكم نحو الأرض بمرفقين مائلين للخلف ~45° دون سقوط أسفل الظهر.',
+      'ضع اليدين أعرض قليلاً من الكتفين في وضعية الارتكاز المستقيمة مع شد البطن والأرداف بقوة.',
+      'أنزل الصدر بتحكم نحو الأرض بمرفقين مائلين للخلف بنحو 45° دون هبوط أسفل الظهر.',
       'توقف لحظة قبيل ملامسة الأرض ثم ادفع بقوة حتى الاستقامة الكاملة.',
     ],
     simpleExplanationEn:
       'Your body acts as a rigid plank hinged at the toes while your hands push the torso away from the floor. Lower your chest until it hovers just above the ground with elbows angled ~45° backward, maintaining simultaneous tension in your chest, triceps, abs, and glutes.',
     simpleExplanationAr:
-      'يعمل جسمك كلوح مستقيم واحد من الرأس حتى الكعبين أثناء خفض الصدر نحو الأرض ثم دفعه بعيداً عنها. ينخفض الصدر أولاً نحو نقطة متقدمة قليلاً عن اليدين بمرفقين مائلين للخلف ~45°، مما يدرب الصدر والترايسبس وثبات الجذع بوزن الجسم.',
+      'يعمل جسمك كلوح مستقيم واحد من الرأس حتى الكعبين أثناء خفض الصدر نحو الأرض ثم دفعه بعيداً عنها. ينخفض الصدر أولاً نحو نقطة متقدمة قليلاً عن اليدين بمرفقين مائلين للخلف بنحو 45°، مما يمرّن الصدر والترايسبس وثبات الجذع بوزن الجسم.',
     tipsEn: [
       'Screw your hands slightly outward into the floor and brace abs + glutes before descending.',
       'Lead downward with your chest—not your nose or chin—until chest nearly brushes the ground.',
@@ -292,8 +292,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Flaring elbows wide out to 90° from your body.',
     ],
     avoidAr: [
-      'تقوّس أسفل الظهر وسقوط البطن للأسفل عند الإجهاد.',
-      'رفع الأرداف للأعلى أو الاكتفاء بنصف نزول سريع لا يشغّل الصدر.',
+      'تقوّس أسفل الظهر وهبوط البطن للأسفل عند الإجهاد.',
+      'رفع الأرداف للأعلى أو الاكتفاء بنصف نزول سريع لا يفعّل الصدر.',
       'فتح المرفقين بزاوية 90° للجانبين أثناء الهبوط.',
     ],
   },
@@ -305,23 +305,23 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Hold 1s at peak band tension in front, then resist the pull slowly back to chest.',
     ],
     stepCaptionsAr: [
-      'ثبّت الحزام خلفك بمستوى الصدر وتقدم بقدم للأمام لتحقيق شد مسبق منذ البداية.',
+      'ثبّت الحبل خلفك بمستوى الصدر وتقدم بقدم للأمام لتحقيق شد مسبق منذ البداية.',
       'ادفع اليدين للأمام وللداخل قليلاً حتى الامتداد الكامل أمام الصدر.',
-      'ثبّت الانقباض لثانية عند أقصى مقاومة للحزام ثم عد ببطء وتحكم.',
+      'ثبّت الانقباض لثانية عند أقصى مقاومة للحبل ثم عد ببطء وتحكم.',
     ],
     simpleExplanationEn:
       'With the band anchored behind you at chest level, resistance increases progressively the further forward you press—peak tension occurs right at full chest contraction. A staggered stance counters the backward pull so you can press evenly and control the return smoothly.',
     simpleExplanationAr:
-      'عند تثبيت الحزام خلفك بمستوى الصدر تزداد المقاومة تدريجياً كلما امتدت ذراعاك للأمام، ليبلغ الشد ذروته في نهاية الدفع. تمنحك الوقفة المتباعدة ثباتاً أمام سحب الحزام للخلف، مما يسمح بضغط منضبط مع مقاومة سرعة الارتداد.',
+      'عند تثبيت حبل المقاومة خلفك بمستوى الصدر تزداد المقاومة تدريجياً كلما امتدت ذراعاك للأمام، ليبلغ الشد ذروته في نهاية الدفع. تمنحك الوقفة المتباعدة ثباتاً أمام سحب الحبل للخلف، مما يسمح بدفع منضبط مع مقاومة سرعة الارتداد.',
     tipsEn: [
       'Step far enough forward so the band already carries noticeable tension at the chest start position.',
       'Keep bands running cleanly underneath or alongside your forearms—not rubbing your shoulders.',
       'Hold peak lockout forward for 1 full second to capitalize on maximum band tension.',
     ],
     tipsAr: [
-      'تقدم للأمام مسافة كافية حتى تشعر بشد واضح في الحزام منذ نقطة البداية عند الصدر.',
-      'مرّر الحزام أسفل الساعدين أو بمحاذاة الذراعين لئلا يحتك بجلد الكتف والرقبة.',
-      'ثبّت الدفع للأمام لمدة ثانية كاملة للاستفادة من أعلى مقاومة للحزام في القمة.',
+      'تقدم للأمام مسافة كافية حتى تشعر بشد واضح في الحبل منذ نقطة البداية عند الصدر.',
+      'مرّر الحبل أسفل الساعدين أو بمحاذاة الذراعين لئلا يحتك بالكتف والرقبة.',
+      'ثبّت الدفع للأمام لمدة ثانية كاملة للاستفادة من أعلى مقاومة للحبل في القمة.',
     ],
     avoidEn: [
       'Standing too close to the anchor where the band goes completely slack at the start.',
@@ -329,8 +329,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Twisting your hips sideways instead of pressing symmetrically.',
     ],
     avoidAr: [
-      'الوقوف قريباً جداً من نقطة التثبيت بحيث يرتخي الحزام عند الصدر.',
-      'الاستسلام لمطاطية الحزام وتركه يسحب ذراعيك للخلف بسرعة.',
+      'الوقوف قريباً جداً من نقطة التثبيت بحيث يرتخي الحبل عند الصدر.',
+      'الاستسلام لمطاطية الحبل وتركه يسحب ذراعيك للخلف بسرعة.',
       'ميلان الجذع أو التفاف الوركين بدلاً من ثبات الوسط.',
     ],
   },
@@ -404,8 +404,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     avoidAr: [
       'ضرب البار بعظمة الترقوة أو الارتداد به من الأسفل.',
-      'استخدام مقعد شديد الانحدار (45–60° فأكثر) يحول التركيز للكتف.',
-      'رفع الأرداف عن المقعد لتقليص زاوية الميل وتحويله لبنش مستوٍ.',
+      'استخدام مقعد شديد الانحدار (45–60° فأكثر) يحوّل التركيز للكتف.',
+      'رفع الأرداف عن المقعد لتقليص زاوية الميل وتحويل الضغط إلى وضع مستوٍ.',
     ],
   },
   'pec-deck-machine': {
@@ -492,21 +492,21 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Bring the bar cleanly to your upper chest with torso leaning back just 10–15°, squeeze lats, and return slowly.',
     ],
     stepCaptionsAr: [
-      'ثبّت الفخذين بإحكام تحت الوسادة، أمسك البار أعرض قليلاً من الكتفين، وافرد الذراعين لإطالة المجنص.',
+      'ثبّت الفخذين بإحكام تحت الوسادة، أمسك البار أعرض قليلاً من الكتفين، وافرد الذراعين لإطالة العضلة الظهرية العريضة.',
       'ابدأ بخفض لوحي الكتف للأسفل أولاً ثم اسحب المرفقين عمودياً نحو الجانبين والخصر.',
       'صل بالبار إلى أعلى الصدر مع ميلان طفيف جداً (10–15°)، اعصر الظهر، ثم اصعد ببطء وتحكم.',
     ],
     simpleExplanationEn:
       'Think of your arms simply as hooks connecting the bar to your back: you start the pull by depressing your shoulder blades downward before bending your elbows. Pulling the bar vertically in front of your face to your upper chest contracts the latissimus dorsi cleanly from full overhead stretch to peak squeeze.',
     simpleExplanationAr:
-      'تخيّل يديك مجرد خطافين يربطان البار بظهرك؛ تبدأ الحركة بخفض لوحي الكتف للأسفل أولاً قبل أن ينثني المرفقان. تسحب البار عمودياً أمام وجهك حتى أعلى الصدر (وليس خلف الرقبة) مع ميل طفيف للخلف (10–15°)، مما يمدد عضلة الظهر العريضة (المجنص) في الأعلى ويعصرها بقوة في الأسفل.',
+      'تعامل مع يديك كخطافين يربطان البار بظهرك؛ تبدأ الحركة بخفض لوحي الكتف للأسفل أولاً قبل أن ينثني المرفقان. تسحب البار عمودياً أمام وجهك حتى أعلى الصدر (وليس خلف الرقبة) مع ميل طفيف للخلف (10–15°)، مما يمدد العضلة الظهرية العريضة في الأعلى ويعصرها بقوة في الأسفل.',
     tipsEn: [
       'Avoid an overly wide snatch grip; slightly outside shoulder width gives the best lat range and leverage.',
       'Keep your chest lifted toward the bar as it descends rather than caving shoulders forward.',
       'Control the upward return for 2–3 seconds until your shoulders gently elevate into a full lat stretch.',
     ],
     tipsAr: [
-      'تجنب القبضة الواسعة جداً؛ القبضة الأعـرض قليلاً من الكتفين تمنحك أفضل مدى حركي وعزم للمجنص.',
+      'تجنب القبضة الواسعة جداً؛ القبضة الأعـرض قليلاً من الكتفين تمنحك أفضل مدى حركي وعزم للعضلة الظهرية العريضة.',
       'ارفع صدرك للأعلى باتجاه البار أثناء النزول ولا تدع الكتفين ينحنيان للأمام.',
       'اصعد بتحكم خلال 2–3 ثوانٍ حتى تمتد الذراعان والكتفان بالكامل في الأعلى.',
     ],
@@ -516,8 +516,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Stopping the upward stretch early around forehead height.',
     ],
     avoidAr: [
-      'سحب البار خلف الرأس والرقبة لأنه يضع ضغطاً غير طبيعي على أربطة الكتف وفقرات الرقبة.',
-      'إرجاع الظهر للخلف بقوة كأنك تنفذ تجديفاً أرضياً بالزخم.',
+      'سحب البار خلف الرأس والرقبة لأنه يضع ضغطاً غير آمن على أربطة الكتف وفقرات الرقبة.',
+      'إرجاع الظهر للخلف بقوة كأنك تنفذ تجديفاً أرضياً بالاندفاع.',
       'إيقاف الصعود عند مستوى الرأس دون تمديد كامل للذراعين والظهر.',
     ],
   },
@@ -536,7 +536,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'Hinging forward at roughly 45° puts your upper back and lats horizontally under gravity while your hamstrings, glutes, and spinal erectors hold your torso steady. Instead of lifting with your biceps, drive your elbows backward toward your hips so the bar meets your upper stomach/lower chest squarely.',
     simpleExplanationAr:
-      'الانحناء من مفصل الورك بزاوية تقارب 45° يضع عضلات الظهر واللاتس أفقياً في مواجهة الجاذبية، بينما يثبّت البطن والوركان استقامة العمود الفقري. بدلاً من السحب بالذراعين، تقود الحركة بسحب مرفقيك للأعلى وللخلف ليصل البار إلى أسفل الصدر أو أعلى البطن، مما يبني سماكة وقوة الظهر بالكامل.',
+      'الانحناء من مفصل الورك بزاوية تقارب 45° يضع عضلات الظهر والظهرية العريضة أفقياً في مواجهة الجاذبية، بينما يثبّت الجذع والوركان استقامة العمود الفقري. بدلاً من السحب بالذراعين، تقود الحركة بسحب مرفقيك للأعلى وللخلف ليصل البار إلى أسفل الصدر أو أعلى البطن، مما يبني سماكة وقوة الظهر بالكامل.',
     tipsEn: [
       'Keep your torso angle constant throughout the set—do not stand upright as weight rises.',
       'Brace your core and pack your lats tight before lifting the first rep.',
@@ -544,8 +544,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     tipsAr: [
       'حافظ على ثبات زاوية انحناء الجذع طوال الجولة ولا ترفع صدرك للأعلى أثناء السحب.',
-      'اشدد عضلات البطن كالحزام الواقي وثبّت العمود الفقري مسطحاً قبل أول تكرار.',
-      'السحب نحو أسفل الصدر يركز أكثر على منتصف الظهر، ونحو السرة يركز أكثر على المجنص.',
+      'اشدد عضلات البطن كدعامة واقية وثبّت العمود الفقري مسطحاً قبل أول تكرار.',
+      'السحب نحو أسفل الصدر يركز أكثر على منتصف الظهر، ونحو السرة يركز أكثر على العضلة الظهرية العريضة.',
     ],
     avoidEn: [
       'Rounding your lumbar spine under heavy barbell weight.',
@@ -554,8 +554,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     avoidAr: [
       'تقوّس أسفل الظهر تحت ثقل البار مما يهدد الغضاريف القطنية.',
-      'القفز بالركبتين وأرجحة الظهر للأعلى لرفع وزن زائد بالزخم.',
-      'شد الأكتاف للأعلى نحو الأذنين بدلاً من سحب لوحي الكتف للخلف.',
+      'القفز بالركبتين وأرجحة الظهر للأعلى لرفع وزن زائد بالاندفاع.',
+      'رفع الأكتاف نحو الأذنين بدلاً من سحب لوحي الكتف للخلف.',
     ],
   },
   'seated-cable-row': {
@@ -568,12 +568,12 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     stepCaptionsAr: [
       'اجلس باستقامة مع ثني خفيف للركبتين ومد الذراعين للأمام مع إبقاء الظهر مشدوداً.',
       'اسحب المرفقين للخلف بمحاذاة أضلاعك مع إبقاء الصدر مرتفعاً نحو المقبض.',
-      'ثبّت المقبض لحظة عند أعلى البطن وعصر منتصف الظهر، ثم عد للأمام بتحكم دون تقويس أسفل الظهر.',
+      'ثبّت المقبض لحظة عند أعلى البطن مع ضم منتصف الظهر، ثم عد للأمام بتحكم دون تقويس أسفل الظهر.',
     ],
     simpleExplanationEn:
       'Seated horizontally with feet braced on the footplate, the cable pulls straight forward against your mid-back and lats. Keep your torso upright like a pillar while gliding your shoulder blades forward into a controlled stretch, then pulling elbows cleanly past your ribs to squeeze your mid-back together.',
     simpleExplanationAr:
-      'بجلوسك مستقيماً وتثبيت قدميك على المنصة، يسحبك الكابل للأمام أفقياً عبر خط منتصف الظهر. تحافظ على الجذع ثابتاً كالعمود المستقيم: تمد لوحي الكتف للأمام في البداية بإطالة متحكم بها (دون تقويس أسفل الظهر)، ثم تسحب مرفقيك للخلف بمحاذاة الجذع حتى تلامس يدك أعلى البطن وتضم لوحي الكتف بقوة.',
+      'بجلوسك مستقيماً وتثبيت قدميك على المنصة، يسحبك الكابل للأمام أفقياً عبر خط منتصف الظهر. تحافظ على الجذع ثابتاً ومستقيماً: تمد لوحي الكتف للأمام في البداية بإطالة متحكم بها دون تقويس أسفل الظهر، ثم تسحب مرفقيك للخلف بمحاذاة الجذع حتى تقترب يدك من أعلى البطن وتضم لوحي الكتف بقوة.',
     tipsEn: [
       'Allow your shoulder blades—not your lower back—to protract forward at the front stretch.',
       'Keep shoulders pressed down away from your ears throughout every squeeze.',
@@ -581,7 +581,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     tipsAr: [
       'اسمح للوحي الكتف فقط بالانزلاق للأمام للإطالة في البداية، وأبقِ أسفل الظهر ثابتاً تماماً.',
-      'اخفض الكتفين بعيداً عن الأذنين أثناء عصر الظهر في النهاية.',
+      'اخفض الكتفين بعيداً عن الأذنين أثناء ضم الظهر في النهاية.',
       'توقف نصف ثانية إلى ثانية عند ملامسة المقبض لبطنك قبل العودة ببطء.',
     ],
     avoidEn: [
@@ -591,7 +591,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     avoidAr: [
       'التأرجح المبالغ فيه بالجذع للأمام والخلف لرفع الأوزان الثقيلة.',
-      'رفع الكتفين والترابيس نحو الأذنين في نهاية السحبة.',
+      'رفع الكتفين نحو الأذنين في نهاية السحبة.',
       'فتح المرفقين للجانبين أثناء استخدام المقبض الضيق.',
     ],
   },
@@ -610,14 +610,14 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'Bracing one arm and leg on a bench removes lower-back strain and gives you complete freedom to pull one side at a time. Rather than lifting the dumbbell straight up into your armpit (which hits arms/rear delts), sweep it back in an arc toward your hip pocket to isolate the latissimus dorsi deeply.',
     simpleExplanationAr:
-      'إسناد يد وركبة على المقعد يزيل العبء عن أسفل الظهر ويتيح لك التركيز على جانب واحد بمدى حركي واسع. السر في هذا التمرين هو سحب الدامبل في مسار قوسي للخلف باتجاه جيب البنطال (الورك) بدلاً من رفعه عمودياً نحو الإبط، مما يضع أقصى حمل على عضلة المجنص من الإطالة السفلية حتى الانقباض.',
+      'إسناد يد وركبة على المقعد يزيل العبء عن أسفل الظهر ويتيح لك التركيز على جانب واحد بمدى حركي واسع. السر في هذا التمرين هو سحب الدامبل في مسار قوسي للخلف باتجاه الورك بدلاً من رفعه عمودياً نحو الإبط، مما يضع أقصى حمل على العضلة الظهرية العريضة من الإطالة السفلية حتى الانقباض.',
     tipsEn: [
       'Keep hips and shoulders square to the floor—avoid rotating open just to heave the weight.',
       'Let the dumbbell drop gently forward/down an extra couple centimeters at the bottom to stretch the lat.',
       'Push your supporting hand actively into the bench so your torso stays rock solid.',
     ],
     tipsAr: [
-      'أبقِ الكتفين والوركين موازيين للأرض دون لف الجذع للأعلى لسرقة الرفعة.',
+      'أبقِ الكتفين والوركين موازيين للأرض دون لف الجذع للأعلى لتسهيل الرفعة.',
       'اسمح للكتف بالنزول ببطء في الأسفل لتحقيق إطالة كاملة للظهر قبل السحب التالي.',
       'ادفع المقعد باليد المساندة بثبات حتى لا يتأرجح جذعك.',
     ],
@@ -627,9 +627,9 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Pulling straight upward toward your shoulder with heavy bicep curl flexion.',
     ],
     avoidAr: [
-      'لف الجذع بعنف للأعلى كما لو كنت تسحب محركاً لتعويض ثقل الوزن.',
+      'لف الجذع بعنف للأعلى لتعويض ثقل الوزن.',
       'تقويس الظهر أو ارتخاء الكتف المستند على المقعد.',
-      'ثني الذراع للأعلى نحو الكتف فقط (تحويلها لتمرين بايسبس).',
+      'ثني الذراع للأعلى نحو الكتف فقط مما يحوّل الحمل إلى البايسبس.',
     ],
   },
   'pull-ups': {
@@ -684,7 +684,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'With your chest locked tightly against the pad, lower-back momentum becomes mechanically impossible. Every pull forces your rhomboids, middle traps, rear delts, and lats to move the load purely across the shoulder blades, making it ideal for pushing back training safely to high effort.',
     simpleExplanationAr:
-      'تثبيت الصدر على المسند الأمامي يمنع ظهرك من التأرجح تماماً ويزيل الحمل القطني، فتتحول 100% من القوة إلى عضلات الظهر العلوي والأوسط واللاتس. تمدد الذراعين للأمام بتحكم حتى ينفتح لوحا الكتف، ثم تسحب المرفقين للخلف لعصر المنتصف دون أن يفارق صدرك المسند لحظة واحدة.',
+      'تثبيت الصدر على المسند الأمامي يمنع ظهرك من التأرجح تماماً ويزيل الحمل القطني، فتتحول القوة كاملة إلى عضلات الظهر العلوي والأوسط والعضلة الظهرية العريضة. تمدد الذراعين للأمام بتحكم حتى ينفتح لوحا الكتف، ثم تسحب المرفقين للخلف لعصر المنتصف دون أن يفارق صدرك المسند لحظة واحدة.',
     tipsEn: [
       'Adjust seat height so the handles track smoothly toward your lower sternum / mid-ribs.',
       'Use a neutral grip for more lats, or wider pronated grip to hammer upper back & rear delts.',
@@ -692,7 +692,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     tipsAr: [
       'اضبط المقعد لتتحرك المقابض نحو أسفل الصدر أو أعلى البطن براحة.',
-      'المقبض المحايد (الضيق) يستهدف اللاتس أكثر، والمقبض العريض يركز على أعلى الظهر والكتف الخلفي.',
+      'المقبض المحايد الضيق يستهدف العضلة الظهرية العريضة أكثر، والمقبض العريض يركز على أعلى الظهر والكتف الخلفي.',
       'أبقِ القفص الصدري ملاصقاً للمسند طوال السحب ولا تفصله عنه عند الذروة.',
     ],
     avoidEn: [
@@ -714,22 +714,22 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Squeeze shoulder blades together for 1 full second, then return slowly maintaining band stretch.',
     ],
     stepCaptionsAr: [
-      'اجلس باستقامة ولف الحزام بإحكام حول منتصف باطن الحذاءين مع ثني خفيف للركبتين.',
+      'اجلس باستقامة ولف الحبل بإحكام حول منتصف باطن القدمين مع ثني خفيف للركبتين.',
       'اسحب المقبضين نحو أسفل الأضلاع مع دفع المرفقين للخلف ورفع الصدر.',
-      'اعصر لوحي الكتف معاً لمدة ثانية كاملة ثم عد ببطء دون ارتخاء الحزام.',
+      'اعصر لوحي الكتف معاً لمدة ثانية كاملة ثم عد ببطء دون ارتخاء الحبل.',
     ],
     simpleExplanationEn:
       'Anchored around the soles of your feet, the elastic band provides smooth progressive tension that peaks right as your shoulder blades squeeze together at the torso. Maintaining an upright, rigid spine lets you train horizontal back contraction effectively anywhere with minimal setup.',
     simpleExplanationAr:
-      'يلتف الحزام حول باطن القدمين لتتحول المقاومة أفقياً مقابل جذعك؛ وكلما سحبت للخلف ازداد الشد ليبلغ أقصاه تماماً لحظة ضم لوحي الكتف. الحفاظ على ظهر مستقيم وصدر مرفوع يضمن تركيز السحب في منتصف الظهر والمجنص في البيت أو السفر.',
+      'يلتف حبل المقاومة حول باطن القدمين لتتحول المقاومة أفقياً مقابل جذعك؛ وكلما سحبت للخلف ازداد الشد ليبلغ أقصاه تماماً لحظة ضم لوحي الكتف. الحفاظ على ظهر مستقيم وصدر مرفوع يضمن تركيز السحب في منتصف الظهر والعضلة الظهرية العريضة في أي مكان.',
     tipsEn: [
       'Wrap the band once or grip closer toward your feet if resistance feels too light at start.',
       'Lead with elbows close to your ribs and pause 1s at peak contraction.',
       'Sit on a folded towel or mat cushion if hamstrings feel too tight to keep spine straight.',
     ],
     tipsAr: [
-      'أمسك الحزام من نقطة أقرب للقدمين أو لفه مرة واحدة لزيادة المقاومة عند الحاجة.',
-      'قُد السحب بالمرفقين بمحاذاة الجذع وتوقف ثانية في النهاية لاستثمار أقصى شد للحزام.',
+      'أمسك الحبل من نقطة أقرب للقدمين أو لفه مرة واحدة لزيادة المقاومة عند الحاجة.',
+      'قُد السحب بالمرفقين بمحاذاة الجذع وتوقف ثانية في النهاية لاستثمار أقصى شد للحبل.',
       'اجلس على وسادة رفيعة إذا كان شد الفخذ الخلفي يمنعك من استقامة الظهر.',
     ],
     avoidEn: [
@@ -739,7 +739,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     avoidAr: [
       'انحناء وتقوّس الظهر للأمام أثناء الجلوس على الأرض.',
-      'وضع الحزام على أطراف الأصابع فقط مما يعرضه للانفلات نحوك.',
+      'وضع الحبل على أطراف الأصابع فقط مما يعرضه للانفلات نحوك.',
       'السحب السريع العشوائي دون توقف عند الانقباض.',
     ],
   },
@@ -758,7 +758,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'Using an underhand grip rotates your elbows forward into a strong mechanical line for both the lats and the biceps. Pull your chest upward toward the bar with elbows traveling straight down in front of your ribs, giving you one of the strongest bodyweight movements for back width and arm thickness.',
     simpleExplanationAr:
-      'تضع القبضة المعكوسة (راحتا اليد نحوك) المرفقين في مسار أمامي قوي يجمع بين أقصى تفعيل لعضلة المجنص وأقوى مشاركة لعضلة البايسبس. ترفع صدرك نحو البار بسحب المرفقين للأسفل أمام الجذع وتنزل بتحكم كامل، ما يجعله من أفضل تمارين الجزء العلوي بوزن الجسم.',
+      'تضع القبضة المعكوسة (راحتا اليد نحوك) المرفقين في مسار أمامي قوي يجمع بين أقصى تفعيل للعضلة الظهرية العريضة وأقوى مشاركة لعضلة البايسبس. ترفع صدرك نحو البار بسحب المرفقين للأسفل أمام الجذع وتنزل بتحكم كامل، ما يجعله من أفضل تمارين الجزء العلوي بوزن الجسم.',
     tipsEn: [
       'Use a grip right at shoulder width—too narrow can pinch wrists, too wide weakens leverage.',
       'Focus on bringing your chest up to meet the bar rather than curling just your head over.',
@@ -775,8 +775,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Letting shoulders roll inward at the top instead of pulling chest open.',
     ],
     avoidAr: [
-      'النزول النصفي الذي يحرم المجنص من التمدد الكامل في الأسفل.',
-      'رفع الركبتين بقوة أو أرجحة الساقين لاكتساب زخم.',
+      'النزول النصفي الذي يحرم العضلة الظهرية العريضة من التمدد الكامل في الأسفل.',
+      'رفع الركبتين بقوة أو أرجحة الساقين لاكتساب اندفاع.',
       'تقويس الكتفين للأمام في الأعلى بدلاً من فتح الصدر للبار.',
     ],
   },
@@ -795,7 +795,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'Unlike standard bent-over rows where the bar stays suspended, every Pendlay row starts from a dead stop on the floor with your torso parallel to the ground. Pulling explosively from dead rest builds tremendous upper-back power, scapular retraction, and strict form since you reset your back position between every single rep.',
     simpleExplanationAr:
-      'على عكس التجديف المعتاد الذي يبقى فيه البار معلقاً، يبدأ كل تكرار هنا من ثبات تام للبار على الأرض مع بقاء الجذع شبه موازٍ للأرض. تسحب البار بانفجارية وقوة إلى أسفل الصدر ثم تعيده للاستقرار على الأرض وإعادة ضبط شد الظهر في كل مرة، مما يبني قوة سحب خاماً وسماكة عالية للظهر دون تأرجح.',
+      'على عكس التجديف المعتاد الذي يبقى فيه البار معلقاً، يبدأ كل تكرار هنا من ثبات تام للبار على الأرض مع بقاء الجذع شبه موازٍ للأرض. تسحب البار بقوة إلى أسفل الصدر ثم تعيده للاستقرار على الأرض وتعيد ضبط شد الظهر في كل مرة، مما يبني قوة سحب خاماً وسماكة عالية للظهر دون تأرجح.',
     tipsEn: [
       'Use full-size 20 kg bumper/45 lb plates (or elevate slightly) so bar starts at proper shin height.',
       'Pull the slack and brace core hard before each explosive pull—torso angle stays horizontal.',
@@ -853,7 +853,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     avoidAr: [
       'الانحناء للخلف وتقويس أسفل الظهر لتعويض ثقل الوزن.',
       'دفع البار للأمام بعيداً عن خط توازن الجسم فوق الرأس.',
-      'ثني الركبتين للدفع بالزخم (إلا إذا كنت تتعمد أداء Push Press).',
+      'ثني الركبتين للدفع بالاندفاع ما لم تكن تنفذ تمرين الضغط الدفعي عن عمد.',
     ],
   },
   'seated-dumbbell-shoulder-press': {
@@ -999,9 +999,9 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Raising high past shoulder height with upper traps doing the finish.',
     ],
     avoidAr: [
-      'نتش المقبض بسرعة في بداية السحبة باستخدام تأرجح الجذع.',
+      'سحب المقبض بسرعة في بداية السحبة باستخدام تأرجح الجذع.',
       'السماح للكابل بسحب ذراعك للداخل بعنف في نهاية النزول.',
-      'رفع الذراع فوق مستوى الكتف وإشراك عضلات الرقبة والترابيس.',
+      'رفع الذراع فوق مستوى الكتف وإشراك عضلات الرقبة والعضلة شبه المنحرفة.',
     ],
   },
   'smith-overhead-press': {
@@ -1013,8 +1013,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     stepCaptionsAr: [
       'ضع مقعداً عمودياً داخل جهاز السميث بحيث يمر البار أمام الأنف بنحو 2–3 سم بسلاسة.',
-      'فك الأمان وأنزل البار بتحكم حتى مستوى الذقن أو أعلى الترقوة مع ساعدين عموديين.',
-      'ادفع للأعلى باستقامة حتى شبه فرد الذراعين مع بقاء الظهر مسنوداً على المقعد.',
+      'حرّر قفل الأمان وأنزل البار بتحكم حتى مستوى الذقن أو أعلى الترقوة مع ساعدين عموديين.',
+      'ادفع للأعلى باستقامة حتى يقترب الذراعان من الفرد الكامل مع بقاء الظهر مسنوداً على المقعد.',
     ],
     simpleExplanationEn:
       'Pressing along the fixed vertical guide of the Smith machine removes forward-backward bar drift so you can load the front and side deltoids heavily with zero spotter needed. Careful bench positioning ensures your forearms stay perpendicular under the bar throughout the entire press.',
@@ -1139,7 +1139,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Pause momentarily just before full elbow extension at the bottom—no bouncing.',
     ],
     tipsAr: [
-      'استخدم البار المتعرج (EZ-Bar) إذا شعرت بأي ضغط غير مريح في المعصمين مع البار المستقيم.',
+      'استخدم البار المتعرج إذا شعرت بأي ضغط غير مريح في المعصمين مع البار المستقيم.',
       'حافظ على استقامة المعصمين وتجنب ثنيهما للداخل عند قمة الرفعة.',
       'توقف لحظة بسيطة في الأسفل قبل الرفع التالي لمنع الاستعانة بارتداد المرفق.',
     ],
@@ -1280,7 +1280,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'Bracing the backs of your upper arms against an angled preacher pad makes swinging your torso or moving your elbows physically impossible. Resistance peaks most sharply in the bottom half of the movement, forcing pure biceps strength out of the stretched position.',
     simpleExplanationAr:
-      'إسناد خلفية العضدين على الوسادة المائلة يمنع جسمك ومرفقيك من أي حركة مساعدة تماماً، ليتحمل البايسبس 100% من الحمل دون أي غش. يبلغ التوتر ذروته هنا في النصف السفلي من الحركة، لذلك احرص على نزول بطيء متحكم به لحماية أوتار المرفق في وضع التمدد.',
+      'إسناد خلفية العضدين على الوسادة المائلة يمنع جسمك ومرفقيك من أي حركة مساعدة تماماً، ليتحمل البايسبس كامل الحمل دون أي تحايل حركي. يبلغ التوتر ذروته هنا في النصف السفلي من الحركة، لذلك احرص على نزول بطيء متحكم به لحماية أوتار المرفق في وضع التمدد.',
     tipsEn: [
       'Verify seat height before grabbing handles—shoulders should stay relaxed, not pushed up by the pad.',
       'Focus on driving your wrists smoothly upward while pushing upper arms gently into the pad.',
@@ -1386,14 +1386,14 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Extend forearms smoothly back to the slightly-angled overhead line without losing triceps tension.',
     ],
     stepCaptionsAr: [
-      'استلقِ على البنش وارفع البار، ثم أمل العضدين للخلف بنحو 10–15° عن الخط العمودي.',
+      'استلقِ على المقعد المستوي وارفع البار، ثم أمل العضدين للخلف بنحو 10–15° عن الخط العمودي.',
       'ثبّت العضدين في هذه الزاوية واثنِ المرفقين فقط لإنزال البار بتحكم خلف قمة الرأس.',
       'افرد الساعدين للأعلى إلى نفس نقطة البداية المائلة قليلاً للحفاظ على الشد في الأعلى.',
     ],
     simpleExplanationEn:
       'Instead of pointing your arms straight 90° at the ceiling—where tension vanishes at lockout—leaning your upper arms back ~10–15° keeps constant load on the triceps even when arms straighten. Lowering behind your crown rather than onto your forehead adds safety and gives a richer long-head stretch.',
     simpleExplanationAr:
-      'بدلاً من رفع الذراعين عمودياً تماماً (90° على السقف) حيث ينعدم الحمل في الأعلى، قم بإمالة العضدين للخلف بنحو 10–15° وثبّتهما طوال التمرين ليبقى الترايسبس مشدوداً حتى في القمة. ينزل البار بتحكم خلف قمة الرأس وليس فوق الجبهة مباشرة لحماية المرفقين وتمديد الرأس الطويل.',
+      'بدلاً من رفع الذراعين عمودياً تماماً (90° على السقف) حيث ينعدم الحمل في الأعلى، أمل العضدين للخلف بنحو 10–15° وثبّتهما طوال التمرين ليبقى الترايسبس مشدوداً حتى في القمة. ينزل البار بتحكم خلف قمة الرأس وليس فوق الجبهة مباشرة لحماية المرفقين وتمديد الرأس الطويل.',
     tipsEn: [
       'Lower the bar slightly behind the top of your head (toward bench edge) for a deeper stretch.',
       'Keep elbows comfortably tucked inward—roughly shoulder width—never splayed wide.',
@@ -1412,7 +1412,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     avoidAr: [
       'إسقاط البار بسرعة نحو الجبهة دون سيطرة عضلية.',
       'فتح المرفقين للخارج بزاوية واسعة.',
-      'أرجحة العضدين للأمام والخلف كأنك تنفذ تمرين بلوفر.',
+      'أرجحة العضدين للأمام والخلف بدلاً من تثبيتهما.',
     ],
   },
   'dumbbell-tricep-kickback': {
@@ -1476,7 +1476,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     tipsAr: [
       'اثنِ الركبتين لتخفيف المقاومة أو مد الساقين للأمام لزيادة الصعوبة.',
       'وجّه المرفقين للخلف مباشرة ولا تدعهما يبتعدان كثيراً للجانبين.',
-      'اجعل ظهرك يتحرك عمودياً بمحاذاتك القريبة جداً من حافة المقعد.',
+      'اجعل ظهرك يتحرك عمودياً بمحاذاة قريبة جداً من حافة المقعد.',
     ],
     avoidEn: [
       'Drifting hips 20–30 cm forward away from the bench, pinching anterior shoulders.',
@@ -1497,7 +1497,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Press smoothly back overhead keeping elbows steady and stopping just short of harsh joint snap.',
     ],
     stepCaptionsAr: [
-      'اجلس باستقامة على مقعد قصير المسند وارفع البار المتعرج فوق الرأس بقبضة متقاربة ومرفقين للأمام/الأعلى.',
+      'اجلس باستقامة على مقعد قصير المسند وارفع البار المتعرج فوق الرأس بقبضة متقاربة ومرفقين للأمام وللأعلى.',
       'اشدد البطن وأنزل البار ببطء خلف الرأس حتى أقصى انثناء مريح للمرفقين وتمدد الترايسبس.',
       'ادفع البار للأعلى بثبات دون فتح المرفقين للجانبين أو تقويس أسفل الظهر.',
     ],
@@ -1511,7 +1511,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Pause momentarily in the deep stretch behind your head before pressing smoothly up.',
     ],
     tipsAr: [
-      'استخدم البار المتعرج (EZ-Bar) لتوفير زاوية مريحة للمعصمين وتقليل الضغط على المرفقين.',
+      'استخدم البار المتعرج لتوفير زاوية مريحة للمعصمين وتقليل الضغط على المرفقين.',
       'اطلب من زميل مناولتك البار عند استخدام أوزان ثقيلة لحماية كتفيك.',
       'توقف لحظة قصيرة في أقصى إطالة خلف الرأس قبل الدفع للأعلى لمنع الارتداد.',
     ],
@@ -1610,14 +1610,14 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Reach parallel (hip crease at or below knee), then drive firmly through mid-foot straight back up.',
     ],
     stepCaptionsAr: [
-      'ثبّت البار على أعلى الظهر (الترابيس)، خذ نفساً عميقاً واشدد البطن 360°، بقدمين بعرض الكتفين.',
+      'ثبّت البار على أعلى العضلة شبه المنحرفة (الترابيس)، خذ نفساً عميقاً واشدد البطن بالكامل، بقدمين بعرض الكتفين.',
       'ابدأ النزول بثني الوركين والركبتين معاً مع تتبع الركبتين لاتجاه أصابع القدم وصدر مرفوع.',
       'صل لعمق التوازي (مفصل الورك بمحاذاة الركبة أو أخفض)، ثم ادفع بقوة من منتصف القدم للأعلى.',
     ],
     simpleExplanationEn:
       'Think of sitting down between your heels—not pitching forward over your toes—while keeping your chest proud and the barbell traveling in a vertical line directly over mid-foot. Deepening to at least parallel stretches and loads both your quadriceps and glutes maximally while a 360° braced core keeps your spine protected.',
     simpleExplanationAr:
-      'تخيّل أنك تجلس للأسفل بين كعبيك (وليس مجرد انحناء للأمام) بحيث يتحرك البار في خط عمودي واحد فوق منتصف قدمك تماماً من البداية للنهاية. النزول حتى مستوى التوازي (انخفاض مفصل الورك لمحاذاة الركبة) يضع أعلى حمل ميكانيكي على الفخذ الأمامي والأرداف، بينما يحمي شد البطن الدائري عمودك الفقري طوال الرفعة.',
+      'تخيّل أنك تجلس للأسفل بين كعبيك بحيث يتحرك البار في خط عمودي واحد فوق منتصف قدمك تماماً من البداية للنهاية. النزول حتى مستوى التوازي (انخفاض مفصل الورك لمحاذاة الركبة) يضع أعلى حمل ميكانيكي على الفخذ الأمامي والأرداف، بينما يحمي شد الجذع عمودك الفقري طوال الرفعة.',
     tipsEn: [
       'Angle toes slightly outward (15–30°) and drive knees out along that exact toe direction.',
       'Distribute pressure evenly across 3 points: heel, big toe base, and pinky toe base.',
@@ -1625,8 +1625,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     tipsAr: [
       'أدر أصابع القدم للخارج قليلاً (15–30°) واحرص أن تتحرك الركبتان في نفس اتجاه الأصابع تماماً.',
-      'وزّع ضغط جسمك بالتساوي على كامل باطن القدم (الكعب + مشط القدم) لا على الأصابع فقط.',
-      'ثبّت نظرك للأمام وللأسفل قليلاً (على بُعد بضعة أمتار) ولا ترفع رأسك للسقف.',
+      'وزّع ضغط جسمك بالتساوي على كامل باطن القدم (الكعب ومشط القدم) لا على الأصابع فقط.',
+      'ثبّت نظرك للأمام وللأسفل قليلاً ولا ترفع رأسك للسقف.',
     ],
     avoidEn: [
       'Letting knees cave inward toward each other (knee valgus) while pushing out of the hole.',
@@ -1635,7 +1635,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     avoidAr: [
       'انهيار الركبتين للداخل نحو بعضهما أثناء الدفع للصعود.',
-      'النزول السطحي (ربع سكوات) لمجرد رفع أوزان كبيرة دون تفعيل حقيقي للفخذ والأرداف.',
+      'النزول السطحي لمجرد رفع أوزان كبيرة دون تفعيل حقيقي للفخذ والأرداف.',
       'تقوّس أسفل الظهر في أقصى النزول أو ارتفاع الكعبين عن الأرض.',
     ],
   },
@@ -1647,7 +1647,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Drive forcefully through mid-foot and heels until legs are extended without violently locking knees.',
     ],
     stepCaptionsAr: [
-      'ثبّت قدميك بعرض الكتفين، امسك المقابض الجانبية لتثبيت حوضك بالمقعد، وفك أقفال الأمان.',
+      'ثبّت قدميك بعرض الكتفين، امسك المقابض الجانبية لتثبيت حوضك بالمقعد، وحرّر أقفال الأمان.',
       'أنزل المنصة بتحكم بتقريب الركبتين نحو الصدر والتوقف قبيل ارتفاع أسفل الظهر عن المقعد.',
       'ادفع بقوة من منتصف القدم والكعبين للأعلى وتوقف قبيل القفل العنيف للركبتين.',
     ],
@@ -1672,7 +1672,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     avoidAr: [
       'قفل الركبتين وفردهما للخلف بعنف في الأعلى تحت وزن ثقيل.',
-      'السماح لأسفل الظهر والعصعص بالارتفاع والانفصال عن المسند عند النزول.',
+      'السماح لأسفل الظهر والحوض بالارتفاع والانفصال عن المسند عند النزول.',
       'الدفع باليدين على الركبتين أو الفخذين للمساعدة في رفع المنصة.',
     ],
   },
@@ -1691,7 +1691,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'Unlike squats and leg presses where the hips extend too, leg extensions isolate knee extension exclusively—delivering strong peak contraction to all four heads of the quadriceps (especially the central rectus femoris). Pausing at the top for 1 second and controlling the descent doubles muscle stimulus without adding joint shock.',
     simpleExplanationAr:
-      'على عكس السكوات ودفع الأرجل، يعزل هذا الجهاز حركة مد مفصل الركبة فقط، مما يمنح عضلات الفخذ الأمامي الأربع (وخاصة العضلة الوسطى للفخذ الأمامي) أقصى انقباض في قمة الحركة. التوقف لثانية كاملة عند تمام الفرد ثم النزول البطيء يضاعفان الاستهداف العضلي بأمان.',
+      'على عكس القرفصاء ودفع الأرجل، يعزل هذا الجهاز حركة مد مفصل الركبة فقط، مما يمنح عضلات الفخذ الأمامي الأربع أقصى انقباض في قمة الحركة. التوقف لثانية كاملة عند تمام الفرد ثم النزول البطيء يضاعفان الاستهداف العضلي بأمان.',
     tipsEn: [
       'Pull handles firmly downward to lock your hips flat against the seat.',
       'Keep toes pointing straight up or slightly toward you for clean quad engagement.',
@@ -1708,8 +1708,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Dropping the weight straight down fast after reaching the top.',
     ],
     avoidAr: [
-      'ركل الوسادة للأعلى بسرعة وانفجار باستخدام الزخم.',
-      'وضع وسادة الساق عالياً على منتصف القصبة أو منخفضاً على أطراف الأصابع.',
+      'دفع الوسادة للأعلى بسرعة وانفجار باستخدام الاندفاع الحركي.',
+      'وضع وسادة الساق عالياً على منتصف الساق أو منخفضاً على أطراف الأصابع.',
       'ترك الساقين تسقطان سريعاً للأسفل بعد القمة دون مقاومة.',
     ],
   },
@@ -1728,7 +1728,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'Holding the dumbbell right in front of your chest acts as a natural counterweight that lets you sit deeper with a much more upright spine than a back squat. Touching your elbows gently to the inside of your knees at the bottom naturally guides proper knee tracking and deep hip mobility.',
     simpleExplanationAr:
-      'حمل الدامبل أمام الصدر يعمل كثقل موازن يسمح لك بالجلوس بعمق أكبر مع بقاء ظهرك منتصباً مقارنة بالسكوات الخلفي. ملامسة المرفقين للجزء الداخلي من الركبتين في الأسفل تساعد تلقائياً على إبقاء الركبتين مفتوحتين في المسار الصحيح وتعميق الحركة بأمان.',
+      'حمل الدامبل أمام الصدر يعمل كثقل موازن يسمح لك بالجلوس بعمق أكبر مع بقاء ظهرك منتصباً مقارنة بالقرفصاء الخلفية. ملامسة المرفقين للجزء الداخلي من الركبتين في الأسفل تساعد تلقائياً على إبقاء الركبتين مفتوحتين في المسار الصحيح وتعميق الحركة بأمان.',
     tipsEn: [
       'Keep the dumbbell glued right against your sternum—never hold it out in front with straight arms.',
       'Maintain full foot contact across heels and toes throughout the squat.',
@@ -1765,7 +1765,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'Because the Smith rail supports balance completely, stepping your feet slightly forward of the bar line allows your torso to stay upright while knees travel comfortably forward—focusing heavy, isolated tension squarely onto the quadriceps without lower-back fatigue.',
     simpleExplanationAr:
-      'بفضل تثبيت التوازن على قضبان السميث، يمكنك تقديم قدميك قليلاً أمام خط البار ليهبط جذعك باستقامة أكثر، مما يوجه الحمل الرئيسي بشكل مركز ومباشر على عضلات الفخذ الأمامي مع تقليل إجهاد أسفل الظهر مقارنة بالسكوات الحر.',
+      'بفضل تثبيت التوازن على قضبان السميث، يمكنك تقديم قدميك قليلاً أمام خط البار ليهبط جذعك باستقامة أكثر، مما يوجه الحمل الرئيسي بشكل مركز ومباشر على عضلات الفخذ الأمامي مع تقليل إجهاد أسفل الظهر مقارنة بالقرفصاء الحرة.',
     tipsEn: [
       'Test your foot distance with an empty bar so your heels stay planted comfortably at the bottom.',
       'Always set lower mechanical safety pins just below your target depth.',
@@ -1809,7 +1809,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Elevating heels slightly on small plates (or lifting shoes) helps achieve full upright depth.',
     ],
     tipsAr: [
-      'اترك الوزن يستقر على لحم الكتفين الأماميين ولا تحمله على المعصمين (يمكنك استخدام قبضة الأذرع المتقاطعة عند الحاجة).',
+      'اترك الوزن يستقر على الكتفين الأماميين ولا تحمله على المعصمين، ويمكنك استخدام قبضة الأذرع المتقاطعة عند الحاجة.',
       'ادفع المرفقين للأعلى بقوة لحظة الصعود من القاع لمنع ميلان الصدر للأمام.',
       'استخدام حذاء رفع أثقال أو رفع الكعبين قليلاً يسهّل النزول العميق باستقامة.',
     ],
@@ -1846,8 +1846,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Control a steady 2–3s descent and lightly touch (or hover above) the floor with your rear knee.',
     ],
     tipsAr: [
-      'باعد بين القدمين عرضياً قليلاً (بمسافة مريحة عرضياً كخطين متوازيين لا على خط واحد) لتحقيق اتزان ممتاز.',
-      'لإيجاد المسافة المثالية: اجلس على حافة المقعد ومد ساقاً للأمام؛ مكان كعبك هو موضع قدمك الأمامية.',
+      'باعد بين القدمين عرضياً قليلاً (كخطين متوازيين لا على خط واحد) لتحقيق اتزان ممتاز.',
+      'لإيجاد المسافة المثالية: اجلس على حافة المقعد ومد ساقاً للأمام؛ موضع كعبك هو موضع قدمك الأمامية.',
       'انزل ببطء (2–3 ثوانٍ) حتى تقترب الركبة الخلفية من ملامسة الأرض بتحكم.',
     ],
     avoidEn: [
@@ -1871,22 +1871,22 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Stand tall squeezing glutes at lockout—keeping shoulders stacked cleanly without leaning back.',
     ],
     stepCaptionsAr: [
-      'قف والبار فوق منتصف القدم (بعيداً ~2–3 سم عن القصبة)، أمسك البار خارج الساقين واشدد الظهر واللاتس.',
+      'قف والبار فوق منتصف القدم (بعيداً ~2–3 سم عن الساق)، أمسك البار خارج الساقين واشدد الظهر وتحت الإبطين.',
       'ابدأ الرفعة بدفع الأرض بقدميك مع بقاء البار ملاصقاً للساقين والفخذين طوال الصعود.',
       'انتصب بالكامل مع شد الأرداف وتثبيت الكتفين دون إرجاع الظهر للخلف في الأعلى.',
     ],
     simpleExplanationEn:
       'Do not think of yanking a deadlift with your lower back—think of pushing the floor away with your legs while your rigid upper back holds the barbell tight against your body. Once the bar clears your knees, drive your hips smoothly forward to meet the bar until standing tall with squeezed glutes.',
     simpleExplanationAr:
-      'السر الحقيقي في الديدلفت هو ألا تسحبه بظهرك السفلي، بل "تدفع الأرض بقدميك" بينما يعمل ظهرك المشدود كرافعة صلبة تبقي البار ملاصقاً لساقيك تماماً. بمجرد تجاوز البار لمستوى الركبتين، تدفع وركيك للأمام باتجاه البار لتقف منتصباً مع شد الأرداف بالكامل دون تقويس الظهر للخلف.',
+      'السر الحقيقي في الرفعة المميتة هو ألا تسحبها بظهرك السفلي، بل ادفع الأرض بقدميك بينما يعمل ظهرك المشدود كرافعة صلبة تبقي البار ملاصقاً لساقيك تماماً. بمجرد تجاوز البار لمستوى الركبتين، ادفع وركيك للأمام باتجاه البار لتقف منتصباً مع شد الأرداف بالكامل دون تقويس الظهر للخلف.',
     tipsEn: [
       'Pull the slack out of the bar until you feel tension click against the plates before driving upward.',
       'Pack your armpits tight by pulling shoulder blades down toward your hips to engage lats and keep the bar close.',
       'Set the bar cleanly back down along the exact same vertical path over mid-foot.',
     ],
     tipsAr: [
-      'اسحب الفراغ من البار (اسحب للأعلى قليلاً حتى تسمع صوت ملامسة البار للأقراص) قبل الانطلاق بقوة.',
-      'اشدد عضلات تحت الإبطين (المجنص) للخلف وللأسفل لإبقاء البار ملاصقاً لجسمك لا ينفصل للأمام.',
+      'اسحب رخاوة البار بلطف قبل الإقلاع حتى تسمع صوت ملامسة البار للأقراص وتشعر بالشد، ثم ادفع بقوة.',
+      'اشدد عضلات تحت الإبطين للخلف وللأسفل لإبقاء البار ملاصقاً لجسمك دون أن ينفصل للأمام.',
       'أنزل البار للأرض بإرجاع الوركين أولاً ثم ثني الركبتين فور تجاوز البار للركبتين.',
     ],
     avoidEn: [
@@ -1895,7 +1895,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Hyperextending and leaning far backward at lockout.',
     ],
     avoidAr: [
-      'نتش البار من الأرض بظهر مقوّس لأن ذلك يضغط مباشرة على الفقرات القطنية.',
+      'خطف البار من الأرض بظهر مقوّس لأن ذلك يضغط مباشرة على الفقرات القطنية.',
       'رفع الوركين للأعلى أولاً قبل تحرك الكتفين والصدر مما يحمّل الظهر وحده.',
       'إمالة الجذع للخلف بعنف عند الوقوف في نهاية الرفعة.',
     ],
@@ -1909,13 +1909,13 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     stepCaptionsAr: [
       'قف حاملاً البار أمام الفخذين مع ثني طفيف ثابت في الركبتين (~15°) لا يتغير طوال الحركة.',
-      'ادفع الوركين للخلف باستقامة نحو الحائط مع انزلاق البار ملاصقاً للفخذين والظهر مسطح ومشدود.',
+      'ادفع الوركين للخلف باستقامة نحو الحائط مع انزلاق البار ملاصقاً للفخذين وبقاء الظهر مسطحاً ومشدوداً.',
       'توقف فور توقف الوركين عن الرجوع للخلف (تمدد عميق للفخذ الخلفي)، ثم ادفع الوركين للأمام للانتصاب.',
     ],
     simpleExplanationEn:
       'Unlike a conventional deadlift from the floor, an RDL starts at the top and emphasizes pure horizontal hip movement: push your hips steadily straight backward while keeping knees softly unlocked (~15°). Stop descending the moment your hips stop going back—usually right below the knees—and drive hips forward from the hamstrings and glutes.',
     simpleExplanationAr:
-      'على عكس الديدلفت التقليدي، يبدأ هذا التمرين من الأعلى ويركّز حصراً على حركة مفصل الورك أفقياً: ادفع الحوض أفقياً للخلف مع ثبات انحناء بسيط في الركبتين (~15°) وبقاء البار ملاصقاً للساقين. بمجرد أن يتوقف الحوض عن التراجع للخلف (غالباً أسفل الركبة بقليل)، تتوقف فوراً وتدفع وركيك للأمام باستخدام الفخذ الخلفي والأرداف.',
+      'على عكس الرفعة المميتة التقليدية، تبدأ الرفعة الرومانية من الأعلى وتركّز حصراً على حركة مفصل الورك أفقياً: ادفع الحوض أفقياً للخلف مع ثبات انحناء بسيط في الركبتين (~15°) وبقاء البار ملاصقاً للساقين. بمجرد أن يتوقف الحوض عن التراجع للخلف (غالباً أسفل الركبة بقليل)، توقف فوراً وادفع وركيك للأمام باستخدام الفخذ الخلفي والأرداف.',
     tipsEn: [
       'Keep your chin tucked gently in line with your spine rather than craning to watch a mirror.',
       'Maintain active lat tension pulling the bar softly backward against your thighs.',
@@ -1923,7 +1923,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     tipsAr: [
       'أبقِ الرقبة على استقامة واحدة مع ظهرك ولا ترفع رأسك للأعلى للنظر في المرآة.',
-      'حافظ على شد عضلات الإبطين (المجنص) لإبقاء البار ملاصقاً للفخذين والقصبتين طوال الوقت.',
+      'حافظ على شد عضلات تحت الإبطين لإبقاء البار ملاصقاً للفخذين والساقين طوال الوقت.',
       'انزل ببطء (3 ثوانٍ) واشعر بتمدد الفخذ الخلفي قبل الدفع للوقوف دون ارتداد.',
     ],
     avoidEn: [
@@ -1933,7 +1933,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     avoidAr: [
       'ابتعاد البار للأمام عن ساقيك لأن ذلك ينقل الحمل فوراً إلى أسفل الظهر.',
-      'زيادة ثني الركبتين أثناء النزول وتحويل التمرين إلى سكوات.',
+      'زيادة ثني الركبتين أثناء النزول وتحويل التمرين إلى قرفصاء.',
       'محاولة إيصال البار للأرض بتقويس الظهر بعد انتهاء مدى مرونة الفخذ الخلفي.',
     ],
   },
@@ -1952,7 +1952,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'While RDLs train the hamstrings via hip extension in a stretched position, leg curls isolate them via knee flexion—hitting the short head (biceps femoris) that hip hinges miss. Pressing your pubic bone/hips gently into the bench pad prevents your lower back from taking over the pull.',
     simpleExplanationAr:
-      'بينما تمرّن الرفعة الرومانية الفخذ الخلفي من مفصل الورك، يعزل جهاز الليج كيرل الفخذ الخلفي عبر ثني الركبة، ما يشغّل الرأس القصير للعضلة الذي لا يتفعل بالديدلفت وحده. تثبيت الحوض ملتصقاً بالوسادة يمنع أسفل الظهر من التدخل عند زيادة التعب.',
+      'بينما تمرّن الرفعة الرومانية الفخذ الخلفي من مفصل الورك، يعزل جهاز ثني الفخذ الخلفي العضلة عبر ثني الركبة، ما يشغّل الرأس القصير للعضلة الذي لا يتفعل بالرفعة المميتة وحدها. تثبيت الحوض ملتصقاً بالوسادة يمنع أسفل الظهر من التدخل عند زيادة التعب.',
     tipsEn: [
       'Pull toes gently toward your shins (dorsiflexion) or keep ankles relaxed—test which isolates hamstrings best without calves cramping.',
       'Tighten glutes lightly to keep your pelvis anchored down onto the bench.',
@@ -1970,7 +1970,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     avoidAr: [
       'رفع الوركين والأرداف عن الوسادة وتقويس الظهر لتسهيل السحب.',
-      'ضرب الوسادة بالأرداف بركل سريع وعنيف.',
+      'ضرب الوسادة بالأرداف بدفع سريع وعنيف.',
       'إهمال النزول الكامل حتى شبه استقامة الركبتين.',
     ],
   },
@@ -1998,7 +1998,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     tipsAr: [
       'أبقِ الدامبل ملاصقين لجانبي الفخذين والساقين لا يتدليان للأمام.',
       'اسحب الكتفين للخلف وللأسفل طوال الحركة حتى لا يتقوّس أعلى ظهرك.',
-      'توقف عند منتصف القصبة تقريباً (حسب مرونتك) قبل أن يبدأ ظهرك بالانحناء.',
+      'توقف عند منتصف الساق تقريباً (حسب مرونتك) قبل أن يبدأ ظهرك بالانحناء.',
     ],
     avoidEn: [
       'Letting shoulders roll forward and dumbbells drift away from legs.',
@@ -2007,7 +2007,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     avoidAr: [
       'تهدّل الكتفين وابتعاد الدامبل للأمام عن خط الساقين.',
-      'زيادة ثني الركبتين وتحويل التمرين إلى سكوات.',
+      'زيادة ثني الركبتين وتحويل التمرين إلى قرفصاء.',
       'دفع الحوض للأمام بعنف مع تقويس الظهر في القمة.',
     ],
   },
@@ -2019,14 +2019,14 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Squeeze glutes maximally for 1 full second at top table-top position, then lower hips smoothly under control.',
     ],
     stepCaptionsAr: [
-      'أسند أسفل لوحي الكتف على حافة مقعد ثابت، ضع البار بوسادة فوق الورك، واضبط القدمين بحيث تكون القصبة عمودية في القمة.',
+      'أسند أسفل لوحي الكتف على حافة مقعد ثابت، ضع البار بوسادة فوق الورك، واضبط القدمين بحيث تكون الساق عمودية في القمة.',
       'مِل بذقنك قليلاً للأمام، ادفع الأرض بالكعبين، وارفع الوركين حتى يستقيم الجذع أفقياً.',
       'اعصر الأرداف بقوة لمدة ثانية كاملة في الأعلى، ثم أنزل الوركين بتحكم دون ارتداد.',
     ],
     simpleExplanationEn:
       'Resting your upper back on a bench turns your mid-back into a pivot so horizontal hip extension loads the glutes maximally right at full lockout—where squats actually have low tension. Keep your ribcage tucked down and chin forward so your glutes tilt your pelvis upward rather than arching your lower back.',
     simpleExplanationAr:
-      'إسناد أعلى ظهرك على المقعد يجعل لوحي الكتف محور ارتكاز لدفع الحوض للأعلى عمودياً، مما يضع أعلى حمل ممكن على عضلات الأرداف (الألوية) عند القمة تماماً. إمالة الذقن للأمام وإبقاء القفص الصدري منخفضاً يضمنان أن يرتفع الحوض بانقباض الأرداف لا بتقويس أسفل الظهر.',
+      'إسناد أعلى ظهرك على المقعد يجعل لوحي الكتف محور ارتكاز لدفع الحوض للأعلى عمودياً، مما يضع أعلى حمل ممكن على عضلات الأرداف عند القمة تماماً. إمالة الذقن للأمام وإبقاء القفص الصدري منخفضاً يضمنان أن يرتفع الحوض بانقباض الأرداف لا بتقويس أسفل الظهر.',
     tipsEn: [
       'Adjust foot placement so knees form a crisp 90° angle (vertical shins) when hips reach horizontal top.',
       'Use a thick barbell pad or folded mat across your hip bones so load stays comfortable.',
@@ -2056,14 +2056,14 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Pause 1 second at full hip extension—without arching your spine—then return leg smoothly forward.',
     ],
     stepCaptionsAr: [
-      'ثبّت حزام الكاحل، مِل بالجذع للأمام بنحو 20–30° ممسكاً بإطار الجهاز، واشدد البطن والظهر.',
+      'ثبّت مربط الكاحل، مِل بالجذع للأمام بنحو 20–30° ممسكاً بإطار الجهاز، واشدد البطن والظهر.',
       'ادفع الساق للخلف باستقامة (ومائلة للخارج بنحو 15°) بانقباض عضلة الأرداف وحدها.',
       'توقف ثانية واحدة في أقصى امتداد للخلف دون تقويس الظهر، ثم أعد الساق ببطء.',
     ],
     simpleExplanationEn:
       'Attaching an ankle cuff to a low cable isolates one glute at a time through pure hip extension. Leaning slightly forward keeps your spine neutral, and stopping your leg kick the moment your hip finishes extending prevents your lower back from taking over.',
     simpleExplanationAr:
-      'ربط الكاحل بالكابل السفلي يعزل عضلة الأرداف لكل ساق على حدة عبر حركة مد الورك للخلف. الميلان الطفيف للأمام يحافظ على حيادية العمود الفقري، والتوقف بمجرد انتهاء مدى امتداد الورك يمنع أسفل الظهر من التدخل لرفع الساق أعلى بالزخم.',
+      'ربط الكاحل بالكابل السفلي يعزل عضلة الأرداف لكل ساق على حدة عبر حركة مد الورك للخلف. الميلان الطفيف للأمام يحافظ على حيادية العمود الفقري، والتوقف بمجرد انتهاء مدى امتداد الورك يمنع أسفل الظهر من التدخل لرفع الساق أعلى بالاندفاع.',
     tipsEn: [
       'Keep a very soft knee bend in both your standing leg and working leg.',
       'Kick slightly backward and out (~15° diagonal) to align cleanly with glute max fibers.',
@@ -2071,8 +2071,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     tipsAr: [
       'أبقِ انثناءً خفيفاً مريحاً في ركبة الساق الثابتة والساق المتحركة.',
-      'وجّه الدفع للخلف وللخارج قليلاً (~15°) لمطابقة اتجاه ألياف الألوية الكبرى.',
-      'تخيل أن الحركة تبدأ وتنتهي في مفصل الورك بينما يبقى أسفل الظهر ثابتاً كالصخرة.',
+      'وجّه الدفع للخلف وللخارج قليلاً (~15°) لمطابقة اتجاه ألياف عضلة الأرداف الكبرى.',
+      'تخيل أن الحركة تبدأ وتنتهي في مفصل الورك بينما يبقى أسفل الظهر ثابتاً تماماً.',
     ],
     avoidEn: [
       'Arching your lumbar spine sharply upward just to kick higher.',
@@ -2081,7 +2081,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     avoidAr: [
       'تقويس أسفل الظهر للأعلى لمحاولة رفع القدم إلى ارتفاع مبالغ فيه.',
-      'أرجحة الساق للأمام والخلف بسرعة بالزخم.',
+      'أرجحة الساق للأمام والخلف بسرعة بالاندفاع الحركي.',
       'لف الحوض للجانب بدلاً من بقائه مواجهاً للجهاز.',
     ],
   },
@@ -2100,7 +2100,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'With straight knees, the large gastrocnemius calf muscle stays stretched and generates maximum force through ankle plantarflexion. The Achilles tendon behaves like a thick rubber band that rebounds energy if you bounce—so pausing 1–2 full seconds in the deep bottom stretch is essential for real calf growth.',
     simpleExplanationAr:
-      'استقامة الركبتين تضع عضلة السمانة الكبرى في أقصى استعدادها للانقباض. لأن وتر العرقوب يعمل كالنابض المطاطي إذا ارتددت سريعاً، فإن التوقف لمدة 1–2 ثانية في أقصى تمدد سفلي هو السر الأهم لإجبار ألياف السمانة نفسها على رفع الوزن مع وقفة ثانية واضحة في القمة.',
+      'استقامة الركبتين تضع عضلة السمانة الكبرى في أقصى استعدادها للانقباض. ولأن وتر العرقوب يعمل كالنابض المطاطي إذا ارتددت سريعاً، فإن التوقف لمدة 1–2 ثانية في أقصى تمدد سفلي هو السر الأهم لإجبار ألياف السمانة نفسها على رفع الوزن مع وقفة ثانية واضحة في القمة.',
     tipsEn: [
       'Focus pressure over the balls of your big toes and second toes rather than rolling out to pinky toes.',
       'Hold a crystal-clear 1-second pause at the bottom stretch AND 1 second at the highest tip-toe peak.',
@@ -2207,13 +2207,13 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     stepCaptionsAr: [
       'اركع بعيداً قليلاً عن الكابل العلوي مع تثبيت طرفي الحبل بجانب الجبهة أو الأذنين وثبات الوركين.',
-      'اطوِ القفص الصدري للأسفل باتجاه الحوض (بتقويس العمود الفقري) دون إرجاع الأرداف للخلف.',
+      'اطوِ القفص الصدري للأسفل باتجاه الحوض (بثني العمود الفقري) دون إرجاع الأرداف للخلف.',
       'أفرغ النفس واعصر عضلات البطن بشدة في الأسفل، ثم اصعد ببطء مع إبقاء البطن مشدوداً.',
     ],
     simpleExplanationEn:
       'The abdominal wall flexes the spine—bringing your ribs closer to your pelvis—not the hips. Lock your hips upright and imagine curling your torso into a ball toward your belly button while keeping your hands glued beside your head so your arms cannot pull the rope.',
     simpleExplanationAr:
-      'وظيفة عضلات البطن هي ثني العمود الفقري وتقريب القفص الصدري من الحوض، وليس ثني مفصل الورك. لذلك ثبّت وركيك عموديين دون الجلوس للخلف على كعبيك، وثبّت الحبل بجانب جبهتك، ثم اطوِ جذعك للأسفل نحو السرة مع إفراغ النفس بالكامل في الأسفل لتشعر باحتراق مباشر في البطن.',
+      'وظيفة عضلات البطن هي ثني العمود الفقري وتقريب القفص الصدري من الحوض، وليس ثني مفصل الورك. لذلك ثبّت وركيك عموديين دون الجلوس للخلف على كعبيك، وثبّت الحبل بجانب جبهتك، ثم اطوِ جذعك للأسفل نحو السرة مع إفراغ النفس بالكامل في الأسفل لتشعر بتركيز مباشر في البطن.',
     tipsEn: [
       'Glue the rope handles directly against your forehead/ears so biceps and lats cannot take over.',
       'Breathe all air out sharply as you crunch down to maximize deep abdominal contraction.',
@@ -2222,7 +2222,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     tipsAr: [
       'ثبّت اليدين ملاصقتين تماماً للجبهة أو الأذنين حتى لا تسحب الحبل بالذراعين أو الظهر.',
       'ازفر الهواء بالكامل أثناء الطي للأسفل لمضاعفة عصر عضلات البطن.',
-      'اصعد بتحكم وتوقف قبل ارتخاء الشد أو تقوس ظهرك للخلف.',
+      'اصعد بتحكم وتوقف قبل ارتخاء الشد أو تقوّس ظهرك للخلف.',
     ],
     avoidEn: [
       'Sitting backward toward your heels and bowing straight down with a rigid flat back (all hip flexors).',
@@ -2230,7 +2230,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Loading heavy stacks that lift you right off your knees.',
     ],
     avoidAr: [
-      'الجلوس للخلف على الكعبين والانحناء بظهر مستقيم (لأن ذلك يشغّل عضلات الورك لا البطن).',
+      'الجلوس للخلف على الكعبين والانحناء بظهر مستقيم لأن ذلك يشغّل عضلات الورك لا البطن.',
       'سحب الحبل بالذراعين للأعلى والأسفل مع إبعاد اليدين عن الرأس.',
       'وضع وزن ثقيل جداً يرفع جسمك عن الأرض ويفقدك الثبات.',
     ],
@@ -2244,13 +2244,13 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     stepCaptionsAr: [
       'تعلّق بالبار العلوي مع شد خفيف للكتفين والبطن لإيقاف أي تأرجح قبل البدء.',
-      'ارفع الساقين (أو الركبتين مثنيتين للمبتدئ) للأعلى، ثم أدر حوضك وعصعصك للأعلى نحو الصدر.',
+      'ارفع الساقين (أو الركبتين مثنيتين للمبتدئ) للأعلى، ثم أدر حوضك للأعلى نحو الصدر.',
       'انزل ببطء وتحكم كامل دون ترك الساقين تتأرجحان للخلف أسفل البار.',
     ],
     simpleExplanationEn:
       'Lifting your legs just to 90° works mainly your hip flexors; the real abdominal magic happens in the final upward curl when you tilt your pelvis and tailbone up toward your chest. Control both the curl upward and the slow descent to eliminate momentum and sculpt the lower abdominals.',
     simpleExplanationAr:
-      'رفع الساقين حتى الزاوية القائمة (90°) يشغّل مثنيات الورك أساساً؛ بينما يبدأ العمل الحقيقي لعضلات البطن في الجزء الأخير حين ترفع حوضك وتديره للأعلى نحو القفص الصدري. النزول البطيء والتحكم في التوقف يمنعان التأرجح ويحملان أسفل البطن بفعالية قصوى.',
+      'رفع الساقين حتى الزاوية القائمة (90°) يشغّل مثنيات الورك أساساً؛ بينما يبدأ العمل الحقيقي لعضلات البطن في الجزء الأخير حين ترفع حوضك وتديره للأعلى نحو القفص الصدري. النزول البطيء والتحكم في التوقف يمنعان التأرجح ويحمّلان أسفل البطن بفعالية قصوى.',
     tipsEn: [
       'Bend knees smoothly toward your chest ("hanging knee-to-chest raise") if straight legs prevent pelvic curl.',
       'Imagine showing the soles of your shoes toward the ceiling at the top of the rep.',
@@ -2258,8 +2258,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
     tipsAr: [
       'ابدأ بثني الركبتين ورفعهما نحو الصدر إذا لم تستطع تدوير الحوض للأعلى بساقين مستقيمتين.',
-      'تخيّل أنك ترفع أسفل الورك والركبتين نحو السقف في أعلى نقطة من التكرار.',
-      'استخدم أربطة المعصم إذا ضعفت قبضتك قبل إجهاد عضلات البطن.',
+      'احرص على توجيه أسفل الحوض والركبتين نحو السقف في أعلى نقطة من التكرار.',
+      'استخدم أربطة المساعدة للقبضة إذا ضعفت قبضتك قبل إجهاد عضلات البطن.',
     ],
     avoidEn: [
       'Using momentum swing to kick legs up wildly.',
@@ -2267,8 +2267,8 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Dropping legs fast so your body swings like a pendulum.',
     ],
     avoidAr: [
-      'تأرجح الجسم للخلف ثم دفع الساقين بالزخم.',
-      'الاكتفاء برفع الساقين للأمام 90° دون رفع الحوض وتقويس أسفل الظهر قليلاً للأعلى.',
+      'تأرجح الجسم للخلف ثم دفع الساقين بالاندفاع الحركي.',
+      'الاكتفاء برفع الساقين للأمام 90° دون رفع الحوض وتدوير أسفله للأعلى.',
       'ترك الساقين تسقطان سريعاً مما يسبب اهتزازاً مستمراً.',
     ],
   },
@@ -2287,7 +2287,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     simpleExplanationEn:
       'A plank is an active total-body brace against gravity trying to sag your spine downward—never a passive rest on your joints. Squeezing your glutes hard while subtly pulling your elbows toward your toes transforms a light hold into an intense deep-core contraction in just 20–40 seconds.',
     simpleExplanationAr:
-      'البلانك تمرين ثبات نشط لمقاومة سقوط العمود الفقري نحو الأرض وليس مجرد انتظار ممل على المرفقين. عند شد الأرداف والفخذين بقوة وسحب المرفقين ذهنياً نحو أصابع القدمين مع شد البطن للداخل، يتحول التمرين فوراً إلى انقباض عميق وقوي للجذع خلال 20–40 ثانية فقط.',
+      'البلانك تمرين ثبات نشط لمقاومة هبوط العمود الفقري نحو الأرض وليس مجرد انتظار ساكن على المرفقين. عند شد الأرداف والفخذين بقوة وسحب المرفقين ذهنياً نحو أصابع القدمين مع شد البطن للداخل، يتحول التمرين فوراً إلى انقباض عميق وقوي للجذع خلال 20–40 ثانية فقط.',
     tipsEn: [
       'Tuck your pelvis slightly under (posterior tilt) by squeezing glutes—this locks abs tight.',
       'Push your forearms gently away from the floor so shoulder blades stay wide and solid.',
@@ -2317,14 +2317,14 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Hold arms extended steady for 2 full seconds keeping shoulders & hips square, then return to chest.',
     ],
     stepCaptionsAr: [
-      'ثبّت الحزام بمستوى الصدر وقف جانبياً في وقفة متزنة مع الابتعاد حتى يصبح الحزام مشدوداً بوضوح.',
-      'أمسك المقبض أمام منتصف الصدر، اشدد البطن، وادفع يديك للأمام باستقامة مقاوماً سحب الحزام للجانب.',
+      'ثبّت حبل المقاومة بمستوى الصدر وقف جانبياً في وقفة متزنة مع الابتعاد حتى يصبح الحبل مشدوداً بوضوح.',
+      'أمسك المقبض أمام منتصف الصدر، اشدد البطن، وادفع يديك للأمام باستقامة مقاوماً سحب الحبل للجانب.',
       'ثبّت ذراعيك ممدودتين لمدة ثانيتين مع استقامة الكتفين والوركين تماماً ثم عُد للصدر.',
     ],
     simpleExplanationEn:
       'Standing sideways while the band pulls laterally forces your obliques and deep core stabilizers to fire hard so your torso does not twist. As you press your hands straight out from your chest, the lever lengthens and rotational demand spikes—building functional spinal stability.',
     simpleExplanationAr:
-      'وقوفك جانبياً بينما يسحبك الحزام نحو الجهة الأخرى يجبر عضلات الخواصر والبطن العميقة على الانقباض بقوة لمنع التفاف الجذع. عند دفع يديك للأمام باستقامة تزداد قوة العزم التي تحاول لَفّك، فتتدرّب عضلات الجذع على حماية عمودك الفقري ضد الدوران.',
+      'وقوفك جانبياً بينما يسحبك الحبل نحو الجهة الأخرى يجبر عضلات الخواصر والبطن العميقة على الانقباض بقوة لمنع التفاف الجذع. عند دفع يديك للأمام باستقامة تزداد قوة العزم التي تحاول لَفّك، فتتدرّب عضلات الجذع على حماية عمودك الفقري ضد الدوران.',
     tipsEn: [
       'Keep knees softly unlocked and weight centered evenly over both feet.',
       'Press directly straight out from the center line of your chest—not angled toward the anchor.',
@@ -2341,7 +2341,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
       'Rushing hands in and out without pausing 1–2s at full extension.',
     ],
     avoidAr: [
-      'السماح للكتفين أو الوركين بالالتفاف نحو جهة الحزام.',
+      'السماح للكتفين أو الوركين بالالتفاف نحو جهة الحبل.',
       'الميلان بالجسم للجانب البعيد لتعويض نقص شد البطن.',
       'الدفع السريع ذهاباً وإياباً دون ثبات في وضع الامتداد.',
     ],
@@ -2369,7 +2369,7 @@ export function getExerciseQuickGuide(exercise: Exercise): ExerciseQuickGuide {
       `Controlled resistance movement targeting ${exercise.primaryMuscles.join(', ')} through full joint range.`,
     simpleExplanationAr:
       exercise.startingPositionAr ||
-      'تمرين مقاومة منضبط يستهدف العضلات المحددة بمدى حركي كامل وتحكم في المسار دون استخدام الزخم.',
+      'تمرين مقاومة منضبط يستهدف العضلات المحددة بمدى حركي كامل وتحكم في المسار دون اندفاع.',
     tipsEn: [
       exercise.instructionsEn[0] || 'Set a stable posture and brace your core before starting.',
       exercise.instructionsEn[1] || 'Control the lowering phase smoothly over 2–3 seconds.',
@@ -2386,7 +2386,7 @@ export function getExerciseQuickGuide(exercise: Exercise): ExerciseQuickGuide {
       exercise.safetyEn || 'Losing joint alignment or letting posture break under fatigue.',
     ],
     avoidAr: [
-      exercise.commonMistakesAr[0] || 'استخدام الزخم وأرجحة الجسم لرفع وزن زائد.',
+      exercise.commonMistakesAr[0] || 'استخدام الاندفاع وأرجحة الجسم لرفع وزن زائد.',
       exercise.commonMistakesAr[1] || 'تقصير المدى الحركي وإهمال الإطالة الكاملة.',
       exercise.safetyAr || 'فقدان استقامة المفاصل أو الوضعية الصحيحة عند الإرهاق.',
     ],

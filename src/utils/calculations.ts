@@ -399,9 +399,9 @@ export function detectFatigueAndSpikes(sessions: WorkoutSessionHistory[]): Fatig
       hasWarning: true,
       level: 'spike',
       titleEn: `Workload Spike Detected (+${pct}%)`,
-      titleAr: `ارتفاع مفاجئ في الحمل التدريبي (+${pct}٪)`,
+      titleAr: `ارتفاع ملحوظ في الحمل التدريبي (+${pct}٪)`,
       messageEn: `Your 7-day volume is ${pct}% above your recent weekly average. Consider keeping 2–3 reps in reserve today to avoid excessive fatigue.`,
-      messageAr: `حجم التمرين خلال آخر 7 أيام أعلى بنسبة ${pct}٪ من متوسطك الأسبوعي الأخير. يُنصح بالإبقاء على تكرارين إلى 3 تكرارات احتياط اليوم.`,
+      messageAr: `حجم التمرين خلال آخر 7 أيام أعلى بنسبة ${pct}٪ من متوسطك الأسبوعي الأخير. يُستحسن الإبقاء على تكرارين إلى ثلاثة تكرارات احتياطاً اليوم لتفادي الإجهاد الزائد.`,
     };
   }
 
@@ -413,7 +413,7 @@ export function detectFatigueAndSpikes(sessions: WorkoutSessionHistory[]): Fatig
       titleEn: 'Consecutive High-Intensity Sessions',
       titleAr: 'جلسات متتالية عالية الشدة',
       messageEn: 'Your last 3 completed workouts averaged RPE 9+. Prioritize warm-up quality and consider a deload or lighter effort if bar speed drops.',
-      messageAr: 'آخر 3 جلسات مكتملة كانت بشدة RPE 9 فأعلى. ركّز على الإحماء الجيد وفكر في تخفيف الشدة إذا لاحظت إرهاقاً.',
+      messageAr: 'الجلسات الثلاث الأخيرة كانت بمستوى جهد مرتفع (9 فأعلى). اعتنِ بجودة الإحماء، وفكّر في تخفيف الحمل مؤقتاً إذا لاحظت تراجعاً في الأداء.',
     };
   }
 

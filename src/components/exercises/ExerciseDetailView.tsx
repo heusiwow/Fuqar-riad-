@@ -383,7 +383,7 @@ export const ExerciseDetailView: React.FC<ExerciseDetailViewProps> = ({
               <div className="space-y-2.5">
                 <h3 className="text-sm font-semibold flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
                   <CheckCircle2 className="w-4 h-4 shrink-0" />
-                  <span>{language === 'ar' ? '3 نصائح مهمة للأداء' : '3 Key Form Tips'}</span>
+                  <span>{language === 'ar' ? '٣ نصائح مهمة للأداء' : '3 Key Form Tips'}</span>
                 </h3>
                 <ul className="space-y-2 text-xs text-neutral-700 dark:text-neutral-300">
                   {(language === 'ar' ? quickGuide.tipsAr : quickGuide.tipsEn).map((tip, idx) => (
@@ -400,7 +400,7 @@ export const ExerciseDetailView: React.FC<ExerciseDetailViewProps> = ({
               <div className="space-y-2.5">
                 <h3 className="text-sm font-semibold flex items-center gap-2 text-amber-600 dark:text-amber-400">
                   <AlertTriangle className="w-4 h-4 shrink-0" />
-                  <span>{language === 'ar' ? '3 أشياء تبتعد عنها' : '3 Things to Avoid'}</span>
+                  <span>{language === 'ar' ? '٣ أخطاء ينبغي تجنبها' : '3 Things to Avoid'}</span>
                 </h3>
                 <ul className="space-y-2 text-xs text-neutral-700 dark:text-neutral-300">
                   {(language === 'ar' ? quickGuide.avoidAr : quickGuide.avoidEn).map((item, idx) => (

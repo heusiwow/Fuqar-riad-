@@ -22,6 +22,7 @@ import {
 } from '../../data/programTemplates';
 import {
   DIFFICULTY_LABELS,
+  formatArabicCount,
   GOAL_LABELS,
   PROGRAM_STATUS_LABELS,
   SPLIT_LABELS,
@@ -628,8 +629,10 @@ export const ProgramsView: React.FC = () => {
                 <div className="space-y-1">
                   <p className="text-sm font-semibold">{a.programName}</p>
                   <p className="text-xs text-neutral-500">
-                    {t.apex.linkedCoachLabel}: {a.coachName} · {a.workoutsData.length}{' '}
-                    {t.workouts.exercisesInWorkout}
+                    {t.apex.linkedCoachLabel}: {a.coachName} ·{' '}
+                    {language === 'ar'
+                      ? formatArabicCount(a.workoutsData.length, 'حصة', 'حصتان', 'حصص', 'حصة')
+                      : `${a.workoutsData.length} workouts`}
                   </p>
                   {a.notes && <p className="text-xs text-neutral-600 dark:text-neutral-300">{a.notes}</p>}
                 </div>
@@ -734,8 +737,9 @@ export const ProgramsView: React.FC = () => {
                       </p>
                     </div>
                     <span className="font-mono text-xs text-neutral-500 shrink-0 tabular-nums">
-                      {tpl.weeklyFrequency} {language === 'ar' ? 'أيام/أسبوع' : 'd/wk'} · {tpl.durationWeeks}{' '}
-                      {language === 'ar' ? 'أسبوع' : 'w'}
+                      {language === 'ar'
+                        ? `${formatArabicCount(tpl.weeklyFrequency, 'يوم', 'يومان', 'أيام', 'يوماً')}/أسبوع · ${formatArabicCount(tpl.durationWeeks, 'أسبوع', 'أسبوعان', 'أسابيع', 'أسبوعاً')}`
+                        : `${tpl.weeklyFrequency} d/wk · ${tpl.durationWeeks} w`}
                     </span>
                   </div>
                   <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
@@ -829,8 +833,11 @@ export const ProgramsView: React.FC = () => {
                     </div>
                     <p className="text-xs text-neutral-500 dark:text-neutral-400">
                       {tLabel(SPLIT_LABELS[p.splitType], language)} · {tLabel(GOAL_LABELS[p.goal], language)} ·{' '}
-                      {tLabel(DIFFICULTY_LABELS[p.level], language)} · {p.durationWeeks}{' '}
-                      {language === 'ar' ? 'أسبوع' : 'w'} · {tLabel(PROGRAM_STATUS_LABELS[p.status], language)}
+                      {tLabel(DIFFICULTY_LABELS[p.level], language)} ·{' '}
+                      {language === 'ar'
+                        ? formatArabicCount(p.durationWeeks, 'أسبوع', 'أسبوعان', 'أسابيع', 'أسبوعاً')
+                        : `${p.durationWeeks} w`}{' '}
+                      · {tLabel(PROGRAM_STATUS_LABELS[p.status], language)}
                     </p>
                     {p.originNote && (
                       <p className="text-[11px] text-neutral-500 leading-relaxed">{p.originNote}</p>

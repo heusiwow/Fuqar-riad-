@@ -104,6 +104,7 @@ export interface UserProfile {
   uid: string;
   displayName: string;
   role: UserRole;
+  roleSelected?: boolean;
   coachId?: string;
   coachName?: string;
   organizationId?: string;
@@ -362,6 +363,7 @@ export interface PerformanceGoal {
 export interface BodyMeasurement {
   id: string;
   userId: string;
+  coachId?: string;
   date: string;
   bodyWeightKg?: number;
   armCm?: number;

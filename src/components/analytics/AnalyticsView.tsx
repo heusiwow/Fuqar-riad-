@@ -377,7 +377,7 @@ export const AnalyticsView: React.FC = () => {
                 required
                 value={goalTitle}
                 onChange={(e) => setGoalTitle(e.target.value)}
-                placeholder={language === 'ar' ? 'مثال: بنش برس 100 كجم' : 'e.g., 100 kg Bench Press'}
+                placeholder={language === 'ar' ? 'مثال: ضغط الصدر بالبار 100 كجم' : 'e.g., 100 kg Bench Press'}
                 className="w-full min-h-[40px] px-3 rounded-xl bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 text-xs"
               />
             </div>

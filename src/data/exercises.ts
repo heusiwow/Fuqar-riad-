@@ -5,7 +5,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'barbell-bench-press',
     nameEn: 'Barbell Flat Bench Press',
-    nameAr: 'بنش برس مستوٍ بالبار',
+    nameAr: 'ضغط الصدر المستوي بالبار',
     primaryMuscles: ['chest'],
     secondaryMuscles: ['shoulders', 'triceps'],
     equipment: 'barbell',
@@ -21,7 +21,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     ],
     instructionsAr: [
       'ارفع البار عن الحامل بمرفقين مستقيمين وثبّته فوق منتصف الصدر.',
-      'أنزل البار بتحكم نحو أسفل منتصف عظمة القص مع إبقاء المرفقين بزاوية تقارب 45 درجة.',
+      'أنزل البار بتحكم نحو منتصف عظمة القص مع إبقاء المرفقين بزاوية تقارب 45 درجة.',
       'المس الصدر برفق دون ارتداد أو قفز للبار.',
       'ادفع الأرض بقدميك وارفع البار للأعلى وللخلف قليلاً حتى نقطة البداية فوق الكتفين.'
     ],
@@ -44,7 +44,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'incline-dumbbell-press',
     nameEn: 'Incline Dumbbell Press',
-    nameAr: 'دفع مائل بالدامبل للصدر العلوي',
+    nameAr: 'ضغط الصدر المائل بالدامبل (الصدر العلوي)',
     primaryMuscles: ['chest'],
     secondaryMuscles: ['shoulders', 'triceps'],
     equipment: 'dumbbell',
@@ -118,28 +118,28 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'smith-bench-press',
     nameEn: 'Smith Machine Flat Press',
-    nameAr: 'بنش برس مستوٍ على جهاز السميث',
+    nameAr: 'ضغط الصدر المستوي على جهاز السميث',
     primaryMuscles: ['chest'],
     secondaryMuscles: ['shoulders', 'triceps'],
     equipment: 'smith_machine',
     category: 'compound',
     difficulty: 'beginner',
     startingPositionEn: 'Center a flat bench inside the Smith machine so the bar aligns over your mid-chest. Retract shoulder blades and grip symmetrically.',
-    startingPositionAr: 'ضع البنش المستوي في منتصف جهاز السميث بحيث يوازي البار منتصف الصدر. اسحب لوحي الكتف للخلف وأمسك البار بتوازن.',
+    startingPositionAr: 'ضع المقعد المستوي في منتصف جهاز السميث بحيث يوازي البار منتصف الصدر. اسحب لوحي الكتف للخلف وأمسك البار بتوازن.',
     instructionsEn: [
       'Rotate the bar to unhook the safety latches.',
       'Lower the bar smoothly to the mid-chest with elbows angled ~45 degrees.',
       'Press forcefully back up without locking elbows harshly.'
     ],
     instructionsAr: [
-      'أدر البار لفك أقفال الأمان.',
+      'أدر البار لتحرير أقفال الأمان.',
       'أنزل البار بسلاسة إلى منتصف الصدر مع إبقاء المرفقين بزاوية 45 درجة.',
       'ادفع البار للأعلى بقوة دون قفل المرفقين بعنف.'
     ],
     breathingEn: 'Inhale down, exhale on the press.',
     breathingAr: 'شهيق عند النزول، زفير عند الدفع.',
     commonMistakesEn: ['Misaligning the bench so the bar lands near the neck or stomach.'],
-    commonMistakesAr: ['وضع المقعد بزاوية خاطئة تجعل البار ينزل باتجاه الرقبة أو البطن.'],
+    commonMistakesAr: ['وضع المقعد بمحاذاة خاطئة تجعل البار ينزل باتجاه الرقبة أو البطن.'],
     safetyEn: 'Always set the mechanical safety stops just below chest touch height.',
     safetyAr: 'اضبط مصدّات الأمان السفلية دائماً أسفل مستوى ملامسة الصدر مباشرة.',
     alternativeIds: ['barbell-bench-press', 'chest-press-machine']
@@ -147,7 +147,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'chest-press-machine',
     nameEn: 'Seated Chest Press Machine',
-    nameAr: 'دفع الصدر على الجهاز جالساً',
+    nameAr: 'ضغط الصدر جالساً على الجهاز',
     primaryMuscles: ['chest'],
     secondaryMuscles: ['shoulders', 'triceps'],
     equipment: 'machine',
@@ -160,8 +160,8 @@ export const BUILTIN_EXERCISES: Exercise[] = [
       'Control the return back until a deep stretch is felt without letting the weight stack slam.'
     ],
     instructionsAr: [
-      'أمسك المقابض بقوة وادفع للأمام بسلاسة حتى شبه استقامة الذراعين.',
-      'تحكم في الرجوع للخلف حتى تشعر بتمدد الصدر دون ترك الأوزان تصطدم ببعضها.'
+      'أمسك المقابض بقوة وادفع للأمام بسلاسة حتى يقترب الذراعان من الاستقامة.',
+      'تحكم في الرجوع للخلف حتى تشعر بتمدد الصدر دون ترك الأوزان ترتطم ببعضها.'
     ],
     breathingEn: 'Exhale on the push, inhale on the return.',
     breathingAr: 'زفير عند الدفع، شهيق عند الرجوع.',
@@ -174,14 +174,14 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'push-ups',
     nameEn: 'Standard Push-Up',
-    nameAr: 'ضغط الصدر بوزن الجسم (بوش أب)',
+    nameAr: 'تمرين الضغط الأرضي بوزن الجسم',
     primaryMuscles: ['chest'],
     secondaryMuscles: ['shoulders', 'triceps', 'abdominals'],
     equipment: 'bodyweight',
     category: 'compound',
     difficulty: 'beginner',
     startingPositionEn: 'Start in a rigid high plank with hands slightly wider than shoulders, glutes squeezed, and body forming a straight line.',
-    startingPositionAr: 'ابدأ بوضعية البلانك العالي مع وضع اليدين أعرض قليلاً من الكتفين وشد عضلات البطن والأرداف في خط مستقيم.',
+    startingPositionAr: 'ابدأ بوضعية الارتكاز العلوي مع وضع اليدين أعرض قليلاً من الكتفين وشد عضلات البطن والأرداف في خط مستقيم.',
     instructionsEn: [
       'Lower your chest toward the floor by bending elbows at roughly 45 degrees.',
       'Pause lightly just above the floor while maintaining a rigid torso.',
@@ -203,28 +203,28 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'resistance-band-chest-press',
     nameEn: 'Resistance Band Chest Press',
-    nameAr: 'دفع الصدر بأحزمة المقاومة',
+    nameAr: 'ضغط الصدر بحبل المقاومة',
     primaryMuscles: ['chest'],
     secondaryMuscles: ['shoulders', 'triceps'],
     equipment: 'resistance_bands',
     category: 'compound',
     difficulty: 'beginner',
     startingPositionEn: 'Anchor a resistance band behind you at chest height or loop it around your upper back. Step forward into a split stance with handles at chest level.',
-    startingPositionAr: 'ثبّت حزام المقاومة خلفك على مستوى الصدر أو مرّره خلف أعلى الظهر، وتقدم بقدم للأمام لثبات التوازن.',
+    startingPositionAr: 'ثبّت حبل المقاومة خلفك على مستوى الصدر أو مرّره خلف أعلى الظهر، وتقدم بقدم للأمام لثبات التوازن.',
     instructionsEn: [
       'Press both hands forward and slightly inward until arms extend.',
       'Hold peak contraction briefly, then return slowly against band tension.'
     ],
     instructionsAr: [
       'ادفع اليدين للأمام وللداخل قليلاً حتى استقامة الذراعين.',
-      'ثبّت الانقباض لحظة ثم عد ببطء مع مقاومة الحزام.'
+      'ثبّت الانقباض لحظة ثم عد ببطء مع مقاومة الحبل.'
     ],
     breathingEn: 'Exhale while pressing forward; inhale on return.',
     breathingAr: 'زفير عند الدفع، شهيق عند الرجوع.',
     commonMistakesEn: ['Allowing the band to snap arms back uncontrollably.'],
-    commonMistakesAr: ['ترك الحزام يسحب الذراعين للخلف بسرعة دون تحكم.'],
+    commonMistakesAr: ['ترك الحبل يسحب الذراعين للخلف بسرعة دون تحكم.'],
     safetyEn: 'Inspect band anchor and tubing for tears before each set.',
-    safetyAr: 'افحص نقطة التثبيت وسلامة الحزام المطاطي قبل كل جولة.',
+    safetyAr: 'افحص نقطة التثبيت وسلامة الحبل المطاطي قبل كل جولة.',
     alternativeIds: ['push-ups', 'cable-chest-fly']
   },
 
@@ -232,7 +232,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'barbell-bent-over-row',
     nameEn: 'Barbell Bent-Over Row',
-    nameAr: 'تجديف بالبار من الانحناء',
+    nameAr: 'التجديف المنحني بالبار للظهر',
     primaryMuscles: ['back'],
     secondaryMuscles: ['biceps', 'forearms', 'shoulders'],
     equipment: 'barbell',
@@ -248,9 +248,9 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     ],
     instructionsAr: [
       'اشدد عضلات الجذع وحافظ على استقامة الرقبة.',
-      'اسحب البار نحو أسفل الصدر أو أعلى البطن بدفع المرفقين للخلف وعصر لوحي الكتف.',
+      'اسحب البار نحو أسفل الصدر أو أعلى البطن بدفع المرفقين للخلف وضم لوحي الكتف.',
       'ثبّت لحظة عند ملامسة الجذع.',
-      'أنزل البار بتحكم كامل حتى استقامة الذراعين دون تقويس أسفل الظهر.'
+      'أنزل البار بتحكم كامل حتى استقامة الذراعين دون تقوّس أسفل الظهر.'
     ],
     breathingEn: 'Inhale and brace before pulling; exhale at the top or during lowering.',
     breathingAr: 'شهيق وشد للبطن قبل السحب، وزفير عند أعلى نقطة أو أثناء الإنزال.',
@@ -259,8 +259,8 @@ export const BUILTIN_EXERCISES: Exercise[] = [
       'Using excessive torso heave to swing the weight up.'
     ],
     commonMistakesAr: [
-      'تقويس أسفل الظهر تحت الوزن الثقيل.',
-      'استخدام تأرجح الجذع للأعلى لرفع الوزن بالزخم.'
+      'تقوّس أسفل الظهر تحت الوزن الثقيل.',
+      'استخدام تأرجح الجذع للأعلى لرفع الوزن بالاندفاع.'
     ],
     safetyEn: 'Maintain a braced neutral lower back throughout every rep.',
     safetyAr: 'حافظ على استقامة وشد أسفل الظهر طوال جميع التكرارات.',
@@ -269,7 +269,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'lat-pulldown',
     nameEn: 'Wide-Grip Lat Pulldown',
-    nameAr: 'سحب عالٍ للظهر بالكابل (لات بول داون)',
+    nameAr: 'السحب العالي للظهر أمام الصدر بالكابل',
     primaryMuscles: ['back'],
     secondaryMuscles: ['biceps', 'forearms'],
     equipment: 'cable',
@@ -285,7 +285,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     instructionsAr: [
       'ابدأ السحب بخفض لوحي الكتف للأسفل أولاً.',
       'اسحب البار بسلاسة نحو أعلى الصدر مع ميلان طفيف جداً للخلف (10–15 درجة).',
-      'اعصر عضلات الظهر العريضة في الأسفل، ثم ارفع الذراعين ببطء لتمدد كامل.'
+      'اعصر العضلة الظهرية العريضة في الأسفل، ثم ارفع الذراعين ببطء لتمدد كامل.'
     ],
     breathingEn: 'Exhale as you pull the bar down; inhale as you return overhead.',
     breathingAr: 'زفير أثناء سحب البار للأسفل، وشهيق أثناء الصعود.',
@@ -304,7 +304,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'seated-cable-row',
     nameEn: 'Seated Cable Row',
-    nameAr: 'تجديف أرضي بالكابل جالساً',
+    nameAr: 'التجديف الأرضي بالكابل جالساً',
     primaryMuscles: ['back'],
     secondaryMuscles: ['biceps', 'forearms', 'shoulders'],
     equipment: 'cable',
@@ -320,7 +320,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     instructionsAr: [
       'اسحب المقبض نحو أسفل البطن مع إرجاع المرفقين بمحاذاة الجانبين.',
       'اجمع لوحي الكتف معاً لمدة ثانية دون رفع الكتفين للأعلى.',
-      'افرد الذراعين للأمام ببطء لتمديد الظهر العلوي دون تقويس أسفل الظهر.'
+      'افرد الذراعين للأمام ببطء لتمديد الظهر العلوي دون تقوّس أسفل الظهر.'
     ],
     breathingEn: 'Exhale on the pull; inhale on the controlled stretch.',
     breathingAr: 'زفير عند السحب، شهيق عند الإرجاع.',
@@ -333,7 +333,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'single-arm-dumbbell-row',
     nameEn: 'Single-Arm Dumbbell Row',
-    nameAr: 'تجديف فردي بالدامبل (منشار)',
+    nameAr: 'التجديف الفردي بالدامبل على المقعد',
     primaryMuscles: ['back'],
     secondaryMuscles: ['biceps', 'forearms'],
     equipment: 'dumbbell',
@@ -354,7 +354,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     breathingEn: 'Exhale as you row up; inhale as you lower.',
     breathingAr: 'زفير عند السحب للأعلى، شهيق عند الإنزال.',
     commonMistakesEn: ['Twisting the torso violently to heave the dumbbell up.'],
-    commonMistakesAr: ['لف الجذع بعنف لرفع الدامبل بالزخم بدلاً من عضلة الظهر.'],
+    commonMistakesAr: ['لف الجذع بعنف لرفع الدامبل بالاندفاع بدلاً من عضلة الظهر.'],
     safetyEn: 'Keep hips square to the floor and avoid twisting the lower back.',
     safetyAr: 'حافظ على توازن الوركين باتجاه الأرض وتجنب التفاف أسفل الظهر.',
     alternativeIds: ['barbell-bent-over-row', 'seated-cable-row']
@@ -362,7 +362,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'pull-ups',
     nameEn: 'Pull-Ups',
-    nameAr: 'عقلة بقبضة واسعة بوزن الجسم',
+    nameAr: 'تمرين العقلة بقبضة واسعة',
     primaryMuscles: ['back'],
     secondaryMuscles: ['biceps', 'forearms', 'abdominals'],
     equipment: 'bodyweight',
@@ -385,13 +385,13 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     commonMistakesEn: ['Kipping with the legs or performing half-reps without full extension.'],
     commonMistakesAr: ['استخدام تأرجح الساقين أو أداء نصف حركة دون فرد كامل في الأسفل.'],
     safetyEn: 'Use an assisted machine or resistance band if unable to achieve clean full-range reps.',
-    safetyAr: 'استخدم جهاز المساعدة أو حزام المقاومة إذا لم تتمكن من أداء تكرارات كاملة بتحكم.',
+    safetyAr: 'استخدم جهاز المساعدة أو حبل المقاومة إذا لم تتمكن من أداء تكرارات كاملة بتحكم.',
     alternativeIds: ['lat-pulldown', 'resistance-band-row']
   },
   {
     id: 'chest-supported-row-machine',
     nameEn: 'Chest-Supported Row Machine',
-    nameAr: 'تجديف مدعوم الصدر على الجهاز',
+    nameAr: 'التجديف على الجهاز مع إسناد الصدر',
     primaryMuscles: ['back'],
     secondaryMuscles: ['biceps', 'shoulders'],
     equipment: 'machine',
@@ -418,28 +418,28 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'resistance-band-row',
     nameEn: 'Seated Resistance Band Row',
-    nameAr: 'تجديف جالس بأحزمة المقاومة',
+    nameAr: 'التجديف جالساً بحبل المقاومة',
     primaryMuscles: ['back'],
     secondaryMuscles: ['biceps', 'forearms'],
     equipment: 'resistance_bands',
     category: 'compound',
     difficulty: 'beginner',
     startingPositionEn: 'Sit tall with legs extended and loop the resistance band securely around the soles of your feet.',
-    startingPositionAr: 'اجلس باستقامة مع مد الساقين ولف حزام المقاومة بإحكام حول باطن القدمين.',
+    startingPositionAr: 'اجلس باستقامة مع مد الساقين ولف حبل المقاومة بإحكام حول باطن القدمين.',
     instructionsEn: [
       'Pull handles toward your waist while squeezing shoulder blades together.',
       'Return slowly under tension.'
     ],
     instructionsAr: [
       'اسحب المقبضين نحو الخصر مع ضم لوحي الكتف.',
-      'عد ببطء مع الحفاظ على شد الحزام.'
+      'عد ببطء مع الحفاظ على شد الحبل.'
     ],
     breathingEn: 'Exhale on pull; inhale on return.',
     breathingAr: 'زفير عند السحب، شهيق عند الرجوع.',
     commonMistakesEn: ['Slouching the spine forward.'],
-    commonMistakesAr: ['تقويس الظهر للأمام أثناء السحب.'],
+    commonMistakesAr: ['تقوّس الظهر للأمام أثناء السحب.'],
     safetyEn: 'Ensure the band cannot slip off your shoes.',
-    safetyAr: 'تأكد من ثبات الحزام أسفل القدمين حتى لا ينزلق.',
+    safetyAr: 'تأكد من ثبات الحبل أسفل القدمين حتى لا ينزلق.',
     alternativeIds: ['seated-cable-row', 'pull-ups']
   },
 
@@ -447,7 +447,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'overhead-barbell-press',
     nameEn: 'Standing Barbell Overhead Press',
-    nameAr: 'ضغط أكتاف عسكري بالبار وقوفاً',
+    nameAr: 'ضغط الأكتاف بالبار وقوفاً (الضغط العسكري)',
     primaryMuscles: ['shoulders'],
     secondaryMuscles: ['triceps', 'abdominals'],
     equipment: 'barbell',
@@ -474,7 +474,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
       'Pressing the bar forward away from your center of gravity.'
     ],
     commonMistakesAr: [
-      'تقويس أسفل الظهر للخلف بشكل مبالغ فيه.',
+      'تقوّس أسفل الظهر للخلف بشكل مبالغ فيه.',
       'دفع البار للأمام بعيداً عن خط التوازن العمودي.'
     ],
     safetyEn: 'Keep glutes and abs locked tight throughout the press.',
@@ -484,7 +484,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'seated-dumbbell-shoulder-press',
     nameEn: 'Seated Dumbbell Shoulder Press',
-    nameAr: 'دفع أكتاف بالدامبل جالساً',
+    nameAr: 'ضغط الأكتاف بالدامبل جالساً',
     primaryMuscles: ['shoulders'],
     secondaryMuscles: ['triceps'],
     equipment: 'dumbbell',
@@ -511,7 +511,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'dumbbell-lateral-raise',
     nameEn: 'Dumbbell Lateral Raise',
-    nameAr: 'رفرفة جانبية بالدامبل للأكتاف',
+    nameAr: 'الرفرفة الجانبية بالدامبل للأكتاف',
     primaryMuscles: ['shoulders'],
     secondaryMuscles: ['forearms'],
     equipment: 'dumbbell',
@@ -526,7 +526,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     ],
     instructionsAr: [
       'ارفع الذراعين للجانبين مع إمالة طفيفة للأمام حتى مستوى الكتفين.',
-      'اجعل المرفقين يقودان الحركة دون رفع الترابيس للأعلى.',
+      'اجعل المرفقين يقودان الحركة دون رفع الكتفين للأعلى.',
       'أنزل الوزن ببطء خلال 2–3 ثوانٍ مع مقاومة الجاذبية.'
     ],
     breathingEn: 'Exhale as you raise; inhale as you lower.',
@@ -546,7 +546,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'cable-face-pull',
     nameEn: 'Cable Rope Face Pull',
-    nameAr: 'سحب الحبل للوجه للكتف الخلفي (فيس بول)',
+    nameAr: 'سحب الحبل للوجه للكتف الخلفي',
     primaryMuscles: ['shoulders'],
     secondaryMuscles: ['back'],
     equipment: 'cable',
@@ -561,7 +561,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     ],
     instructionsAr: [
       'اسحب الحبل باتجاه الجبهة مع فتح طرفي الحبل للخارج.',
-      'أدر الساعدين للأعلى في نهاية السحب لإشراك الكتف الخلفي والعضلات المدورة.',
+      'أدر الساعدين للأعلى في نهاية السحب لإشراك الكتف الخلفي والعضلات المدوّرة.',
       'ثبّت الانقباض ثانية ثم عد للأمام بسلاسة.'
     ],
     breathingEn: 'Exhale during the pull; inhale on extension.',
@@ -575,7 +575,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'cable-lateral-raise',
     nameEn: 'Single-Arm Cable Lateral Raise',
-    nameAr: 'رفرفة جانبية فردية بالكابل',
+    nameAr: 'الرفرفة الجانبية بالكابل بذراع واحدة',
     primaryMuscles: ['shoulders'],
     secondaryMuscles: ['forearms'],
     equipment: 'cable',
@@ -594,15 +594,15 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     breathingEn: 'Exhale on raise; inhale on return.',
     breathingAr: 'زفير عند الرفع، شهيق عند الإنزال.',
     commonMistakesEn: ['Leaning excessively or jerking the cable off the stack.'],
-    commonMistakesAr: ['الميلان المفرط بالجسم أو نتش الكابل بسرعة.'],
+    commonMistakesAr: ['الميلان المفرط بالجسم أو شد الكابل بعنف وبسرعة.'],
     safetyEn: 'Keep tension smooth from the bottom position.',
-    safetyAr: 'حافظ على حركة ناعمة ومستمرة من بداية المدى الحركي.',
+    safetyAr: 'حافظ على حركة سلسة ومستمرة من بداية المدى الحركي.',
     alternativeIds: ['dumbbell-lateral-raise', 'machine-lateral-raise']
   },
   {
     id: 'smith-overhead-press',
     nameEn: 'Smith Machine Seated Shoulder Press',
-    nameAr: 'دفع أكتاف على جهاز السميث جالساً',
+    nameAr: 'ضغط الأكتاف على جهاز السميث جالساً',
     primaryMuscles: ['shoulders'],
     secondaryMuscles: ['triceps'],
     equipment: 'smith_machine',
@@ -615,8 +615,8 @@ export const BUILTIN_EXERCISES: Exercise[] = [
       'Press directly upward until arms are near full extension.'
     ],
     instructionsAr: [
-      'فك القفل وأنزل البار بسلاسة حتى مستوى الذقن أو أعلى الصدر.',
-      'ادفع للأعلى باستقامة حتى شبه فرد الذراعين.'
+      'حرّر قفل الأمان وأنزل البار بسلاسة حتى مستوى الذقن أو أعلى الصدر.',
+      'ادفع للأعلى باستقامة حتى يقترب الذراعان من الفرد الكامل.'
     ],
     breathingEn: 'Inhale down; exhale up.',
     breathingAr: 'شهيق عند النزول، زفير عند الدفع.',
@@ -629,7 +629,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'machine-lateral-raise',
     nameEn: 'Machine Lateral Raise',
-    nameAr: 'رفرفة جانبية للأكتاف على الجهاز',
+    nameAr: 'الرفرفة الجانبية للأكتاف على الجهاز',
     primaryMuscles: ['shoulders'],
     secondaryMuscles: [],
     equipment: 'machine',
@@ -648,7 +648,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     breathingEn: 'Exhale up; inhale down.',
     breathingAr: 'زفير عند الرفع، شهيق عند الإنزال.',
     commonMistakesEn: ['Shrugging traps during the lift.'],
-    commonMistakesAr: ['رفع الترابيس للأعلى أثناء الدفع.'],
+    commonMistakesAr: ['رفع الكتفين نحو الأذنين أثناء الدفع.'],
     safetyEn: 'Align shoulder joint with the machine pivot.',
     safetyAr: 'تأكد من محاذاة الكتف مع محور الجهاز قبل البدء.',
     alternativeIds: ['dumbbell-lateral-raise', 'cable-lateral-raise']
@@ -656,7 +656,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'rear-delt-machine-fly',
     nameEn: 'Reverse Pec Deck Rear Delt Fly',
-    nameAr: 'تفتيح خلفي للأكتاف على جهاز الفراشة',
+    nameAr: 'التفتيح الخلفي للأكتاف على جهاز الفراشة',
     primaryMuscles: ['shoulders'],
     secondaryMuscles: ['back'],
     equipment: 'machine',
@@ -675,7 +675,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     breathingEn: 'Exhale back; inhale forward.',
     breathingAr: 'زفير عند السحب للخلف، شهيق عند الرجوع.',
     commonMistakesEn: ['Pinching shoulder blades aggressively like a mid-back row instead of sweeping out.'],
-    commonMistakesAr: ['عصر لوحي الكتف بقوة زائدة مما يحول التركيز لمنتصف الظهر.'],
+    commonMistakesAr: ['عصر لوحي الكتف بقوة زائدة مما يحوّل التركيز إلى منتصف الظهر.'],
     safetyEn: 'Keep chest lightly resting on the pad.',
     safetyAr: 'أبقِ الصدر ملامساً للمسند طوال التمرين.',
     alternativeIds: ['cable-face-pull']
@@ -685,7 +685,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'barbell-bicep-curl',
     nameEn: 'Standing Barbell Curl',
-    nameAr: 'تمرين بايسبس بالبار المستقيم وقوفاً',
+    nameAr: 'ثني الذراعين بالبار للبايسبس وقوفاً',
     primaryMuscles: ['biceps'],
     secondaryMuscles: ['forearms'],
     equipment: 'barbell',
@@ -708,13 +708,13 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     commonMistakesEn: ['Swinging the hips backward to heave heavy weight.', 'Flaring elbows forward excessively.'],
     commonMistakesAr: ['تأرجح الظهر والوركين لرفع وزن زائد.', 'دفع المرفقين للأمام لرفع البار.'],
     safetyEn: 'Switch to an EZ-curl bar if straight bar causes wrist discomfort.',
-    safetyAr: 'استخدم البار المتعرج (EZ) إذا شعرت بأي ضغط على المعصمين.',
+    safetyAr: 'استخدم البار المتعرج إذا شعرت بأي ضغط على المعصمين.',
     alternativeIds: ['incline-dumbbell-curl', 'hammer-curl', 'cable-bicep-curl']
   },
   {
     id: 'incline-dumbbell-curl',
     nameEn: 'Incline Dumbbell Curl',
-    nameAr: 'تمرين بايسبس بالدامبل على مقعد مائل',
+    nameAr: 'ثني الذراعين بالدامبل للبايسبس على مقعد مائل',
     primaryMuscles: ['biceps'],
     secondaryMuscles: ['forearms'],
     equipment: 'dumbbell',
@@ -741,14 +741,14 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'hammer-curl',
     nameEn: 'Dumbbell Hammer Curl',
-    nameAr: 'تمرين هامر بالدامبل للبايسبس والساعد',
+    nameAr: 'تمرين المطرقة بالدامبل للبايسبس والساعد',
     primaryMuscles: ['biceps'],
     secondaryMuscles: ['forearms'],
     equipment: 'dumbbell',
     category: 'isolation',
     difficulty: 'beginner',
     startingPositionEn: 'Stand upright holding dumbbells with palms facing your thighs (neutral grip).',
-    startingPositionAr: 'قف باستقامة واحمل الدامبل بحيث تتجه راحتا اليدين نحو الفخذين (قبضة محايدة).',
+    startingPositionAr: 'قف باستقامة واحمل الدامبل بحيث تتجه راحتا اليدين نحو الفخذين بقبضة محايدة.',
     instructionsEn: [
       'Curl the weights up while maintaining a neutral thumb-up grip.',
       'Pause briefly at the top and lower smoothly to full extension.'
@@ -768,14 +768,14 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'cable-bicep-curl',
     nameEn: 'Low-Pulley Cable Curl',
-    nameAr: 'تمرين بايسبس بالكابل السفلي',
+    nameAr: 'ثني الذراعين بالكابل السفلي للبايسبس',
     primaryMuscles: ['biceps'],
     secondaryMuscles: ['forearms'],
     equipment: 'cable',
     category: 'isolation',
     difficulty: 'beginner',
     startingPositionEn: 'Stand facing a low pulley with a straight or EZ attachment, elbows tucked at your sides.',
-    startingPositionAr: 'قف مواجهاً للبكرة السفلية وأمسك البار المرفق مع تثبيت المرفقين بجانب الجذع.',
+    startingPositionAr: 'قف مواجهاً للبكرة السفلية وأمسك المقبض مع تثبيت المرفقين بجانب الجذع.',
     instructionsEn: [
       'Curl the handle smoothly toward your shoulders maintaining constant cable tension.',
       'Lower slowly under control without letting plates touch.'
@@ -795,7 +795,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'machine-preacher-curl',
     nameEn: 'Machine Preacher Curl',
-    nameAr: 'تمرين بايسبس ارتكاز على الجهاز (لاري سكوت)',
+    nameAr: 'ثني الذراعين على جهاز الارتكاز للبايسبس',
     primaryMuscles: ['biceps'],
     secondaryMuscles: ['forearms'],
     equipment: 'machine',
@@ -809,7 +809,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     ],
     instructionsAr: [
       'ارفع المقابض للأعلى بسلاسة حتى أقصى انقباض.',
-      'أنزل بتحكم حتى شبه استقامة الذراع دون قفل المفصل بعنف.'
+      'أنزل بتحكم حتى يقترب الذراعان من الاستقامة دون قفل المفصل بعنف.'
     ],
     breathingEn: 'Exhale up; inhale down.',
     breathingAr: 'زفير عند الرفع، شهيق عند الإنزال.',
@@ -824,7 +824,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'cable-tricep-pushdown',
     nameEn: 'Cable Triceps Rope Pushdown',
-    nameAr: 'دفع ترايسبس بالحبل على الكابل (بوش داون)',
+    nameAr: 'دفع الترايسبس بالحبل للأسفل بالكابل',
     primaryMuscles: ['triceps'],
     secondaryMuscles: [],
     equipment: 'cable',
@@ -853,7 +853,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'overhead-cable-tricep-extension',
     nameEn: 'Overhead Cable Triceps Extension',
-    nameAr: 'مد ترايسبس علوي بالحبل خلف الرأس',
+    nameAr: 'مد الترايسبس بالحبل فوق الرأس بالكابل',
     primaryMuscles: ['triceps'],
     secondaryMuscles: ['abdominals'],
     equipment: 'cable',
@@ -872,7 +872,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     breathingEn: 'Exhale on extension; inhale on the stretch.',
     breathingAr: 'زفير عند الفرد، شهيق عند التمديد خلف الرأس.',
     commonMistakesEn: ['Flaring elbows excessively wide or overarching the lower back.'],
-    commonMistakesAr: ['فتح المرفقين للخارج كثيراً أو تقويس أسفل الظهر.'],
+    commonMistakesAr: ['فتح المرفقين للخارج كثيراً أو تقوّس أسفل الظهر.'],
     safetyEn: 'Brace abs firmly throughout.',
     safetyAr: 'اشدد عضلات البطن طوال الجولة لحماية الظهر.',
     alternativeIds: ['cable-tricep-pushdown', 'ez-bar-skullcrusher']
@@ -880,14 +880,14 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'ez-bar-skullcrusher',
     nameEn: 'Lying Barbell Triceps Extension',
-    nameAr: 'مد ترايسبس بالبار نائماً (سكال كراشر)',
+    nameAr: 'مد الترايسبس بالبار المتعرج استلقاءً',
     primaryMuscles: ['triceps'],
     secondaryMuscles: ['forearms'],
     equipment: 'barbell',
     category: 'isolation',
     difficulty: 'intermediate',
     startingPositionEn: 'Lie flat on a bench holding a straight or EZ bar directly over your chest/forehead with arms angled slightly back.',
-    startingPositionAr: 'استلقِ على البنش المستوي حاملاً البار فوق الصدر مع إمالة طفيفة للذراعين للخلف.',
+    startingPositionAr: 'استلقِ على المقعد المستوي حاملاً البار فوق الصدر مع إمالة طفيفة للذراعين للخلف.',
     instructionsEn: [
       'Keep upper arms steady and bend elbows to lower the bar smoothly toward or just behind your forehead.',
       'Extend triceps forcefully back to the starting angle.'
@@ -907,14 +907,14 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'dumbbell-tricep-kickback',
     nameEn: 'Bent-Over Dumbbell Kickback',
-    nameAr: 'مد ترايسبس خلفي بالدامبل (كيك باك)',
+    nameAr: 'المد الخلفي للترايسبس بالدامبل',
     primaryMuscles: ['triceps'],
     secondaryMuscles: [],
     equipment: 'dumbbell',
     category: 'isolation',
     difficulty: 'beginner',
     startingPositionEn: 'Support one hand and knee on a bench, torso parallel to the floor, upper arm pinned parallel to your torso.',
-    startingPositionAr: 'اسند يداً وركبة على المقعد بحيث يكون الجذع موازياً للأرض والعضد مثبتاً بمحاذاة الجذع.',
+    startingPositionAr: 'أسند يداً وركبة على المقعد بحيث يكون الجذع موازياً للأرض والعضد مثبتاً بمحاذاة الجذع.',
     instructionsEn: [
       'Extend the forearm straight back until the arm is fully straight and parallel to the floor.',
       'Squeeze triceps briefly, then bend elbow back to 90 degrees.'
@@ -934,14 +934,14 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'bench-dips',
     nameEn: 'Bench Tricep Dips',
-    nameAr: 'غطس ترايسبس على البنش بوزن الجسم',
+    nameAr: 'تمرين الغطس للترايسبس على المقعد',
     primaryMuscles: ['triceps'],
     secondaryMuscles: ['chest', 'shoulders'],
     equipment: 'bodyweight',
     category: 'compound',
     difficulty: 'intermediate',
     startingPositionEn: 'Support yourself upright on parallel dip bars (or hands on a bench behind you), shoulders depressed away from ears.',
-    startingPositionAr: 'ارتكز باستقامة على متوازي الغطس أو بحافة المقعد خلفك مع خفض الكتفين بعيداً عن الأذنين.',
+    startingPositionAr: 'ارتكز بيديك على حافة المقعد خلفك مع خفض الكتفين بعيداً عن الأذنين.',
     instructionsEn: [
       'Keep torso relatively upright and elbows tucked back as you lower until elbows reach ~90 degrees.',
       'Press powerfully through your palms to full extension.'
@@ -1019,14 +1019,14 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'barbell-back-squat',
     nameEn: 'Barbell Back Squat',
-    nameAr: 'سكوات خلفي بالبار (القرفصاء)',
+    nameAr: 'القرفصاء الخلفية بالبار',
     primaryMuscles: ['quadriceps', 'glutes'],
     secondaryMuscles: ['hamstrings', 'abdominals', 'back'],
     equipment: 'barbell',
     category: 'compound',
     difficulty: 'intermediate',
     startingPositionEn: 'Set the bar across your upper traps/rear delts. Stand with feet shoulder-width apart, toes turned slightly out (15–30 degrees), chest proud.',
-    startingPositionAr: 'ثبّت البار على أعلى الترابيس والكتف الخلفي. قف بقدمين بعرض الكتفين مع توجيه الأصابع للخارج قليلاً (15–30 درجة) وصدر مرفوع.',
+    startingPositionAr: 'ثبّت البار على أعلى العضلة شبه المنحرفة (الترابيس) والكتف الخلفي. قف بقدمين بعرض الكتفين مع توجيه الأصابع للخارج قليلاً (15–30 درجة) وصدر مرفوع.',
     instructionsEn: [
       'Take a deep diaphragmatic breath and brace your core 360 degrees.',
       'Initiate by breaking at the hips and knees simultaneously, tracking knees in line with toes.',
@@ -1056,20 +1056,20 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'leg-press-machine',
     nameEn: '45-Degree Leg Press',
-    nameAr: 'دفع الأرجل المائل على الجهاز (ليج بريس)',
+    nameAr: 'دفع الأرجل المائل على الجهاز',
     primaryMuscles: ['quadriceps'],
     secondaryMuscles: ['glutes', 'hamstrings'],
     equipment: 'machine',
     category: 'compound',
     difficulty: 'beginner',
     startingPositionEn: 'Sit firmly in the seat with lower back and tailbone pressed flat against the pad. Place feet shoulder-width apart on the sled.',
-    startingPositionAr: 'اجلس بثبات مع إلصاق أسفل الظهر والمقعدة بالمسند تماماً، وضع القدمين بعرض الكتفين على المنصة.',
+    startingPositionAr: 'اجلس بثبات مع إلصاق أسفل الظهر والأرداف بالمسند تماماً، وضع القدمين بعرض الكتفين على المنصة.',
     instructionsEn: [
       'Release safety catches and lower the sled smoothly until knees approach a deep bend without your tailbone curling off the seat.',
       'Press through heels and mid-foot back up, stopping just short of locking knees hard.'
     ],
     instructionsAr: [
-      'فك أقفال الأمان وأنزل المنصة بتحكم حتى ثني عميق للركبتين دون ارتفاع أسفل الظهر عن المقعد.',
+      'حرّر أقفال الأمان وأنزل المنصة بتحكم حتى ثني عميق للركبتين دون ارتفاع أسفل الظهر عن المقعد.',
       'ادفع عبر الكعبين ومنتصف القدم للأعلى مع التوقف قبل قفل الركبتين بعنف.'
     ],
     breathingEn: 'Inhale on the descent; exhale on the press.',
@@ -1077,13 +1077,13 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     commonMistakesEn: ['Locking knees aggressively at the top.', 'Letting the lower back round off the pad at the bottom.'],
     commonMistakesAr: ['قفل مفصل الركبة بقوة في الأعلى.', 'ارتفاع أسفل الظهر عن المسند في نهاية النزول.'],
     safetyEn: 'Never place hands on your knees to assist; keep handles gripped firmly.',
-    safetyAr: 'أمسك المقابض الجانبية بإحكام وتجنب وضع اليدين على الركبتين، واضبط قفل الأمان بعد الانتهاء.',
+    safetyAr: 'أمسك المقابض الجانبية بإحكام وتجنب وضع اليدين على الركبتين، وأعد تأمين الأقفال بعد الانتهاء.',
     alternativeIds: ['barbell-back-squat', 'smith-squat']
   },
   {
     id: 'leg-extension-machine',
     nameEn: 'Seated Leg Extension',
-    nameAr: 'تمديد الفخذ الأمامي على الجهاز (ليج إكستنشن)',
+    nameAr: 'تمديد الفخذ الأمامي على الجهاز',
     primaryMuscles: ['quadriceps'],
     secondaryMuscles: [],
     equipment: 'machine',
@@ -1102,7 +1102,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     breathingEn: 'Exhale as you extend; inhale as you lower.',
     breathingAr: 'زفير عند الفرد للأعلى، شهيق عند الإنزال.',
     commonMistakesEn: ['Kicking the weight up rapidly using momentum.'],
-    commonMistakesAr: ['ركل الوزن للأعلى بسرعة بالزخم.'],
+    commonMistakesAr: ['رفع الوزن للأعلى باندفاع مفاجئ دون تحكم.'],
     safetyEn: 'Hold side handles to keep hips anchored to the seat.',
     safetyAr: 'تمسّك بالمقابض الجانبية لتثبيت الحوض في المقعد.',
     alternativeIds: ['dumbbell-goblet-squat', 'leg-press-machine']
@@ -1110,7 +1110,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'dumbbell-goblet-squat',
     nameEn: 'Dumbbell Goblet Squat',
-    nameAr: 'جوبلت سكوات أمامي بالدامبل',
+    nameAr: 'القرفصاء الأمامية بالدامبل',
     primaryMuscles: ['quadriceps'],
     secondaryMuscles: ['glutes', 'abdominals'],
     equipment: 'dumbbell',
@@ -1129,7 +1129,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     breathingEn: 'Inhale down; exhale up.',
     breathingAr: 'شهيق عند النزول، زفير عند الصعود.',
     commonMistakesEn: ['Letting the dumbbell pull the upper back into rounding.'],
-    commonMistakesAr: ['تقويس أعلى الظهر للأمام بسبب ثقل الدامبل.'],
+    commonMistakesAr: ['تقوّس أعلى الظهر للأمام بسبب ثقل الدامبل.'],
     safetyEn: 'Keep elbows tucked close to ribcage.',
     safetyAr: 'أبقِ المرفقين قريبين من القفص الصدري.',
     alternativeIds: ['barbell-back-squat', 'smith-squat']
@@ -1137,20 +1137,20 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'smith-squat',
     nameEn: 'Smith Machine Squat',
-    nameAr: 'سكوات على جهاز السميث',
+    nameAr: 'القرفصاء على جهاز السميث',
     primaryMuscles: ['quadriceps'],
     secondaryMuscles: ['glutes', 'hamstrings'],
     equipment: 'smith_machine',
     category: 'compound',
     difficulty: 'beginner',
     startingPositionEn: 'Place bar across upper traps, step feet slightly forward (10–15 cm) of the vertical bar path for balanced knee travel.',
-    startingPositionAr: 'ضع البار على أعلى الترابيس وقدّم القدمين قليلاً للأمام عن خط البار العمودي.',
+    startingPositionAr: 'ضع البار على أعلى العضلة شبه المنحرفة، وقدّم القدمين قليلاً للأمام عن خط البار العمودي.',
     instructionsEn: [
       'Unlatch the bar and squat straight down under control.',
       'Drive back up smoothly through mid-foot and heels.'
     ],
     instructionsAr: [
-      'فك القفل وانزل في القرفصاء بتحكم كامل.',
+      'حرّر قفل الأمان وانزل في القرفصاء بتحكم كامل.',
       'ادفع للأعلى بسلاسة عبر منتصف القدم والكعبين.'
     ],
     breathingEn: 'Inhale down; exhale up.',
@@ -1166,7 +1166,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'romanian-deadlift',
     nameEn: 'Barbell Romanian Deadlift (RDL)',
-    nameAr: 'ديدلفت روماني بالبار للفخذ الخلفي',
+    nameAr: 'الرفعة المميتة الرومانية بالبار للفخذ الخلفي',
     primaryMuscles: ['hamstrings', 'glutes'],
     secondaryMuscles: ['back', 'forearms'],
     equipment: 'barbell',
@@ -1181,13 +1181,13 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     ],
     instructionsAr: [
       'ادفع الوركين للخلف أفقياً مع إبقاء البار ملاصقاً للفخذين والساقين أثناء النزول.',
-      'انزل حتى أقصى تمدد للعضلة الخلفية دون تقويس أسفل الظهر (عادة حتى منتصف الساق).',
+      'انزل حتى أقصى تمدد للعضلة الخلفية دون تقوّس أسفل الظهر (عادة حتى منتصف الساق).',
       'توقف لحظة ثم ادفع الوركين للأمام بشد الأرداف والخلفية للعودة للوقوف.'
     ],
     breathingEn: 'Inhale and brace before hinging; exhale as you drive hips back to standing.',
     breathingAr: 'شهيق وشد للبطن قبل الانحناء، وزفير عند الدفع للوقوف.',
     commonMistakesEn: ['Rounding the lumbar spine to force the bar to the floor.', 'Bending knees into a squat instead of hinging at the hips.'],
-    commonMistakesAr: ['تقويس أسفل الظهر للوصول للأرض.', 'ثني الركبتين كثيراً وتحويل التمرين إلى سكوات.'],
+    commonMistakesAr: ['تقوّس أسفل الظهر للوصول للأرض.', 'ثني الركبتين كثيراً وتحويل التمرين إلى قرفصاء.'],
     safetyEn: 'Keep the bar touching or within 1 cm of your legs throughout the entire rep.',
     safetyAr: 'أبقِ البار قريباً جداً من ساقيك طوال الحركة لحماية أسفل الظهر.',
     alternativeIds: ['lying-leg-curl', 'dumbbell-rdl']
@@ -1195,7 +1195,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'lying-leg-curl',
     nameEn: 'Lying / Seated Leg Curl Machine',
-    nameAr: 'ثني الفخذ الخلفي على الجهاز (ليج كيرل)',
+    nameAr: 'ثني الفخذ الخلفي على الجهاز',
     primaryMuscles: ['hamstrings'],
     secondaryMuscles: ['calves'],
     equipment: 'machine',
@@ -1214,7 +1214,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     breathingEn: 'Exhale on the curl; inhale on the return.',
     breathingAr: 'زفير عند السحب، شهيق عند الإنزال.',
     commonMistakesEn: ['Arching the lower back and lifting hips to swing the pad up.'],
-    commonMistakesAr: ['تقويس أسفل الظهر ورفع الحوض للمساعدة في الرفع.'],
+    commonMistakesAr: ['تقوّس أسفل الظهر ورفع الحوض للمساعدة في الرفع.'],
     safetyEn: 'Keep toes dorsiflexed or neutral and control the eccentric phase.',
     safetyAr: 'تحكم في مرحلة النزول ببطء وتجنب إفلات الوزن.',
     alternativeIds: ['romanian-deadlift', 'dumbbell-rdl']
@@ -1222,7 +1222,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'dumbbell-rdl',
     nameEn: 'Dumbbell Romanian Deadlift',
-    nameAr: 'ديدلفت روماني بالدامبل',
+    nameAr: 'الرفعة المميتة الرومانية بالدامبل',
     primaryMuscles: ['hamstrings', 'glutes'],
     secondaryMuscles: ['back', 'forearms'],
     equipment: 'dumbbell',
@@ -1251,7 +1251,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'barbell-hip-thrust',
     nameEn: 'Barbell Hip Thrust',
-    nameAr: 'دفع الورك بالبار للألوية (هيب ثرست)',
+    nameAr: 'دفع الورك بالبار للأرداف',
     primaryMuscles: ['glutes'],
     secondaryMuscles: ['hamstrings', 'quadriceps'],
     equipment: 'barbell',
@@ -1272,7 +1272,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     breathingEn: 'Inhale before thrusting; exhale and squeeze at the top.',
     breathingAr: 'شهيق قبل الدفع، وزفير مع العصر في الأعلى.',
     commonMistakesEn: ['Hyperextending the lower back at lockout instead of posterior pelvic tilt.', 'Feet placed too close or too far from the bench.'],
-    commonMistakesAr: ['تقويس أسفل الظهر في الأعلى بدلاً من عصر الأرداف.', 'وضع القدمين قريباً جداً أو بعيداً جداً عن المقعد.'],
+    commonMistakesAr: ['تقوّس أسفل الظهر في الأعلى بدلاً من عصر الأرداف.', 'وضع القدمين قريباً جداً أو بعيداً جداً عن المقعد.'],
     safetyEn: 'Always use a thick barbell pad and anchor the bench firmly against a wall or rack.',
     safetyAr: 'استخدم بطانة إسفنجية للبار وثبّت المقعد جيداً حتى لا ينزلق.',
     alternativeIds: ['cable-glute-kickback', 'bodyweight-bulgarian-split-squat']
@@ -1280,26 +1280,26 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'cable-glute-kickback',
     nameEn: 'Cable Glute Kickback',
-    nameAr: 'مد الساق للخلف للأرداف بالكابل (كيك باك)',
+    nameAr: 'مد الساق للخلف بالكابل للأرداف',
     primaryMuscles: ['glutes'],
     secondaryMuscles: ['hamstrings'],
     equipment: 'cable',
     category: 'isolation',
     difficulty: 'beginner',
     startingPositionEn: 'Attach an ankle strap to a low pulley. Face the machine, hold the frame for stability with torso slightly leaned forward.',
-    startingPositionAr: 'ثبّت حزام الكاحل في البكرة السفلية، قف مواجهاً للجهاز وأمسك الإطار للثبات مع ميلان طفيف للأمام.',
+    startingPositionAr: 'ثبّت حبل الكاحل في البكرة السفلية، قف مواجهاً للجهاز وأمسك الإطار للثبات مع ميلان طفيف للأمام.',
     instructionsEn: [
       'Kick the strapped leg straight back and slightly upward by contracting your glute.',
       'Pause briefly at full hip extension without twisting or arching your lower back, then return slowly.'
     ],
     instructionsAr: [
       'ادفع الساق للخلف وللأعلى قليلاً عبر انقباض عضلة الأرداف.',
-      'ثبّت لحظة عند أقصى امتداد دون تقويس أسفل الظهر، ثم عد ببطء.'
+      'ثبّت لحظة عند أقصى امتداد دون تقوّس أسفل الظهر، ثم عد ببطء.'
     ],
     breathingEn: 'Exhale on kickback; inhale on return.',
     breathingAr: 'زفير عند الدفع للخلف، شهيق عند الرجوع.',
     commonMistakesEn: ['Swinging the leg using momentum and arching the lower back.'],
-    commonMistakesAr: ['تأرجح الساق وتقويس أسفل الظهر لرفع الوزن.'],
+    commonMistakesAr: ['تأرجح الساق وتقوّس أسفل الظهر لرفع الوزن.'],
     safetyEn: 'Keep core braced so movement comes strictly from the hip.',
     safetyAr: 'اشدد البطن لتكون الحركة من مفصل الورك فقط.',
     alternativeIds: ['barbell-hip-thrust', 'bodyweight-bulgarian-split-squat']
@@ -1307,7 +1307,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'bodyweight-bulgarian-split-squat',
     nameEn: 'Bulgarian Split Squat (Dumbbell / Bodyweight)',
-    nameAr: 'سكوات بلغاري أحادي الساق (بالدامبل أو وزن الجسم)',
+    nameAr: 'القرفصاء البلغارية للساق الواحدة',
     primaryMuscles: ['glutes', 'quadriceps'],
     secondaryMuscles: ['hamstrings', 'abdominals'],
     equipment: 'bodyweight',
@@ -1363,7 +1363,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'smith-standing-calf-raise',
     nameEn: 'Smith Machine Calf Raise',
-    nameAr: 'رفع السمانة على جهاز السميث',
+    nameAr: 'رفع السمانة وقوفاً على جهاز السميث',
     primaryMuscles: ['calves'],
     secondaryMuscles: [],
     equipment: 'smith_machine',
@@ -1390,7 +1390,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'cable-crunch',
     nameEn: 'Kneeling Cable Rope Crunch',
-    nameAr: 'تمرين البطن بالحبل على الكابل ركوعاً (كرنش)',
+    nameAr: 'تمرين البطن بالحبل ركوعاً',
     primaryMuscles: ['abdominals'],
     secondaryMuscles: [],
     equipment: 'cable',
@@ -1417,7 +1417,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'hanging-leg-raise',
     nameEn: 'Hanging Knee / Leg Raise',
-    nameAr: 'رفع الأرجل معلقاً للبطن',
+    nameAr: 'رفع الساقين معلقاً للبطن',
     primaryMuscles: ['abdominals'],
     secondaryMuscles: ['forearms'],
     equipment: 'bodyweight',
@@ -1436,7 +1436,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     breathingEn: 'Exhale as legs rise; inhale as they lower.',
     breathingAr: 'زفير عند الرفع، شهيق عند الإنزال.',
     commonMistakesEn: ['Only lifting to 90 degrees with hip flexors without curling the pelvis.'],
-    commonMistakesAr: ['رفع الساقين فقط بمفصل الورك دون تقويس الحوض لتفعيل البطن.'],
+    commonMistakesAr: ['رفع الساقين فقط بمفصل الورك دون تدوير الحوض لتفعيل البطن.'],
     safetyEn: 'Use elbow straps if grip fatigues before abdominals.',
     safetyAr: 'يمكنك استخدام أحزمة المرفقين إذا تعبت القبضة قبل البطن.',
     alternativeIds: ['cable-crunch', 'plank-hold']
@@ -1444,7 +1444,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'plank-hold',
     nameEn: 'Forearm Plank',
-    nameAr: 'ثبات البلانك على الساعدين',
+    nameAr: 'تمرين البلانك على الساعدين',
     primaryMuscles: ['abdominals'],
     secondaryMuscles: ['shoulders', 'glutes'],
     equipment: 'bodyweight',
@@ -1471,20 +1471,20 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'resistance-band-pallof-press',
     nameEn: 'Resistance Band Pallof Press',
-    nameAr: 'بالوف برس لمقاومة دوران الجذع بالحزام',
+    nameAr: 'تمرين بالوف لمقاومة دوران الجذع بالحبل',
     primaryMuscles: ['abdominals'],
     secondaryMuscles: ['shoulders'],
     equipment: 'resistance_bands',
     category: 'isolation',
     difficulty: 'beginner',
     startingPositionEn: 'Anchor band sideways at chest height, step out to create tension, and hold handle at the center of your sternum with both hands.',
-    startingPositionAr: 'ثبّت حزام المقاومة جانبياً بمستوى الصدر، ابتعد لخلق شد مناسب، وأمسك المقبض بكلتا اليدين أمام منتصف الصدر.',
+    startingPositionAr: 'ثبّت حبل المقاومة جانبياً بمستوى الصدر، ابتعد لخلق شد مناسب، وأمسك المقبض بكلتا اليدين أمام منتصف الصدر.',
     instructionsEn: [
       'Press hands straight forward resisting the band’s pull to rotate your torso.',
       'Hold 2 seconds with straight arms, then bring hands back to sternum.'
     ],
     instructionsAr: [
-      'ادفع اليدين للأمام باستقامة مع مقاومة قوة سحب الحزام ومنع التفاف الجذع.',
+      'ادفع اليدين للأمام باستقامة مع مقاومة قوة سحب الحبل ومنع التفاف الجذع.',
       'ثبّت ثانيتين ثم أعد اليدين إلى منتصف الصدر.'
     ],
     breathingEn: 'Exhale during press out; inhale on return.',
@@ -1499,14 +1499,14 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'dumbbell-bench-press',
     nameEn: 'Dumbbell Flat Bench Press',
-    nameAr: 'بنش برس مستوٍ بالدامبل',
+    nameAr: 'ضغط الصدر المستوي بالدامبل',
     primaryMuscles: ['chest'],
     secondaryMuscles: ['shoulders', 'triceps'],
     equipment: 'dumbbell',
     category: 'compound',
     difficulty: 'beginner',
     startingPositionEn: 'Sit on a flat bench holding dumbbells on your thighs, kick back carefully into a supine position with feet planted, shoulder blades retracted, and dumbbells stacked over mid-chest.',
-    startingPositionAr: 'اجلس على البنش المستوي مع إسناد الدامبل على الفخذين، استلقِ للخلف بثبات القدمين على الأرض، اسحب لوحي الكتف للخلف، وثبّت الدامبل فوق منتصف الصدر.',
+    startingPositionAr: 'اجلس على المقعد المستوي مع إسناد الدامبل على الفخذين، استلقِ للخلف بثبات القدمين على الأرض، اسحب لوحي الكتف للخلف، وثبّت الدامبل فوق منتصف الصدر.',
     instructionsEn: [
       'Lower dumbbells slowly with elbows tucked roughly 45 degrees until upper arms sit just below bench height.',
       'Feel a clean stretch across the pectorals without losing shoulder position.',
@@ -1514,7 +1514,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     ],
     instructionsAr: [
       'أنزل الدامبل بتحكم مع إبقاء المرفقين بزاوية 45 درجة حتى يتوازى العضد مع مستوى الصدر أو يتجاوزه قليلاً.',
-      'اشعر بتمدد واضح في الصدر مع الحفاظ على ثبات الكتفين على البنش.',
+      'اشعر بتمدد واضح في الصدر مع الحفاظ على ثبات الكتفين على المقعد.',
       'ادفع للأعلى وللداخل قليلاً دون اصطدام الدامبل ببعضهما في القمة.'
     ],
     breathingEn: 'Inhale on the controlled descent; exhale as you drive through the press.',
@@ -1534,14 +1534,14 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'incline-barbell-press',
     nameEn: 'Incline Barbell Bench Press',
-    nameAr: 'بنش برس مائل بالبار للصدر العلوي',
+    nameAr: 'ضغط الصدر المائل بالبار (الصدر العلوي)',
     primaryMuscles: ['chest'],
     secondaryMuscles: ['shoulders', 'triceps'],
     equipment: 'barbell',
     category: 'compound',
     difficulty: 'intermediate',
     startingPositionEn: 'Lie on a 30–45° incline bench with eyes beneath the barbell. Plant feet firmly, depress shoulder blades, and grip slightly wider than shoulder-width.',
-    startingPositionAr: 'استلقِ على بنش مائل بزاوية 30–45 درجة مع وضع العينين أسفل البار. ثبّت القدمين بالأرض واسحب لوحي الكتف للخلف وأمسك البار بقبضة أعرض قليلاً من الكتفين.',
+    startingPositionAr: 'استلقِ على مقعد مائل بزاوية 30–45 درجة مع وضع العينين أسفل البار. ثبّت القدمين بالأرض واسحب لوحي الكتف للخلف وأمسك البار بقبضة أعرض قليلاً من الكتفين.',
     instructionsEn: [
       'Unrack the bar and hold steady directly over the upper chest (clavicular region).',
       'Lower cleanly toward the upper chest right below the collarbone while keeping elbows at 45 degrees.',
@@ -1569,7 +1569,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'pec-deck-machine',
     nameEn: 'Pec Deck Machine Fly',
-    nameAr: 'تفتيح صدر على جهاز الفراشة (بيك ديك)',
+    nameAr: 'تفتيح الصدر على جهاز الفراشة',
     primaryMuscles: ['chest'],
     secondaryMuscles: ['shoulders'],
     equipment: 'machine',
@@ -1604,7 +1604,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'chest-dips',
     nameEn: 'Parallel Bar Chest Dips',
-    nameAr: 'غطس متوازي للصدر السفلي والترايسبس',
+    nameAr: 'تمرين الغطس على المتوازي للصدر السفلي والترايسبس',
     primaryMuscles: ['chest', 'triceps'],
     secondaryMuscles: ['shoulders'],
     equipment: 'bodyweight',
@@ -1633,13 +1633,13 @@ export const BUILTIN_EXERCISES: Exercise[] = [
       'رفع الأكتاف نحو الأذنين في الأعلى أو الأسفل.'
     ],
     safetyEn: 'Use an assisted dip station or resistance band until you perform 10 clean bodyweight reps.',
-    safetyAr: 'استخدم جهاز المساعدة أو حزام المقاومة حتى تتقن 10 تكرارات كاملة بوزن الجسم.',
+    safetyAr: 'استخدم جهاز المساعدة أو حبل المقاومة حتى تتقن 10 تكرارات كاملة بوزن الجسم.',
     alternativeIds: ['bench-dips', 'push-ups', 'cable-chest-fly']
   },
   {
     id: 'chin-ups',
     nameEn: 'Underhand Chin-Ups',
-    nameAr: 'عقلة بقبضة معكوسة (تشين أب)',
+    nameAr: 'العقلة بقبضة معكوسة للظهر والبايسبس',
     primaryMuscles: ['back', 'biceps'],
     secondaryMuscles: ['forearms', 'shoulders'],
     equipment: 'bodyweight',
@@ -1674,7 +1674,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'pendlay-row',
     nameEn: 'Pendlay Barbell Row',
-    nameAr: 'تجديف بندلاي الصارم بالبار من الأرض',
+    nameAr: 'تجديف بندلاي الصارم من الأرض بالبار',
     primaryMuscles: ['back'],
     secondaryMuscles: ['biceps', 'shoulders', 'forearms'],
     equipment: 'barbell',
@@ -1709,7 +1709,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'conventional-deadlift',
     nameEn: 'Conventional Barbell Deadlift',
-    nameAr: 'ديدلفت تقليدي بالبار (سحب أرضي)',
+    nameAr: 'الرفعة المميتة التقليدية بالبار',
     primaryMuscles: ['back', 'glutes', 'hamstrings'],
     secondaryMuscles: ['quadriceps', 'forearms', 'abdominals'],
     equipment: 'barbell',
@@ -1726,11 +1726,11 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     instructionsAr: [
       'اسحب رخاوة البار بلطف قبل الإقلاع لتشعر بتوتر الفخذ الخلفي والظهر دون خطف مفاجئ.',
       'ادفع الأرض بقدميك مع إبقاء البار ملاصقاً للساقين والفخذين أثناء الصعود.',
-      'بعد تجاوز الركبتين ادفع الورك للأمام للوقوف باستقامة دون تقويس أسفل الظهر للخلف.',
+      'بعد تجاوز الركبتين ادفع الورك للأمام للوقوف باستقامة دون تقوّس أسفل الظهر للخلف.',
       'ارجع بالورك أولاً ثم اثنِ الركبتين لإعادة البار بتحكم تام إلى الأرض.'
     ],
     breathingEn: 'Take a big belly breath and brace 360° against your torso before pulling; hold through the pull, then exhale smoothly after lockout or at the floor.',
-    breathingAr: 'خذ شهيقاً عميقاً واشدد البطن والجذع بزاوية 360 درجة قبل السحب، واحتفظ بالثبات حتى استقامة الوقوف.',
+    breathingAr: 'خذ شهيقاً عميقاً واشدد البطن والجذع بالكامل قبل السحب، واحتفظ بالثبات حتى استقامة الوقوف.',
     commonMistakesEn: [
       'Jerking the bar off the floor with a rounded lumbar spine.',
       'Letting the bar drift inches forward away from the shins.',
@@ -1748,7 +1748,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'barbell-front-squat',
     nameEn: 'Barbell Front Squat',
-    nameAr: 'سكوات أمامي بالبار',
+    nameAr: 'القرفصاء الأمامية بالبار',
     primaryMuscles: ['quadriceps', 'glutes'],
     secondaryMuscles: ['abdominals', 'back'],
     equipment: 'barbell',
@@ -1773,7 +1773,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
       'Heels lifting off the floor from limited ankle dorsiflexion.'
     ],
     commonMistakesAr: [
-      'هبوط المرفقين مما يؤدي لتقوس أعلى الظهر وانزلاق البار.',
+      'هبوط المرفقين مما يؤدي لتقوّس أعلى الظهر وانزلاق البار.',
       'ارتفاع الكعبين عن الأرض بسبب قلة مرونة الكاحل.'
     ],
     safetyEn: 'Use clean-grip, cross-arm grip, or wrist straps looped on the bar if wrist mobility is restricted.',
@@ -1783,14 +1783,14 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'overhead-barbell-tricep-extension',
     nameEn: 'Seated Overhead EZ-Bar / Barbell Triceps Extension',
-    nameAr: 'مد ترايسبس علوي بالبار خلف الرأس',
+    nameAr: 'مد الترايسبس بالبار فوق الرأس جالساً',
     primaryMuscles: ['triceps'],
     secondaryMuscles: ['shoulders'],
     equipment: 'barbell',
     category: 'isolation',
     difficulty: 'intermediate',
     startingPositionEn: 'Sit upright on a short-back utility bench gripping a barbell or EZ-bar overhead with hands narrower than shoulder-width and elbows pointing forward/upward.',
-    startingPositionAr: 'اجلس باستقامة على مقعد داعم ممسكاً بالبار أو البار الزجزاج فوق الرأس بقبضة أضيق من الكتفين مع توجيه المرفقين للأمام وللأعلى.',
+    startingPositionAr: 'اجلس باستقامة على مقعد داعم ممسكاً بالبار المستقيم أو المتعرج فوق الرأس بقبضة أضيق من الكتفين مع توجيه المرفقين للأمام وللأعلى.',
     instructionsEn: [
       'Keep upper arms locked vertically beside ears and bend solely at the elbows.',
       'Lower the bar smoothly behind your head until triceps achieve a full deep stretch.',
@@ -1809,7 +1809,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
     ],
     commonMistakesAr: [
       'فتح المرفقين للخارج بشكل مبالغ فيه.',
-      'تقويس أسفل الظهر عند الإجهاد.'
+      'تقوّس أسفل الظهر عند الإجهاد.'
     ],
     safetyEn: 'Warm up elbows thoroughly with light cable pushdowns first before heavy overhead loads.',
     safetyAr: 'سخّن مفاصل المرفق جيداً بالدفع الخفيف بالكابل قبل الأوزان العلوية الثقيلة.',
@@ -1818,7 +1818,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
   {
     id: 'seated-calf-raise',
     nameEn: 'Seated Calf Raise Machine',
-    nameAr: 'تمرين السمانة جالساً على الجهاز',
+    nameAr: 'رفع السمانة جالساً على الجهاز',
     primaryMuscles: ['calves'],
     secondaryMuscles: [],
     equipment: 'machine',
@@ -1832,7 +1832,7 @@ export const BUILTIN_EXERCISES: Exercise[] = [
       'Pause briefly at the top squeeze, then descend with deliberate control.'
     ],
     instructionsAr: [
-      'حرر قفل الأمان وأنزل الكعبين للأسفل لأقصى تمدد مع ثبات ثانية إلى ثانيتين.',
+      'حرّر قفل الأمان وأنزل الكعبين للأسفل لأقصى تمدد مع ثبات ثانية إلى ثانيتين.',
       'ادفع بقوة للأعلى على أمشاط القدمين حتى أقصى انقباض.',
       'توقف لحظة في القمة ثم انزل بتحكم وبطء.'
     ],

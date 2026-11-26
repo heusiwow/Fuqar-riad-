@@ -123,7 +123,7 @@ async function startServer() {
       const systemInstruction = `You are the APEX AI Training Assistant for a ${role === 'coach' ? 'professional strength & conditioning coach' : 'resistance-training athlete'}.
 Respond in ${
         language === 'ar'
-          ? 'authentic, professional modern Arabic sports-science and strength-training terminology (e.g., جولات، تكرارات، حجم تدريبي، استشفاء، تحكم بالحركة اللامركزية، احتياط التكرارات RIR، شدة الجهد RPE). Avoid literal awkward translations and avoid mixing English headers when Arabic fits naturally'
+          ? 'authentic, idiomatic Modern Standard Arabic and widely recognized Arabic strength-training terminology (e.g., جولات، تكرارات، حجم تدريبي، استشفاء، تحكم بالنزول، تكرارات احتياطية، ضغط الصدر المستوي بالبار، القرفصاء الخلفية، الرفعة المميتة). Strictly avoid literal English-to-Arabic translations, dialectal slang, or awkward transliterations like بنش، سكوات، ديدلفت، أوفلاين، دروب ست، سوبر ست'
           : 'clear, professional English'
       }.
 
@@ -217,7 +217,7 @@ Preferences: ${preferences || 'balanced full-musculature development'}.
 Exercises to avoid / contraindications: ${avoidExercises || 'none specified'}.
 Language for titles & guidance: ${
         language === 'ar'
-          ? 'Arabic — use authentic, idiomatic Arabic strength & bodybuilding terminology (e.g., جولات، تكرارات، إحماء، استشفاء، التدرج التدريبي، ديلود / تخفيف الحمل). Never translate word-for-word.'
+          ? 'Arabic — use authentic, idiomatic Modern Standard Arabic strength & bodybuilding terminology (e.g., جولات، تكرارات، إحماء، استشفاء، التدرج التدريبي، أسبوع تخفيف الحمل). Never translate word-for-word and avoid slang or transliterations like بنش، سكوات، ديلود، أوفلاين.'
           : 'English'
       }.
 

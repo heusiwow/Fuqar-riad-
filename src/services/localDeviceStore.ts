@@ -1,5 +1,6 @@
 import {
   ActiveWorkoutSession,
+  BodyMeasurement,
   CoachAssignment,
   CoachGroup,
   CoachingLink,
@@ -99,21 +100,23 @@ export function localGetProfile(): UserProfile | null {
 
 export function localEnsureUserProfile(
   displayName: string,
-  defaults?: { language?: Language; theme?: ThemeMode; unit?: WeightUnit; role?: UserRole }
+  defaults?: { language?: Language; theme?: ThemeMode; unit?: WeightUnit; role?: UserRole; roleSelected?: boolean }
 ): UserProfile {
   const existing = localGetProfile();
   if (existing) {
     return {
       ...existing,
       role: existing.role ?? 'athlete',
+      roleSelected: existing.roleSelected ?? false,
       ageGroup: existing.ageGroup ?? 'adult',
     };
   }
   const nowIso = new Date().toISOString();
   const initialProfile: UserProfile = {
     uid: LOCAL_DEVICE_UID,
-    displayName: (displayName || '').trim() || (defaults?.language === 'ar' ? 'بطل APEX' : 'APEX Athlete'),
+    displayName: (displayName || '').trim() || (defaults?.language === 'ar' ? 'رياضي APEX' : 'APEX Athlete'),
     role: defaults?.role ?? 'athlete',
+    roleSelected: defaults?.roleSelected ?? false,
     ageGroup: 'adult',
     language: defaults?.language ?? 'en',
     theme: defaults?.theme ?? 'dark',
@@ -357,6 +360,7 @@ export interface LocalAthleteBundle {
   workouts: WorkoutTemplate[];
   prs: PersonalRecord[];
   goals: PerformanceGoal[];
+  measurements: BodyMeasurement[];
 }
 
 export function localGetAthleteBundle(athleteUid: string): LocalAthleteBundle {
@@ -367,15 +371,18 @@ export function localGetAthleteBundle(athleteUid: string): LocalAthleteBundle {
       workouts: getSubcollectionList<WorkoutTemplate & Record<string, unknown>>('workouts'),
       prs: getSubcollectionList<PersonalRecord & Record<string, unknown>>('personalRecords'),
       goals: getSubcollectionList<PerformanceGoal & Record<string, unknown>>('goals'),
+      measurements: getSubcollectionList<BodyMeasurement & Record<string, unknown>>('measurements'),
     };
   }
-  return readJson<LocalAthleteBundle>(`ath_bundle_${athleteUid}`, {
-    sessions: [],
-    programs: [],
-    workouts: [],
-    prs: [],
-    goals: [],
-  });
+  const raw = readJson<Partial<LocalAthleteBundle>>(`ath_bundle_${athleteUid}`, {});
+  return {
+    sessions: raw.sessions ?? [],
+    programs: raw.programs ?? [],
+    workouts: raw.workouts ?? [],
+    prs: raw.prs ?? [],
+    goals: raw.goals ?? [],
+    measurements: raw.measurements ?? [],
+  };
 }
 
 export function localSaveAthleteBundle(athleteUid: string, bundle: LocalAthleteBundle): void {
@@ -385,9 +392,13 @@ export function localSaveAthleteBundle(athleteUid: string, bundle: LocalAthleteB
     saveSubcollectionList('workouts', bundle.workouts as unknown as Record<string, unknown>[]);
     saveSubcollectionList('personalRecords', bundle.prs as unknown as Record<string, unknown>[]);
     saveSubcollectionList('goals', bundle.goals as unknown as Record<string, unknown>[]);
+    saveSubcollectionList('measurements', (bundle.measurements ?? []) as unknown as Record<string, unknown>[]);
     return;
   }
-  writeJson(`ath_bundle_${athleteUid}`, bundle);
+  writeJson(`ath_bundle_${athleteUid}`, {
+    ...bundle,
+    measurements: bundle.measurements ?? [],
+  });
 }
 
 export function seedLocalCoachDemoCohort(
@@ -434,15 +445,15 @@ export function seedLocalCoachDemoCohort(
       inviteCode: 'APEX-OMAR88',
       groupId: grpStrengthId,
       status: 'active',
-      goalSummary: isAr ? 'الوصول إلى 120 كجم بنش برس وزيادة الكتلة العضلية' : 'Hit 120kg Bench Press & add lean mass',
+      goalSummary: isAr ? 'الوصول إلى 120 كجم في ضغط الصدر بالبار وزيادة الكتلة العضلية' : 'Hit 120kg Bench Press & add lean mass',
       experienceLevel: 'advanced',
       weeklyTarget: 4,
-      privateNotes: isAr ? 'استجابة ممتازة في تمارين الدفع، حافظ على RPE 8.' : 'Great pressing recovery. Keep compound sets at RPE 8.',
+      privateNotes: isAr ? 'استجابة ممتازة في تمارين الدفع، حافظ على شدة 8 من 10.' : 'Great pressing recovery. Keep compound sets at RPE 8.',
       assignedProgramName: isAr ? 'دفع / سحب / أرجل متقدم' : 'Upper / Lower Strength Focus',
       lastSessionAt: isoAgo(1),
       completedSessionsCount: 14,
       recentAdherencePct: 94,
-      recentPrText: isAr ? 'بنش برس 105 كجم × 5' : 'Bench Press 105kg × 5',
+      recentPrText: isAr ? 'ضغط الصدر المستوي بالبار 105 كجم × 5' : 'Bench Press 105kg × 5',
       needsAttention: false,
     },
     {
@@ -457,12 +468,12 @@ export function seedLocalCoachDemoCohort(
       goalSummary: isAr ? 'تناسق الجسم ورفع اللياقة الأساسية' : 'Body recomposition & core stability',
       experienceLevel: 'intermediate',
       weeklyTarget: 4,
-      privateNotes: isAr ? 'تغيب آخر 6 أيام — تحتاج رسالة متابعة.' : 'Missed last 6 days — follow up on schedule recovery.',
+      privateNotes: isAr ? 'انقطاع خلال آخر 6 أيام — تحتاج رسالة متابعة.' : 'Missed last 6 days — follow up on schedule recovery.',
       assignedProgramName: isAr ? 'برنامج كامل الجسم 4 أيام' : '4-Day Balanced Hypertrophy',
       lastSessionAt: isoAgo(6),
       completedSessionsCount: 8,
       recentAdherencePct: 63,
-      recentPrText: isAr ? 'سكوات بالبار 70 كجم × 8' : 'Barbell Squat 70kg × 8',
+      recentPrText: isAr ? 'القرفصاء الخلفية بالبار 70 كجم × 8' : 'Barbell Squat 70kg × 8',
       needsAttention: true,
     },
     {
@@ -477,12 +488,12 @@ export function seedLocalCoachDemoCohort(
       goalSummary: isAr ? 'بناء عضلات الظهر والكتفين' : 'Upper body hypertrophy & posture',
       experienceLevel: 'beginner',
       weeklyTarget: 3,
-      privateNotes: isAr ? 'مبتدئ ملتزم، ركّز على التكنيك والتحكم بالمدى الحركي.' : 'Consistent beginner, focus on eccentric tempo.',
+      privateNotes: isAr ? 'مبتدئ ملتزم، ركّز على إتقان الأداء والتحكم بالمدى الحركي.' : 'Consistent beginner, focus on eccentric tempo.',
       assignedProgramName: isAr ? 'تأسيس شامل للمبتدئين' : 'Full Body Foundation',
       lastSessionAt: isoAgo(2),
       completedSessionsCount: 9,
       recentAdherencePct: 88,
-      recentPrText: isAr ? 'سحب أرضي رومان 85 كجم × 8' : 'Romanian Deadlift 85kg × 8',
+      recentPrText: isAr ? 'الرفعة المميتة الرومانية بالبار 85 كجم × 8' : 'Romanian Deadlift 85kg × 8',
       needsAttention: false,
     },
     {
@@ -490,11 +501,11 @@ export function seedLocalCoachDemoCohort(
       coachId: coachUid,
       coachName,
       athleteUid: '',
-      athleteName: isAr ? 'لاعب جديد (كود تجريبي)' : 'Walk-In Trial Member',
+      athleteName: isAr ? 'متدرّب جديد (رمز تجريبي)' : 'Walk-In Trial Member',
       inviteCode: 'APEX-DEMO',
       groupId: grpStrengthId,
       status: 'pending',
-      goalSummary: isAr ? 'جاهز للربط باستخدام كود APEX-DEMO' : 'Ready to link with code APEX-DEMO',
+      goalSummary: isAr ? 'جاهز للربط باستخدام الرمز APEX-DEMO' : 'Ready to link with code APEX-DEMO',
       experienceLevel: 'intermediate',
       weeklyTarget: 4,
       privateNotes: '',
@@ -550,17 +561,39 @@ export function seedLocalCoachDemoCohort(
     ],
   });
 
+  const jsDay = new Date().getDay();
+  const todayIdx = jsDay === 0 ? 6 : jsDay - 1;
+  const weekdayNamesEn = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const otherTrainIdx1 = (todayIdx + 2) % 7;
+  const otherTrainIdx2 = (todayIdx + 4) % 7;
+
+  const omarWorkoutTodayId = 'demo-wrk-omar-today';
+  const omarWorkoutOtherId = 'demo-wrk-omar-lower';
+  const saraWorkoutTodayId = 'demo-wrk-sara-today';
+  const tariqWorkoutTodayId = 'demo-wrk-tariq-today';
+
+  // Omar completed today's workout 2 hours ago
+  const todayCompletedIso = new Date(now - 2 * 60 * 60 * 1000).toISOString();
+
+  demoLinks[0].lastSessionAt = todayCompletedIso;
+  demoLinks[0].completedSessionsCount = 15;
+
   localSaveAthleteBundle(ath1, {
     sessions: [
-      buildSampleSession('demo-s1', ath1, isAr ? 'يوم الدفع - القوة' : 'Upper Strength A', 1, 7840, 8, 'barbell-bench-press', 'Barbell Bench Press', 'بنش برس بالبار', 105, 5),
-      buildSampleSession('demo-s2', ath1, isAr ? 'يوم الأرجل' : 'Lower Power B', 3, 9420, 8.5, 'barbell-back-squat', 'Barbell Back Squat', 'سكوات خلفي بالبار', 135, 5),
-      buildSampleSession('demo-s3', ath1, isAr ? 'يوم السحب' : 'Pull & Posterior', 5, 7100, 7.5, 'barbell-bent-over-row', 'Barbell Bent-Over Row', 'تجديف بالبار', 90, 8),
-      buildSampleSession('demo-s4', ath1, isAr ? 'يوم الدفع - حجم' : 'Upper Volume', 8, 8250, 8, 'barbell-bench-press', 'Barbell Bench Press', 'بنش برس بالبار', 100, 6),
+      {
+        ...buildSampleSession('demo-s1', ath1, isAr ? 'تمرين الصدر والدفع' : 'Chest & Upper Push', 0, 8120, 8, 'barbell-bench-press', 'Barbell Bench Press', 'ضغط الصدر المستوي بالبار', 105, 5),
+        startedAt: todayCompletedIso,
+        completedAt: todayCompletedIso,
+      },
+      buildSampleSession('demo-s2', ath1, isAr ? 'يوم الأرجل' : 'Lower Power B', 3, 9420, 8.5, 'barbell-back-squat', 'Barbell Back Squat', 'القرفصاء الخلفية بالبار', 135, 5),
+      buildSampleSession('demo-s3', ath1, isAr ? 'يوم السحب' : 'Pull & Posterior', 5, 7100, 7.5, 'barbell-bent-over-row', 'Barbell Bent-Over Row', 'التجديف المنحني بالبار للظهر', 90, 8),
+      buildSampleSession('demo-s4', ath1, isAr ? 'يوم الدفع - الحجم' : 'Upper Volume', 8, 8250, 8, 'barbell-bench-press', 'Barbell Bench Press', 'ضغط الصدر المستوي بالبار', 100, 6),
     ],
     programs: [
       {
         id: 'demo-prog-1',
         userId: ath1,
+        coachId: coachUid,
         name: isAr ? 'دفع / سحب / أرجل متقدم' : 'Upper / Lower Strength Focus',
         durationWeeks: 8,
         goal: 'strength',
@@ -568,28 +601,53 @@ export function seedLocalCoachDemoCohort(
         weeklyFrequency: 4,
         splitType: 'upper_lower',
         status: 'active',
-        scheduledDays: [
-          { dayIndex: 0, label: 'Monday', isRestDay: false, workoutName: isAr ? 'علوي قوة' : 'Upper Strength' },
-          { dayIndex: 1, label: 'Tuesday', isRestDay: false, workoutName: isAr ? 'سفلي قوة' : 'Lower Strength' },
-          { dayIndex: 2, label: 'Wednesday', isRestDay: true },
-          { dayIndex: 3, label: 'Thursday', isRestDay: false, workoutName: isAr ? 'علوي ضخامة' : 'Upper Hypertrophy' },
-          { dayIndex: 4, label: 'Friday', isRestDay: false, workoutName: isAr ? 'سفلي ضخامة' : 'Lower Hypertrophy' },
-          { dayIndex: 5, label: 'Saturday', isRestDay: true },
-          { dayIndex: 6, label: 'Sunday', isRestDay: true },
-        ],
-        completedSessions: 14,
+        scheduledDays: weekdayNamesEn.map((lbl, idx) => {
+          if (idx === todayIdx) {
+            return { dayIndex: idx, label: lbl, isRestDay: false, workoutId: omarWorkoutTodayId, workoutName: isAr ? 'تمرين الصدر والدفع' : 'Chest & Upper Push' };
+          }
+          if (idx === otherTrainIdx1 || idx === otherTrainIdx2) {
+            return { dayIndex: idx, label: lbl, isRestDay: false, workoutId: omarWorkoutOtherId, workoutName: isAr ? 'سفلي قوة وأرجل' : 'Lower Power & Legs' };
+          }
+          return { dayIndex: idx, label: lbl, isRestDay: true, workoutId: '', workoutName: '' };
+        }),
+        completedSessions: 15,
       },
     ],
-    workouts: [],
+    workouts: [
+      {
+        id: omarWorkoutTodayId,
+        userId: ath1,
+        coachId: coachUid,
+        name: isAr ? 'تمرين الصدر والدفع' : 'Chest & Upper Push',
+        description: isAr ? 'تركيز على الصدر العلوي والمستوي مع الترايسبس' : 'Heavy chest compounds with triceps finish',
+        exercises: [
+          { itemId: 'om-1', exerciseId: 'barbell-bench-press', exerciseNameEn: 'Barbell Bench Press', exerciseNameAr: 'ضغط الصدر المستوي بالبار', sets: 4, warmupSets: 1, targetRepsMin: 5, targetRepsMax: 8, targetWeightKg: 105, restSeconds: 180, technique: 'standard', notes: '' },
+          { itemId: 'om-2', exerciseId: 'incline-dumbbell-press', exerciseNameEn: 'Incline Dumbbell Press', exerciseNameAr: 'ضغط الصدر المائل بالدامبل', sets: 3, warmupSets: 0, targetRepsMin: 8, targetRepsMax: 10, targetWeightKg: 36, restSeconds: 120, technique: 'standard', notes: '' },
+          { itemId: 'om-3', exerciseId: 'cable-chest-fly', exerciseNameEn: 'Cable Chest Fly', exerciseNameAr: 'تفتيح الصدر بالكابل', sets: 3, warmupSets: 0, targetRepsMin: 12, targetRepsMax: 15, restSeconds: 90, technique: 'standard', notes: '' },
+          { itemId: 'om-4', exerciseId: 'triceps-rope-pushdown', exerciseNameEn: 'Triceps Rope Pushdown', exerciseNameAr: 'تمديد الترايسبس بالحبل على الكابل', sets: 3, warmupSets: 0, targetRepsMin: 10, targetRepsMax: 12, restSeconds: 90, technique: 'standard', notes: '' },
+        ],
+      },
+      {
+        id: omarWorkoutOtherId,
+        userId: ath1,
+        coachId: coachUid,
+        name: isAr ? 'سفلي قوة وأرجل' : 'Lower Power & Legs',
+        description: '',
+        exercises: [
+          { itemId: 'om-5', exerciseId: 'barbell-back-squat', exerciseNameEn: 'Barbell Back Squat', exerciseNameAr: 'القرفصاء الخلفية بالبار', sets: 4, warmupSets: 1, targetRepsMin: 5, targetRepsMax: 8, targetWeightKg: 135, restSeconds: 180, technique: 'standard', notes: '' },
+          { itemId: 'om-6', exerciseId: 'romanian-deadlift', exerciseNameEn: 'Romanian Deadlift', exerciseNameAr: 'الرفعة المميتة الرومانية بالبار للفخذ الخلفي', sets: 3, warmupSets: 0, targetRepsMin: 8, targetRepsMax: 10, targetWeightKg: 105, restSeconds: 150, technique: 'standard', notes: '' },
+        ],
+      },
+    ],
     prs: [
       {
         exerciseId: 'barbell-bench-press',
         userId: ath1,
         exerciseNameEn: 'Barbell Bench Press',
-        exerciseNameAr: 'بنش برس بالبار',
+        exerciseNameAr: 'ضغط الصدر المستوي بالبار',
         bestWeightKg: 105,
         bestWeightReps: 5,
-        bestWeightDate: isoAgo(1),
+        bestWeightDate: isoAgo(0),
         bestWeightSessionId: 'demo-s1',
         bestReps: 10,
         bestRepsWeightKg: 90,
@@ -598,7 +656,7 @@ export function seedLocalCoachDemoCohort(
         estimated1RMKg: 122.5,
         estimated1RMWeightKg: 105,
         estimated1RMReps: 5,
-        estimated1RMDate: isoAgo(1),
+        estimated1RMDate: isoAgo(0),
         estimated1RMSessionId: 'demo-s1',
         milestones: [],
       },
@@ -606,7 +664,7 @@ export function seedLocalCoachDemoCohort(
         exerciseId: 'barbell-back-squat',
         userId: ath1,
         exerciseNameEn: 'Barbell Back Squat',
-        exerciseNameAr: 'سكوات خلفي بالبار',
+        exerciseNameAr: 'القرفصاء الخلفية بالبار',
         bestWeightKg: 135,
         bestWeightReps: 5,
         bestWeightDate: isoAgo(3),
@@ -627,27 +685,32 @@ export function seedLocalCoachDemoCohort(
       {
         id: 'demo-goal-1',
         userId: ath1,
-        title: isAr ? 'بنش برس 120 كجم' : '120kg Bench Press',
+        title: isAr ? 'ضغط الصدر المستوي بالبار 120 كجم' : '120kg Bench Press',
         targetType: 'weight',
         exerciseId: 'barbell-bench-press',
         exerciseNameEn: 'Barbell Bench Press',
-        exerciseNameAr: 'بنش برس بالبار',
+        exerciseNameAr: 'ضغط الصدر المستوي بالبار',
         targetWeightKg: 120,
         status: 'active',
         assignedByCoachId: coachUid,
       },
     ],
+    measurements: [
+      { id: 'demo-m-om1', userId: ath1, coachId: coachUid, date: isoAgo(2).slice(0, 10), bodyWeightKg: 82.4, chestCm: 108, armCm: 40.5, waistCm: 81, thighCm: 61, notes: isAr ? 'تطور ممتاز بالكتلة العضلية' : 'Steady lean gain' },
+      { id: 'demo-m-om2', userId: ath1, coachId: coachUid, date: isoAgo(21).slice(0, 10), bodyWeightKg: 81.1, chestCm: 106.5, armCm: 39.8, waistCm: 81.5, thighCm: 60 },
+    ],
   });
 
   localSaveAthleteBundle(ath2, {
     sessions: [
-      buildSampleSession('demo-s21', ath2, isAr ? 'كامل الجسم B' : 'Full Body Hypertrophy', 6, 4620, 7.5, 'barbell-back-squat', 'Barbell Back Squat', 'سكوات خلفي بالبار', 70, 8),
-      buildSampleSession('demo-s22', ath2, isAr ? 'كامل الجسم A' : 'Full Body Foundations', 10, 4410, 7, 'lat-pulldown', 'Lat Pulldown', 'سحب أمامي بالكيبل', 45, 10),
+      buildSampleSession('demo-s21', ath2, isAr ? 'كامل الجسم ب' : 'Full Body Hypertrophy', 6, 4620, 7.5, 'barbell-back-squat', 'Barbell Back Squat', 'القرفصاء الخلفية بالبار', 70, 8),
+      buildSampleSession('demo-s22', ath2, isAr ? 'كامل الجسم أ' : 'Full Body Foundations', 10, 4410, 7, 'lat-pulldown', 'Lat Pulldown', 'السحب العالي للظهر أمام الصدر بالكابل', 45, 10),
     ],
     programs: [
       {
         id: 'demo-prog-2',
         userId: ath2,
+        coachId: coachUid,
         name: isAr ? 'برنامج كامل الجسم 4 أيام' : '4-Day Balanced Hypertrophy',
         durationWeeks: 8,
         goal: 'recomposition',
@@ -655,17 +718,34 @@ export function seedLocalCoachDemoCohort(
         weeklyFrequency: 4,
         splitType: 'full_body',
         status: 'active',
-        scheduledDays: WEEKDAYS_DEFAULT_SCHEDULE(),
+        scheduledDays: weekdayNamesEn.map((lbl, idx) =>
+          idx === todayIdx || idx === otherTrainIdx1 || idx === otherTrainIdx2
+            ? { dayIndex: idx, label: lbl, isRestDay: false, workoutId: saraWorkoutTodayId, workoutName: isAr ? 'أرجل وظهر متوازن' : 'Lower & Back Balance' }
+            : { dayIndex: idx, label: lbl, isRestDay: true, workoutId: '', workoutName: '' }
+        ),
         completedSessions: 8,
       },
     ],
-    workouts: [],
+    workouts: [
+      {
+        id: saraWorkoutTodayId,
+        userId: ath2,
+        coachId: coachUid,
+        name: isAr ? 'أرجل وظهر متوازن' : 'Lower & Back Balance',
+        description: '',
+        exercises: [
+          { itemId: 'sr-1', exerciseId: 'barbell-back-squat', exerciseNameEn: 'Barbell Back Squat', exerciseNameAr: 'القرفصاء الخلفية بالبار', sets: 3, warmupSets: 1, targetRepsMin: 8, targetRepsMax: 10, targetWeightKg: 70, restSeconds: 150, technique: 'standard', notes: '' },
+          { itemId: 'sr-2', exerciseId: 'lat-pulldown', exerciseNameEn: 'Lat Pulldown', exerciseNameAr: 'السحب العالي للظهر أمام الصدر بالكابل', sets: 3, warmupSets: 0, targetRepsMin: 10, targetRepsMax: 12, targetWeightKg: 45, restSeconds: 90, technique: 'standard', notes: '' },
+          { itemId: 'sr-3', exerciseId: 'dumbbell-lateral-raise', exerciseNameEn: 'Dumbbell Lateral Raise', exerciseNameAr: 'الرفرفة الجانبية بالدامبل للكتف', sets: 3, warmupSets: 0, targetRepsMin: 12, targetRepsMax: 15, restSeconds: 75, technique: 'standard', notes: '' },
+        ],
+      },
+    ],
     prs: [
       {
         exerciseId: 'barbell-back-squat',
         userId: ath2,
         exerciseNameEn: 'Barbell Back Squat',
-        exerciseNameAr: 'سكوات خلفي بالبار',
+        exerciseNameAr: 'القرفصاء الخلفية بالبار',
         bestWeightKg: 70,
         bestWeightReps: 8,
         bestWeightDate: isoAgo(6),
@@ -686,30 +766,65 @@ export function seedLocalCoachDemoCohort(
       {
         id: 'demo-goal-2',
         userId: ath2,
-        title: isAr ? 'سكوات 80 كجم × 5' : '80kg Squat × 5',
+        title: isAr ? 'القرفصاء الخلفية بالبار 80 كجم × 5' : '80kg Squat × 5',
         targetType: 'weight',
         exerciseId: 'barbell-back-squat',
         exerciseNameEn: 'Barbell Back Squat',
-        exerciseNameAr: 'سكوات خلفي بالبار',
+        exerciseNameAr: 'القرفصاء الخلفية بالبار',
         targetWeightKg: 80,
         status: 'active',
         assignedByCoachId: coachUid,
       },
     ],
+    measurements: [
+      { id: 'demo-m-sr1', userId: ath2, coachId: coachUid, date: isoAgo(7).slice(0, 10), bodyWeightKg: 63.2, waistCm: 71, thighCm: 56 },
+    ],
   });
 
   localSaveAthleteBundle(ath3, {
     sessions: [
-      buildSampleSession('demo-s31', ath3, isAr ? 'تأسيس علوي' : 'Upper Foundation', 2, 5180, 7.5, 'romanian-deadlift', 'Romanian Deadlift', 'سحب أرضي روماني', 85, 8),
+      buildSampleSession('demo-s31', ath3, isAr ? 'تأسيس علوي' : 'Upper Foundation', 2, 5180, 7.5, 'romanian-deadlift', 'Romanian Deadlift', 'الرفعة المميتة الرومانية بالبار للفخذ الخلفي', 85, 8),
     ],
-    programs: [],
-    workouts: [],
+    programs: [
+      {
+        id: 'demo-prog-3',
+        userId: ath3,
+        coachId: coachUid,
+        name: isAr ? 'تأسيس شامل للمبتدئين' : 'Full Body Foundation',
+        durationWeeks: 6,
+        goal: 'hypertrophy',
+        level: 'beginner',
+        weeklyFrequency: 3,
+        splitType: 'full_body',
+        status: 'active',
+        scheduledDays: weekdayNamesEn.map((lbl, idx) =>
+          idx === todayIdx || idx === otherTrainIdx1
+            ? { dayIndex: idx, label: lbl, isRestDay: false, workoutId: tariqWorkoutTodayId, workoutName: isAr ? 'تمرين الظهر والكتف' : 'Back & Shoulders Foundation' }
+            : { dayIndex: idx, label: lbl, isRestDay: true, workoutId: '', workoutName: '' }
+        ),
+        completedSessions: 9,
+      },
+    ],
+    workouts: [
+      {
+        id: tariqWorkoutTodayId,
+        userId: ath3,
+        coachId: coachUid,
+        name: isAr ? 'تمرين الظهر والكتف' : 'Back & Shoulders Foundation',
+        description: '',
+        exercises: [
+          { itemId: 'tr-1', exerciseId: 'lat-pulldown', exerciseNameEn: 'Lat Pulldown', exerciseNameAr: 'السحب العالي للظهر أمام الصدر بالكابل', sets: 3, warmupSets: 1, targetRepsMin: 10, targetRepsMax: 12, targetWeightKg: 50, restSeconds: 120, technique: 'standard', notes: '' },
+          { itemId: 'tr-2', exerciseId: 'seated-cable-row', exerciseNameEn: 'Seated Cable Row', exerciseNameAr: 'التجديف الجالس بالكابل للظهر', sets: 3, warmupSets: 0, targetRepsMin: 10, targetRepsMax: 12, targetWeightKg: 45, restSeconds: 90, technique: 'standard', notes: '' },
+          { itemId: 'tr-3', exerciseId: 'seated-dumbbell-shoulder-press', exerciseNameEn: 'Seated Dumbbell Shoulder Press', exerciseNameAr: 'ضغط الكتف بالدامبل جالساً', sets: 3, warmupSets: 0, targetRepsMin: 8, targetRepsMax: 12, targetWeightKg: 16, restSeconds: 120, technique: 'standard', notes: '' },
+        ],
+      },
+    ],
     prs: [
       {
         exerciseId: 'romanian-deadlift',
         userId: ath3,
         exerciseNameEn: 'Romanian Deadlift',
-        exerciseNameAr: 'سحب أرضي روماني',
+        exerciseNameAr: 'الرفعة المميتة الرومانية بالبار للفخذ الخلفي',
         bestWeightKg: 85,
         bestWeightReps: 8,
         bestWeightDate: isoAgo(2),
@@ -727,6 +842,9 @@ export function seedLocalCoachDemoCohort(
       },
     ],
     goals: [],
+    measurements: [
+      { id: 'demo-m-tr1', userId: ath3, coachId: coachUid, date: isoAgo(4).slice(0, 10), bodyWeightKg: 74.5, chestCm: 99, armCm: 36, waistCm: 80 },
+    ],
   });
 
   const demoMsgs: CoachMessage[] = [
@@ -738,7 +856,7 @@ export function seedLocalCoachDemoCohort(
       senderName: isAr ? 'عمر خالد' : 'Omar Khalid',
       senderRole: 'athlete',
       type: 'direct',
-      text: isAr ? 'كابتن، جبت 105 كجم × 5 اليوم بالبنش! نرفع الأسبوع الجاي إلى 107.5؟' : 'Coach, hit 105kg × 5 on bench today! Should we bump to 107.5kg next week?',
+      text: isAr ? 'مدرب، حققت اليوم 105 كجم × 5 في ضغط الصدر المستوي بالبار! هل نرفع الوزن الأسبوع القادم إلى 107.5 كجم؟' : 'Coach, hit 105kg × 5 on bench today! Should we bump to 107.5kg next week?',
       read: false,
       createdAt: isoAgo(0.2),
     },
@@ -756,16 +874,4 @@ export function seedLocalCoachDemoCohort(
     },
   ];
   demoMsgs.forEach((m) => localUpsertCollectionItem('coachMessages', 'id', m as unknown as Record<string, unknown>));
-}
-
-function WEEKDAYS_DEFAULT_SCHEDULE() {
-  return [
-    { dayIndex: 0, label: 'Monday', isRestDay: false, workoutName: 'Day A' },
-    { dayIndex: 1, label: 'Tuesday', isRestDay: true },
-    { dayIndex: 2, label: 'Wednesday', isRestDay: false, workoutName: 'Day B' },
-    { dayIndex: 3, label: 'Thursday', isRestDay: true },
-    { dayIndex: 4, label: 'Friday', isRestDay: false, workoutName: 'Day C' },
-    { dayIndex: 5, label: 'Saturday', isRestDay: false, workoutName: 'Day D' },
-    { dayIndex: 6, label: 'Sunday', isRestDay: true },
-  ];
 }

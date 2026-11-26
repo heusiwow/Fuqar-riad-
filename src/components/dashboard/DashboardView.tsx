@@ -59,6 +59,8 @@ export const DashboardView: React.FC = () => {
     goals,
     coachAssignments,
     athleteCoachLink,
+    latestCoachCourseNotice,
+    dismissCoachCourseNotice,
     pendingJoinCode,
     clearPendingJoinCode,
     setActiveSection,
@@ -233,6 +235,68 @@ export const DashboardView: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* Immediate Coach Course Notification Card */}
+      {latestCoachCourseNotice && (
+        <section className="rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-start gap-3 min-w-0">
+            <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0">
+              <CheckCircle2 className="w-5 h-5" />
+            </div>
+            <div className="space-y-1 min-w-0">
+              <p className="text-sm sm:text-base font-bold text-emerald-900 dark:text-emerald-200">
+                {language === 'ar'
+                  ? `الكابتن ${latestCoachCourseNotice.coachName} أعطاك هذا الكورس: «${latestCoachCourseNotice.programName}»`
+                  : `Coach ${latestCoachCourseNotice.coachName} gave you this course: "${latestCoachCourseNotice.programName}"`}
+              </p>
+              {latestCoachCourseNotice.notes && (
+                <p className="text-xs text-neutral-700 dark:text-neutral-300 leading-relaxed">
+                  {latestCoachCourseNotice.notes}
+                </p>
+              )}
+              <p className="text-xs font-medium text-emerald-700 dark:text-emerald-400">
+                {t.apex.courseAutoActivatedHint}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                dismissCoachCourseNotice();
+                if (todayWorkoutTemplate) {
+                  void startWorkoutFromTemplate(todayWorkoutTemplate, activeProgram);
+                } else {
+                  setActiveSection('live');
+                }
+              }}
+              className="min-h-[42px] px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer"
+            >
+              <Play className="w-3.5 h-3.5" />
+              {t.apex.startCourseTodayBtn}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                dismissCoachCourseNotice();
+                setActiveSection('programs');
+              }}
+              className="min-h-[42px] px-3.5 rounded-xl bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-700 text-xs font-medium cursor-pointer"
+            >
+              {t.apex.viewCourseBtn}
+            </button>
+            <button
+              type="button"
+              onClick={dismissCoachCourseNotice}
+              className="min-h-[40px] min-w-[40px] flex items-center justify-center rounded-xl hover:bg-emerald-500/15 text-neutral-600 dark:text-neutral-300 cursor-pointer"
+              aria-label={t.common.close}
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </section>
+      )}
+
       {/* Top Focal Hero: Today's Planned Workout or Active Session */}
       <section className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 sm:p-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -377,7 +441,7 @@ export const DashboardView: React.FC = () => {
                 <p className="text-xs font-semibold">{t.apex.coachInviteTitle}</p>
                 <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
                   {language === 'ar'
-                    ? 'أدخل كود الدعوة لربط حسابك مع مدربك'
+                    ? 'أدخل رمز الدعوة لربط حسابك مع مدربك'
                     : 'Enter your coach invite code to link your training plan'}
                   {isLocalDeviceMode ? ' (APEX-DEMO)' : ''}
                 </p>

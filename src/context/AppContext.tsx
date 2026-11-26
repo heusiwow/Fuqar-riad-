@@ -1,9 +1,10 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { onIdTokenChanged, signOut, User } from 'firebase/auth';
 import { BUILTIN_EXERCISES } from '../data/exercises';
 import { TRANSLATIONS } from '../i18n/translations';
 import { auth } from '../lib/firebase';
 import {
+  acceptCoachAssignment,
   createActiveSession,
   createReminder,
   ensureUserProfile,
@@ -66,6 +67,15 @@ export interface ToastMessage {
   text: string;
 }
 
+export interface CoachCourseNotice {
+  assignmentId: string;
+  coachName: string;
+  programName: string;
+  notes?: string;
+  programId?: string;
+  receivedAtIso: string;
+}
+
 interface AppContextValue {
   firebaseUser: User | null;
   isLocalDeviceMode: boolean;
@@ -75,7 +85,11 @@ interface AppContextValue {
   userRole: UserRole;
   isCoach: boolean;
   isAdmin: boolean;
+  needsRoleOnboarding: boolean;
+  completeRoleOnboarding: (role: 'athlete' | 'coach', displayName?: string) => Promise<void>;
   switchRole: (role: 'athlete' | 'coach') => Promise<void>;
+  latestCoachCourseNotice: CoachCourseNotice | null;
+  dismissCoachCourseNotice: () => void;
   language: Language;
   theme: ThemeMode;
   unit: WeightUnit;
@@ -150,6 +164,30 @@ function readInitialJoinCode(): string | null {
   }
 }
 
+function safeGetLocal(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function safeSetLocal(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Ignore storage errors
+  }
+}
+
+function safeRemoveLocal(key: string): void {
+  try {
+    localStorage.removeItem(key);
+  } catch {
+    // Ignore storage errors
+  }
+}
+
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [rawFirebaseUser, setRawFirebaseUser] = useState<User | null>(null);
   const [localDeviceMode, setLocalDeviceMode] = useState<boolean>(() => isLocalDeviceModeEnabled());
@@ -209,6 +247,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [coachMessages, setCoachMessages] = useState<CoachMessage[]>([]);
   const [orgs, setOrgs] = useState<GymOrganization[]>([]);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
+  const [latestCoachCourseNotice, setLatestCoachCourseNotice] = useState<CoachCourseNotice | null>(null);
+
+  const initialRoleRoutedUidRef = useRef<string | null>(null);
+  const autoActivatingAssignmentIdsRef = useRef<Set<string>>(new Set());
 
   const language: Language = profile?.language ?? guestLang;
   const theme: ThemeMode = profile?.theme ?? guestTheme;
@@ -222,7 +264,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (localDeviceMode) {
       return {
         uid: LOCAL_DEVICE_UID,
-        displayName: guestLang === 'ar' ? 'بطل APEX' : 'APEX Athlete',
+        displayName: guestLang === 'ar' ? 'رياضي APEX' : 'APEX Athlete',
         email: '',
         emailVerified: true,
       } as unknown as User;
@@ -236,6 +278,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     profile?.role === 'gym_admin';
   const userRole: UserRole = profile?.role ?? (isAdmin ? 'gym_admin' : 'athlete');
   const isCoach = userRole === 'coach' || isAdmin;
+  const needsRoleOnboarding = Boolean(
+    firebaseUser?.emailVerified &&
+      profile &&
+      !isAdmin &&
+      profile.roleSelected !== true &&
+      safeGetLocal(`apex_role_selected_${profile.uid}`) !== '1'
+  );
 
   const showToast = useCallback((text: string, type: 'success' | 'error' | 'info' = 'success') => {
     const id = generateSafeId('toast');
@@ -273,6 +322,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
       setAuthReady(true);
       if (!user && !isLocalDeviceModeEnabled()) {
+        initialRoleRoutedUidRef.current = null;
+        autoActivatingAssignmentIdsRef.current.clear();
+        setLatestCoachCourseNotice(null);
         setProfile(null);
         setCustomExercises([]);
         setExerciseNotesList([]);
@@ -430,6 +482,82 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
   }, [firebaseUser, firebaseUser?.emailVerified, authRefreshTick, profile?.uid, userRole, isAdmin]);
 
+  // Restore any unread coach course notice when user loads
+  useEffect(() => {
+    if (!firebaseUser?.emailVerified || !profile?.uid) return;
+    const raw = safeGetLocal(`apex_course_notice_${profile.uid}`);
+    if (raw) {
+      try {
+        setLatestCoachCourseNotice(JSON.parse(raw) as CoachCourseNotice);
+      } catch {
+        // ignore invalid stored notice
+      }
+    }
+  }, [firebaseUser?.emailVerified, profile?.uid]);
+
+  // Route coaches once to Coach Hub on initial sign-in after onboarding
+  useEffect(() => {
+    if (!firebaseUser?.emailVerified || !profile || needsRoleOnboarding) return;
+    if (initialRoleRoutedUidRef.current === profile.uid) return;
+    initialRoleRoutedUidRef.current = profile.uid;
+    if ((profile.role === 'coach' || isAdmin) && activeSection === 'dashboard' && !pendingJoinCode) {
+      setActiveSectionState('coach');
+    }
+  }, [firebaseUser?.emailVerified, profile, needsRoleOnboarding, isAdmin, activeSection, pendingJoinCode]);
+
+  // Auto-activate incoming Coach Assignments & raise immediate notification banner + toast
+  useEffect(() => {
+    if (!firebaseUser?.emailVerified || !profile) return;
+    const uid = firebaseUser.uid;
+    const pendingForMe = coachAssignments.filter(
+      (a) =>
+        a.status === 'assigned' &&
+        a.athleteUid === uid &&
+        !autoActivatingAssignmentIdsRef.current.has(a.id)
+    );
+    if (pendingForMe.length === 0) return;
+
+    const processIncoming = async () => {
+      for (const assignment of pendingForMe) {
+        autoActivatingAssignmentIdsRef.current.add(assignment.id);
+        try {
+          const newProgId = await acceptCoachAssignment(uid, assignment, programs);
+          const notice: CoachCourseNotice = {
+            assignmentId: assignment.id,
+            coachName: assignment.coachName,
+            programName: assignment.programName,
+            notes: assignment.notes,
+            programId: newProgId,
+            receivedAtIso: new Date().toISOString(),
+          };
+          setLatestCoachCourseNotice(notice);
+          safeSetLocal(`apex_course_notice_${uid}`, JSON.stringify(notice));
+
+          const alertText =
+            language === 'ar'
+              ? `الكابتن ${assignment.coachName} أعطاك هذا الكورس: «${assignment.programName}» — تم تفعيله تلقائياً`
+              : `Coach ${assignment.coachName} gave you this course: "${assignment.programName}" — activated automatically`;
+          showToast(alertText, 'success');
+
+          if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+            try {
+              new Notification(language === 'ar' ? 'كورس تدريبي جديد من الكابتن' : 'New Coach Course', {
+                body: alertText,
+              });
+            } catch {
+              // Ignore unsupported notification context
+            }
+          }
+        } catch (err) {
+          console.error('Auto-activate coach assignment failed:', err);
+          autoActivatingAssignmentIdsRef.current.delete(assignment.id);
+        }
+      }
+    };
+
+    void processIncoming();
+  }, [firebaseUser?.uid, firebaseUser?.emailVerified, profile, coachAssignments, programs, language, showToast]);
+
   const activeOrg = useMemo(() => orgs[0] ?? null, [orgs]);
 
   const athleteCoachLink = useMemo(() => {
@@ -497,9 +625,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         id: remId,
         type: 'program_schedule',
         titleEn: `Today's scheduled session: ${todaySchedule.workoutName}`,
-        titleAr: `تمرين اليوم المجدول: ${todaySchedule.workoutName}`,
+        titleAr: `حصة اليوم المجدولة: ${todaySchedule.workoutName}`,
         messageEn: `Part of your active program "${activeProgram.name}".`,
-        messageAr: `ضمن برنامجك النشط "${activeProgram.name}".`,
+        messageAr: `ضمن برنامجك التدريبي النشط «${activeProgram.name}».`,
         read: false,
       }).catch(() => {
         // non-blocking
@@ -698,7 +826,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       sessionId: generateSafeId('sess'),
       userId: firebaseUser.uid,
       workoutId: '',
-      workoutName: language === 'ar' ? 'جلسة تمرين حرة' : 'Open Training Session',
+      workoutName: language === 'ar' ? 'تمرين حر' : 'Free Workout',
       programId: activeProgram?.id ?? '',
       programName: activeProgram?.name ?? '',
       startedAtMs: Date.now(),
@@ -753,6 +881,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (auth.currentUser) {
       await signOut(auth);
     }
+    initialRoleRoutedUidRef.current = null;
+    autoActivatingAssignmentIdsRef.current.clear();
+    setLatestCoachCourseNotice(null);
     setLocalDeviceModeEnabled(false);
     setLocalDeviceMode(false);
     setProfile(null);
@@ -775,10 +906,46 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setOrgs([]);
   }, []);
 
+  const completeRoleOnboarding = useCallback(
+    async (role: 'athlete' | 'coach', displayName?: string) => {
+      if (!firebaseUser?.emailVerified) return;
+      const uid = firebaseUser.uid;
+      const cleanName = (displayName ?? '').trim();
+      await updateUserProfileSettings(uid, {
+        role,
+        roleSelected: true,
+        ...(cleanName ? { displayName: cleanName } : {}),
+      });
+      safeSetLocal(`apex_role_selected_${uid}`, '1');
+      initialRoleRoutedUidRef.current = uid;
+      setProfile((prev) => {
+        if (!prev) return prev;
+        const next: UserProfile = {
+          ...prev,
+          role,
+          roleSelected: true,
+          ...(cleanName ? { displayName: cleanName } : {}),
+        };
+        saveCachedProfile(uid, next);
+        return next;
+      });
+      setActiveSectionState(role === 'coach' ? 'coach' : 'dashboard');
+    },
+    [firebaseUser]
+  );
+
   const switchRole = useCallback(
     async (role: 'athlete' | 'coach') => {
       if (!firebaseUser?.emailVerified) return;
-      await updateUserProfileSettings(firebaseUser.uid, { role });
+      const uid = firebaseUser.uid;
+      await updateUserProfileSettings(uid, { role, roleSelected: true });
+      safeSetLocal(`apex_role_selected_${uid}`, '1');
+      setProfile((prev) => {
+        if (!prev) return prev;
+        const next: UserProfile = { ...prev, role, roleSelected: true };
+        saveCachedProfile(uid, next);
+        return next;
+      });
       if (role === 'coach') {
         setActiveSectionState('coach');
       } else {
@@ -787,6 +954,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     },
     [firebaseUser]
   );
+
+  const dismissCoachCourseNotice = useCallback(() => {
+    setLatestCoachCourseNotice(null);
+    if (firebaseUser?.uid) {
+      safeRemoveLocal(`apex_course_notice_${firebaseUser.uid}`);
+    }
+  }, [firebaseUser?.uid]);
 
   const value: AppContextValue = {
     firebaseUser,
@@ -797,7 +971,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     userRole,
     isCoach,
     isAdmin,
+    needsRoleOnboarding,
+    completeRoleOnboarding,
     switchRole,
+    latestCoachCourseNotice,
+    dismissCoachCourseNotice,
     language,
     theme,
     unit,

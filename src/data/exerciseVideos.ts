@@ -35,7 +35,7 @@ export const BUILTIN_EXERCISE_VIDEOS: Record<
       fileName: 'barbell-bench-press-apex.mp4',
       durationSec: 22,
       titleEn: 'Barbell Bench Press — Form & Common Mistakes',
-      titleAr: 'البنش برس بالبار — الأداء الصحيح وتجنب الأخطاء',
+      titleAr: 'ضغط الصدر المستوي بالبار — الأداء الصحيح وتجنب الأخطاء',
     },
   },
 };
@@ -54,14 +54,14 @@ const PATTERN_SCHOOL_CUES: Record<
         'Keep forearms vertical under the bar and press smoothly without bouncing.',
       ],
       cuesAr: [
-        'اسحب لوحي الكتف للأسفل وللخلف على البنش وثبّت القدمين بالأرض.',
-        'أنزل البار إلى منتصف/أسفل الصدر بمرفقين بزاوية ~45° لا 90°.',
+        'اسحب لوحي الكتف للأسفل وللخلف على المقعد وثبّت القدمين بالأرض.',
+        'أنزل البار إلى منتصف الصدر أو أسفله بمرفقين بزاوية ~45° لا 90°.',
         'حافظ على الساعدين عموديين تحت البار وادفع بثبات دون ارتداد.',
       ],
     },
     modern: {
       focusEn: 'Evidence-based tension: 2–3s controlled eccentric, deep pec stretch, 1–2 RIR.',
-      focusAr: 'التحميل الميكانيكي الحديث: نزول بطيء 2–3 ثوانٍ، تمدد كامل للصدر، 1–2 RIR.',
+      focusAr: 'التحميل الميكانيكي الحديث: نزول بطيء 2–3 ثوانٍ، إطالة كاملة للصدر، وإبقاء 1–2 تكرار احتياطاً.',
       cuesEn: [
         'Control a 2–3s descent to maximize mechanical tension in the lengthened pec.',
         'Stack wrist–elbow–bar vertically; brief 0.5s chest pause kills momentum.',
@@ -69,8 +69,8 @@ const PATTERN_SCHOOL_CUES: Record<
       ],
       cuesAr: [
         'تحكم بالنزول خلال 2–3 ثوانٍ لتعظيم الشد الميكانيكي في وضع الإطالة للصدر.',
-        'طابق المعصم فوق المرفق عمودياً مع توقف خفيف يلغي الارتداد.',
-        'تدرّج بالأوزان أو التكرارات ضمن نطاق 6–12 تكراراً بشدة RPE 8–9.',
+        'اجعل المعصم فوق المرفق عمودياً مع توقف خفيف يلغي الارتداد.',
+        'تدرّج بالأوزان أو التكرارات ضمن 6–12 تكراراً بشدة 8–9 من 10.',
       ],
     },
     old_school: {
@@ -128,7 +128,7 @@ const PATTERN_SCHOOL_CUES: Record<
       cuesAr: [
         'أبقِ القفص الصدري مرفوعاً خلال النزول دون إرخاء الكتفين للأمام.',
         'اعصر الصدر العلوي في القمة بتركيز ذهني عالٍ.',
-        'ضعه بعد البنش المستوي الثقيل لتحقيق توازن شامل للصدر.',
+        'ضعه بعد ضغط الصدر المستوي الثقيل لتحقيق توازن شامل للصدر.',
       ],
     },
   },
@@ -200,7 +200,7 @@ const PATTERN_SCHOOL_CUES: Record<
         'Use chest-supported variants when lower-back fatigue limits target back sets.',
       ],
       cuesAr: [
-        'اسمح بتمدد لوحي الكتف في الأمام بتحكم لتحميل الأوسط واللاتس في الإطالة.',
+        'اسمح بتمدد لوحي الكتف للأمام بتحكم لتحميل منتصف الظهر والعضلة العريضة في الإطالة.',
         'توقف لحظة عند أقصى سحب دون أرجحة الجذع للخلف.',
         'استخدم المسند الصدري عندما يحد إرهاق أسفل الظهر من جودة الجولات.',
       ],
@@ -251,7 +251,7 @@ const PATTERN_SCHOOL_CUES: Record<
     },
     old_school: {
       focusEn: 'Classic V-taper width builder: full stretch and chest-up lat flare.',
-      focusAr: 'بناء عرض الظهر الكلاسيكي (V-Taper): تمدد عميق وسحب نحو أعلى الصدر.',
+      focusAr: 'بناء عرض الظهر الكلاسيكي: تمدد عميق وسحب نحو أعلى الصدر.',
       cuesEn: [
         'Lift chest to meet the bar at the bottom of every rep.',
         'Lead with the pinky/outer-hand side to ignite the outer lats.',
@@ -259,7 +259,7 @@ const PATTERN_SCHOOL_CUES: Record<
       ],
       cuesAr: [
         'ارفع الصدر قليلاً لملاقاة البار في أسفل كل تكرار.',
-        'ركز السحب عبر الجانب الخارجي للقبضة لتنشيط عرض المجنص.',
+        'ركّز السحب عبر الجانب الخارجي للقبضة لتنشيط العضلة الظهرية العريضة.',
         'نفّذ 8–12 تكراراً منضبطاً مع تركيز ذهني على التمدد والعصر.',
       ],
     },
@@ -464,7 +464,7 @@ const PATTERN_SCHOOL_CUES: Record<
         'Scale stance width or heel elevation to match hip anatomy cleanly.',
       ],
       cuesAr: [
-        'اهبط لعمق الموازاة أو أسفلها بظهر محايد لتعظيم تحفيز الفخذ والألوية.',
+        'اهبط لعمق الموازاة أو أسفلها بظهر محايد لتعظيم تحفيز الفخذ والأرداف.',
         'تحكم بالنزول 2–3 ثوانٍ دون ارتداد من القاع.',
         'عدّل عرض الوقفة أو ارتفاع الكعب بما يناسب مرونة الحوض والكاحل.',
       ],
@@ -487,21 +487,21 @@ const PATTERN_SCHOOL_CUES: Record<
   hinge: {
     general: {
       focusEn: 'Lats packed, neutral spine, push hips straight back, bar close.',
-      focusAr: 'شد المجنص، استقامة الظهر، دفع الورك للخلف، بار ملاصق للساق.',
+      focusAr: 'شد الظهر العريض، استقامة العمود الفقري، دفع الورك للخلف، بار ملاصق للساق.',
       cuesEn: [
         'Pack lats down and lock neutral spine before lifting.',
         'Push hips horizontally backward keeping bar hugging thighs/shins.',
         'Snap hips forward to tall lockout—never hyperextend backward.',
       ],
       cuesAr: [
-        'شد المجنص وحافظ على استقامة الظهر التامة قبل السحب.',
+        'شد عضلات الظهر وحافظ على استقامة العمود الفقري التامة قبل السحب.',
         'ادفع الحوض أفقياً للخلف مع بقاء البار ملاصقاً للفخذين والساقين.',
         'أتمّ الوقوف بدفع الورك للأمام دون إرجاع الظهر للخلف.',
       ],
     },
     modern: {
       focusEn: 'Maximal hamstring/glute stretch with zero lumbar rounding.',
-      focusAr: 'أقصى إطالة للفخذ الخلفي والألوية دون تقوس أسفل الظهر.',
+      focusAr: 'أقصى إطالة للفخذ الخلفي والأرداف دون تقوس أسفل الظهر.',
       cuesEn: [
         'Stop lowering the moment hips cease moving backward (mid-shin)—depth beyond that rounds spine.',
         'Control a 3s eccentric on RDLs to maximize hamstring stretch-mediated growth.',
@@ -509,7 +509,7 @@ const PATTERN_SCHOOL_CUES: Record<
       ],
       cuesAr: [
         'توقف عن النزول فور توقف الحوض عن التراجع للخلف لحماية أسفل الظهر.',
-        'التزم بنزول 3 ثوانٍ في الروماني لتعظيم التضخيم في أقصى إطالة.',
+        'التزم بنزول 3 ثوانٍ في الرفعة المميتة الرومانية لتعظيم التضخيم في أقصى إطالة.',
         'وازن حمل السحب الثقيل مع قدرة استشفاء الجهاز العصبي.',
       ],
     },
@@ -522,8 +522,8 @@ const PATTERN_SCHOOL_CUES: Record<
         'Focus on quality heavy triples to fives rather than sloppy high-rep bouncing.',
       ],
       cuesAr: [
-        'اسحب ارتخاء البار أولاً حتى تشعر بشد المجنص والفخذ الخلفي بالكامل.',
-        'ادفع الأرض بقدميك مع بقاء الصدر عالياً والبار قريباً.',
+        'اسحب ارتخاء البار أولاً حتى تشعر بشد الظهر والفخذ الخلفي بالكامل.',
+        'ادفع الأرض بقدميك مع بقاء الصدر مرفوعاً والبار قريباً.',
         'ركّز على جولات ثقيلة نظيفة 3–5 تكرارات بدلاً من الارتداد السريع.',
       ],
     },
@@ -545,14 +545,14 @@ const PATTERN_SCHOOL_CUES: Record<
     },
     modern: {
       focusEn: 'Unilateral glute/quad symmetry & deep hip-flexion stretch.',
-      focusAr: 'توازن أحادي الجانب وإطالة عميقة للألوية والفخذ الأمامي.',
+      focusAr: 'توازن أحادي الجانب وإطالة عميقة للأرداف والفخذ الأمامي.',
       cuesEn: [
         'Use longer stride / slight forward lean for glutes; upright torso for quads.',
         'Control bottom turnaround cleanly without slamming rear knee on the floor.',
         'Great for fixing left-to-right strength imbalances.',
       ],
       cuesAr: [
-        'خطوة أطول بميل خفيف تركز على الألوية؛ وجذع مستقيم يركز على الفخذ الأمامي.',
+        'خطوة أطول بميل خفيف تركز على الأرداف؛ وجذع مستقيم يركز على الفخذ الأمامي.',
         'تحكم بالنقطة السفلية دون صدم الركبة الخلفية بالأرض.',
         'مثالي لعلاج عدم توازن القوة بين الساقين.',
       ],
@@ -568,7 +568,7 @@ const PATTERN_SCHOOL_CUES: Record<
       cuesAr: [
         'حافظ على توازن صلب في كل خطوة دون اهتزاز الركبة.',
         'أبقِ التوتر مستمراً في الساق الأمامية طوال الجولة.',
-        'ضعه بعد السكوات لإتمام تطوير الفخذ والألوية.',
+        'ضعه بعد القرفصاء لإتمام تطوير الفخذ والأرداف.',
       ],
     },
   },
@@ -610,7 +610,7 @@ const PATTERN_SCHOOL_CUES: Record<
         'Great for pre-exhaust or finishing pump sets.',
       ],
       cuesAr: [
-        'ثبّت انقباض القفل لمدة ثانية كاملة لإبراز تفاصيل العضلة الدمعة.',
+        'ثبّت انقباض القفل لمدة ثانية كاملة لإبراز تفاصيل عضلات الفخذ الأمامية.',
         'تجنب ركل الوزن بعنف من الأسفل.',
         'ممتاز لتسخين أو إنهاء تمرين الأرجل بضخ دم قوي.',
       ],
@@ -656,7 +656,7 @@ const PATTERN_SCHOOL_CUES: Record<
       cuesAr: [
         'أبقِ الأرداف ملتصقة بالوسادة؛ ارتفاعها يعني أن الوزن أثقل من اللازم.',
         'اعصر الفخذ الخلفي بقوة عند القمة قبل الفرد البطيء.',
-        'اجمعه مع الديدلفت الروماني لتغطية وظيفتي العضلة الخلفية.',
+        'اجمعه مع الرفعة المميتة الرومانية لتغطية وظيفتي العضلة الخلفية.',
       ],
     },
   },
@@ -1110,14 +1110,14 @@ const EXERCISE_SPECIFIC_SCHOOL_CUES: Record<
   'resistance-band-pallof-press': {
     modern: {
       focusEn: 'Anti-rotation core stability resisting lateral band torque via obliques & deep abs.',
-      focusAr: 'ثبات الجذع لمقاومة الدوران عبر شد الخواصر والبطن العميق أمام سحب الحزام.',
+      focusAr: 'ثبات الجذع لمقاومة الدوران عبر شد الخواصر والبطن العميق أمام شد الحبل.',
       cuesEn: [
         'Stand sideways with athletic soft-knee stance and firm pre-tension on the band.',
         'Press straight out from center of sternum—do not let hands drift toward the anchor.',
         'Hold 2s extended with hips and shoulders completely square, matching reps on both sides.',
       ],
       cuesAr: [
-        'قف جانبياً بثني خفيف للركبتين مع الابتعاد حتى يكون الحزام مشدوداً بوضوح.',
+        'قف جانبياً بثني خفيف للركبتين مع الابتعاد حتى يكون حبل المقاومة مشدوداً بوضوح.',
         'ادفع يديك للأمام باستقامة أمام منتصف الصدر دون انحراف نحو نقطة التثبيت.',
         'ثبّت اليدين ممدودتين ثانيتين مع استقامة الكتفين والوركين وكرر للجانبين بالتساوي.',
       ],
@@ -1132,7 +1132,7 @@ const EXERCISE_SPECIFIC_SCHOOL_CUES: Record<
       ],
       cuesAr: [
         'اشدد الأرداف والبطن معاً قبل مد الذراعين للأمام.',
-        'أبقِ الجذع ثابتاً تماماً دون ميلان نحو الحزام أو بعيداً عنه.',
+        'أبقِ الجذع ثابتاً تماماً دون ميلان نحو الحبل أو بعيداً عنه.',
         'تحرك ببطء وهدوء مع تنفس منتظم.',
       ],
     },
@@ -1172,9 +1172,9 @@ export function getSchoolExecutionSummary(
       : patternBlock[school]);
 
   const badgeMap: Record<TrainingSchoolId, { en: string; ar: string }> = {
-    general: { en: 'Core Mechanics', ar: 'الشرح المختصر الأساسي' },
+    general: { en: 'Core Mechanics', ar: 'الدليل الأساسي' },
     modern: { en: 'Modern Scientific School', ar: 'المدرسة العلمية الحديثة' },
-    old_school: { en: 'Old School Bodybuilding', ar: 'المدرسة القديمة' },
+    old_school: { en: 'Old School Bodybuilding', ar: 'المدرسة الكلاسيكية' },
   };
 
   // For barbell-bench-press video, tailor general cues precisely to the 22s clip highlights

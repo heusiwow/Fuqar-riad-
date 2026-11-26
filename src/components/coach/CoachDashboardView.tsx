@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { CURATED_PROGRAM_TEMPLATES, localizeTemplateNote } from '../../data/programTemplates';
-import { DIFFICULTY_LABELS, tLabel, WEEKDAYS } from '../../i18n/translations';
+import { DIFFICULTY_LABELS, formatArabicCount, tLabel, WEEKDAYS } from '../../i18n/translations';
 import {
   addSessionCoachFeedback,
   createCoachingLinkInvite,
@@ -287,7 +287,7 @@ export const CoachDashboardView: React.FC = () => {
     e.preventDefault();
     if (!firebaseUser) return;
     const cleanAthName =
-      newAthName.trim() || (language === 'ar' ? 'لاعب جديد' : 'Walk-In Athlete');
+      newAthName.trim() || (language === 'ar' ? 'متدرّب جديد' : 'Walk-In Athlete');
     setCreatingInvite(true);
     try {
       const created = await createCoachingLinkInvite(
@@ -523,7 +523,7 @@ export const CoachDashboardView: React.FC = () => {
 
     const report =
       language === 'ar'
-        ? `تقرير تقدم اللاعب — ${inspectLink.athleteName}\nالبرنامج: ${activeAthProg?.name || inspectLink.assignedProgramName || '—'}\nالالتزام (28 يوم): ${adherencePct}% (${completed28}/${planned28} حصص)\nأبرز الأرقام القياسية:\n${prSummary}`
+        ? `تقرير تقدّم المتدرّب — ${inspectLink.athleteName}\nالبرنامج: ${activeAthProg?.name || inspectLink.assignedProgramName || '—'}\nالالتزام (28 يوماً): ${adherencePct}% (${formatArabicCount(completed28, 'حصة', 'حصتان', 'حصص', 'حصة')} من أصل ${planned28})\nأبرز الأرقام القياسية:\n${prSummary}`
         : `APEX Athlete Progress Summary — ${inspectLink.athleteName}\nProgram: ${activeAthProg?.name || inspectLink.assignedProgramName || '—'}\n28-Day Adherence: ${adherencePct}% (${completed28}/${planned28} sessions)\nTop PRs:\n${prSummary}`;
 
     try {
@@ -840,7 +840,7 @@ export const CoachDashboardView: React.FC = () => {
   const copyCode = (code: string) => {
     try {
       navigator.clipboard?.writeText(code);
-      showToast(language === 'ar' ? 'تم نسخ كود الدعوة' : 'Invite code copied');
+      showToast(language === 'ar' ? 'تم نسخ رمز الدعوة' : 'Invite code copied');
     } catch {
       // ignore
     }
@@ -860,7 +860,7 @@ export const CoachDashboardView: React.FC = () => {
     const url = getJoinUrl(link.inviteCode);
     const shareBody =
       language === 'ar'
-        ? `انضم إلى برنامجي التدريبي على تطبيق APEX مع ${coachDisplay}.\nكود الربط: ${link.inviteCode}\nالرابط المباشر: ${url}`
+        ? `انضم إلى برنامجي التدريبي على تطبيق APEX مع ${coachDisplay}.\nرمز الربط: ${link.inviteCode}\nالرابط المباشر: ${url}`
         : `Join my training roster on APEX with ${coachDisplay}.\nInvite Code: ${link.inviteCode}\nDirect Link: ${url}`;
     try {
       if (typeof navigator !== 'undefined' && navigator.share) {
@@ -892,7 +892,7 @@ export const CoachDashboardView: React.FC = () => {
           <h1 className="text-2xl font-bold tracking-tight">{t.apex.coachDashboardTitle}</h1>
           <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
             {language === 'ar'
-              ? 'إدارة اللاعبين، دعوات الربط ورموز QR، المجموعات، تعيين البرامج، ومتابعة الأداء.'
+              ? 'إدارة المتدرّبين، ورموز الدعوة وQR، والمجموعات، وتعيين البرامج، ومتابعة الأداء.'
               : 'Manage athlete rosters, QR invite codes, squads, program assignments, and adherence.'}
           </p>
         </div>
@@ -943,7 +943,7 @@ export const CoachDashboardView: React.FC = () => {
         </div>
         <div className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4">
           <p className="text-xs text-neutral-500">
-            {language === 'ar' ? 'اللاعبون النشطون' : 'Connected Active'}
+            {language === 'ar' ? 'المتدرّبون النشطون' : 'Connected Active'}
           </p>
           <p className="text-2xl font-bold font-mono tabular-nums text-emerald-500 mt-1">
             {teamStats.activeCount}
@@ -1099,7 +1099,7 @@ export const CoachDashboardView: React.FC = () => {
           <p className="text-sm text-neutral-600 dark:text-neutral-400 max-w-md mx-auto">
             {coachRoster.length === 0
               ? language === 'ar'
-                ? 'لا يوجد لاعبون في قائمتك بعد. أنشئ كود دعوة أو رمز QR وأرسله للاعب لربط حسابه فوراً، أو حمّل قائمة نادي تجريبية.'
+                ? 'لا يوجد متدرّبون في قائمتك بعد. أنشئ رمز دعوة أو رمز QR وأرسله للمتدرّب لربط حسابه فوراً، أو حمّل قائمة تجريبية للنادي.'
                 : 'No athletes on your roster yet. Generate a QR invite code to onboard an athlete, or load a sample gym roster.'
               : t.common.noResults}
           </p>
@@ -1191,7 +1191,7 @@ export const CoachDashboardView: React.FC = () => {
                         type="button"
                         onClick={() => copyCode(link.inviteCode)}
                         className="min-h-[34px] px-2.5 rounded-lg bg-neutral-100 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 font-mono text-[11px] inline-flex items-center gap-1.5 cursor-pointer"
-                        title={language === 'ar' ? 'نسخ الكود' : 'Copy Code'}
+                        title={language === 'ar' ? 'نسخ الرمز' : 'Copy Code'}
                       >
                         <span>{link.inviteCode}</span>
                         <Copy className="w-3 h-3 text-neutral-400" />
@@ -1252,7 +1252,7 @@ export const CoachDashboardView: React.FC = () => {
                     className="min-h-[40px] px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer"
                   >
                     <ClipboardCheck className="w-3.5 h-3.5" />
-                    {language === 'ar' ? 'إدارة اللاعب' : 'Inspect & Coach'}
+                    {language === 'ar' ? 'إدارة المتدرّب' : 'Inspect & Coach'}
                   </button>
 
                   <div className="flex items-center gap-2">
@@ -1312,7 +1312,7 @@ export const CoachDashboardView: React.FC = () => {
                 onChange={(e) => setNewAthName(e.target.value)}
                 placeholder={
                   language === 'ar'
-                    ? 'اسم اللاعب (أو اتركه فارغاً لدعوة سريعة)'
+                    ? 'اسم المتدرّب (أو اتركه فارغاً لدعوة سريعة)'
                     : 'Athlete Name (optional for quick walk-in QR)'
                 }
                 className="w-full min-h-[42px] px-3.5 rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 text-sm"
@@ -1375,7 +1375,7 @@ export const CoachDashboardView: React.FC = () => {
                 {creatingInvite
                   ? t.common.loading
                   : language === 'ar'
-                    ? 'إنشاء الكود وعرض QR'
+                    ? 'إنشاء الرمز وعرض QR'
                     : 'Generate Code & QR'}
               </button>
             </form>
@@ -1518,7 +1518,7 @@ export const CoachDashboardView: React.FC = () => {
                 className="w-full min-h-[42px] px-3 rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 text-xs"
               >
                 <option value="all">
-                  {language === 'ar' ? 'جميع اللاعبين النشطين' : 'All Active Athletes'}
+                  {language === 'ar' ? 'جميع المتدرّبين النشطين' : 'All Active Athletes'}
                 </option>
                 {coachGroups.map((g) => (
                   <option key={g.id} value={g.id}>
@@ -1754,7 +1754,7 @@ export const CoachDashboardView: React.FC = () => {
                 <div className="p-6 text-center space-y-3 border border-dashed border-neutral-300 dark:border-neutral-800 rounded-xl">
                   <p className="text-xs text-neutral-500">
                     {language === 'ar'
-                      ? `أرسل الكود (${inspectLink.inviteCode}) أو رمز QR للاعب لإدخاله داخل التطبيق، وستظهر بياناته وتقاريره هنا فوراً.`
+                      ? `أرسل الرمز (${inspectLink.inviteCode}) أو رمز QR للمتدرّب لإدخاله داخل التطبيق، وستظهر بياناته وتقاريره هنا فوراً.`
                       : `Share invite code (${inspectLink.inviteCode}) or QR code with the athlete to link their account.`}
                   </p>
                   <button
@@ -2217,7 +2217,7 @@ export const CoachDashboardView: React.FC = () => {
                 onChange={(e) => setAssignNotes(e.target.value)}
                 placeholder={
                   language === 'ar'
-                    ? 'توجيهات المدرب للاعب...'
+                    ? 'توجيهات المدرب للمتدرّب...'
                     : 'Coach instructions for the athlete...'
                 }
                 className="w-full px-3.5 py-2 rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 text-xs"

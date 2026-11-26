@@ -428,7 +428,9 @@ export const ExerciseLibraryView: React.FC = () => {
                 >
                   <span className="truncate text-neutral-600 dark:text-neutral-400">
                     <span className="text-emerald-600 dark:text-emerald-400 font-medium">
-                      {ex.primaryMuscles.map((m) => tLabel(MUSCLE_LABELS[m], language)).join(', ')}
+                      {ex.primaryMuscles
+                        .map((m) => tLabel(MUSCLE_LABELS[m], language))
+                        .join(language === 'ar' ? '، ' : ', ')}
                     </span>
                     {' · '}
                     {tLabel(EQUIPMENT_LABELS[ex.equipment], language)}

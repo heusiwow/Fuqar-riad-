@@ -530,7 +530,7 @@ export const WorkoutsView: React.FC = () => {
                         {language === 'ar' ? ex.nameAr : ex.nameEn}
                       </p>
                       <p className="text-xs text-neutral-500 truncate">
-                        {ex.primaryMuscles.map((m) => tLabel(MUSCLE_LABELS[m], language)).join(', ')} ·{' '}
+                        {ex.primaryMuscles.map((m) => tLabel(MUSCLE_LABELS[m], language)).join(language === 'ar' ? '، ' : ', ')} ·{' '}
                         {tLabel(EQUIPMENT_LABELS[ex.equipment], language)}
                       </p>
                     </div>
