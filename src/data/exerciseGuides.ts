@@ -2,6 +2,7 @@ import stepBandChestPress from '../assets/images/step_band_chest_press_179562228
 import stepBandRow from '../assets/images/step_band_row_1795622285747.jpg';
 import stepBarbellRow from '../assets/images/step_barbell_row_1795384188059.jpg';
 import stepBarbellSquat from '../assets/images/step_barbell_squat_1795622203169.jpg';
+import stepBenchDips from '../assets/images/step_bench_dips_1795695814431.jpg';
 import stepBenchPress from '../assets/images/step_bench_press_1795617482435.jpg';
 import stepBicepCurl from '../assets/images/step_bicep_curl_1795622201415.jpg';
 import stepCableBicepCurl from '../assets/images/step_cable_bicep_curl_1795622333890.jpg';
@@ -15,10 +16,17 @@ import stepChestSupportedRow from '../assets/images/step_chest_supported_row_179
 import stepChinUps from '../assets/images/step_chin_ups_1795622285647.jpg';
 import stepConventionalDeadlift from '../assets/images/step_conventional_deadlift_1795622205502.jpg';
 import stepDumbbellBenchPress from '../assets/images/step_dumbbell_bench_press_1795622286033.jpg';
+import stepDumbbellRdl from '../assets/images/step_dumbbell_rdl_1795695847295.jpg';
 import stepDumbbellRow from '../assets/images/step_dumbbell_row_1795617484991.jpg';
+import stepEzSkullcrusher from '../assets/images/step_ez_skullcrusher_1795695812446.jpg';
 import stepFacePull from '../assets/images/step_face_pull_1795617330693.jpg';
+import stepFrontSquat from '../assets/images/step_front_squat_1795695820092.jpg';
+import stepGluteKickback from '../assets/images/step_glute_kickback_1795695847249.jpg';
+import stepGobletSquat from '../assets/images/step_goblet_squat_1795695938678.jpg';
+import stepHammerCurl from '../assets/images/step_hammer_curl_1795646674444.jpg';
 import stepHipThrust from '../assets/images/step_hip_thrust_1795617486495.jpg';
 import stepInclineBarbellPress from '../assets/images/step_incline_barbell_press_1795622285064.jpg';
+import stepInclineCurl from '../assets/images/step_incline_curl_1795646672569.jpg';
 import stepInclineDumbbellPress from '../assets/images/step_incline_dumbbell_press_1795384187243.jpg';
 import stepLatPulldown from '../assets/images/step_lat_pulldown_1795622199207.jpg';
 import stepLateralRaise from '../assets/images/step_lateral_raise_1795622200900.jpg';
@@ -27,8 +35,10 @@ import stepLegExtension from '../assets/images/step_leg_extension_1795617331618.
 import stepLegPress from '../assets/images/step_leg_press_1795622204292.jpg';
 import stepLegRaise from '../assets/images/step_leg_raise_1795617427609.jpg';
 import stepMachineLateralRaise from '../assets/images/step_machine_lateral_raise_1795622329650.jpg';
+import stepOverheadEzTricep from '../assets/images/step_overhead_ez_tricep_1795695817007.jpg';
 import stepOverheadPress from '../assets/images/step_overhead_press_1795622200788.jpg';
 import stepOverheadTricep from '../assets/images/step_overhead_tricep_1795617330019.jpg';
+import stepPallofPress from '../assets/images/step_pallof_press_1795695936454.jpg';
 import stepPecDeck from '../assets/images/step_pec_deck_1795617325182.jpg';
 import stepPendlayRow from '../assets/images/step_pendlay_row_1795622259009.jpg';
 import stepPlankHold from '../assets/images/step_plank_hold_1795617545642.jpg';
@@ -36,13 +46,19 @@ import stepPreacherCurl from '../assets/images/step_preacher_curl_1795617331069.
 import stepPullUps from '../assets/images/step_pull_ups_1795617328308.jpg';
 import stepPushUps from '../assets/images/step_push_ups_1795617484602.jpg';
 import stepRearDeltFly from '../assets/images/step_rear_delt_fly_1795622330677.jpg';
+import stepReverseWristCurl from '../assets/images/step_reverse_wrist_curl_1795695955379.jpg';
 import stepRomanianDeadlift from '../assets/images/step_romanian_deadlift_1795622205467.jpg';
 import stepSeatedCableRow from '../assets/images/step_seated_cable_row_1795622199411.jpg';
+import stepSeatedCalf from '../assets/images/step_seated_calf_1795695847041.jpg';
 import stepSeatedDbPress from '../assets/images/step_seated_db_press_1795622325979.jpg';
 import stepSmithBenchPress from '../assets/images/step_smith_bench_press_1795622250921.jpg';
+import stepSmithCalf from '../assets/images/step_smith_calf_1795695822664.jpg';
 import stepSmithOverheadPress from '../assets/images/step_smith_overhead_press_1795622328689.jpg';
+import stepSmithSquat from '../assets/images/step_smith_squat_1795646680166.jpg';
 import stepSplitSquat from '../assets/images/step_split_squat_1795617368909.jpg';
+import stepTricepKickback from '../assets/images/step_tricep_kickback_1795695813908.jpg';
 import stepTricepPushdown from '../assets/images/step_tricep_pushdown_1795384187535.jpg';
+import stepWristCurl from '../assets/images/step_wrist_curl_1795695816752.jpg';
 import { Exercise } from '../types/ironlog';
 
 export interface ExerciseQuickGuide {
@@ -1139,6 +1155,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'incline-dumbbell-curl': {
+    stepImage: stepInclineCurl,
     stepCaptionsEn: [
       'Recline on a 45–60° bench and let arms hang vertically straight down behind your torso line.',
       'Keeping upper arms pointing straight at the floor, curl dumbbells smoothly upward toward shoulders.',
@@ -1175,6 +1192,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'hammer-curl': {
+    stepImage: stepHammerCurl,
     stepCaptionsEn: [
       'Stand upright holding dumbbells with palms facing your thighs (thumbs pointing forward/up) and elbows locked at sides.',
       'Curl dumbbells upward keeping wrists completely neutral like swinging a hammer—no forearm twisting.',
@@ -1361,6 +1379,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'ez-bar-skullcrusher': {
+    stepImage: stepEzSkullcrusher,
     stepCaptionsEn: [
       'Lie flat holding EZ bar overhead, then angle upper arms ~10–15° slightly backward behind vertical.',
       'Freeze upper arms in that backward angle and bend only the elbows to lower bar just behind your head.',
@@ -1397,6 +1416,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'dumbbell-tricep-kickback': {
+    stepImage: stepTricepKickback,
     stepCaptionsEn: [
       'Hinge forward supporting free hand on bench; lift working upper arm until parallel to floor beside ribs.',
       'Freeze the upper arm completely flat and swing only your forearm straight back until arm is fully straight.',
@@ -1433,6 +1453,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'bench-dips': {
+    stepImage: stepBenchDips,
     stepCaptionsEn: [
       'Grip bench edge right beside hips, keep lower back very close to the bench front, legs extended or knees bent.',
       'Lower straight downward until upper arms reach parallel to floor (~90° elbow bend)—keeping elbows tucked back.',
@@ -1469,6 +1490,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'overhead-barbell-tricep-extension': {
+    stepImage: stepOverheadEzTricep,
     stepCaptionsEn: [
       'Sit upright with short back support, hold EZ-bar overhead with narrow grip and elbows pointed forward/up.',
       'Brace abs tight and lower bar smoothly behind your head until forearms fold deeply against biceps.',
@@ -1505,6 +1527,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'barbell-wrist-curl': {
+    stepImage: stepWristCurl,
     stepCaptionsEn: [
       'Rest forearms flat palm-up across bench or thighs with wrists extending just off the edge.',
       'Let bar roll smoothly toward your fingertips for a full stretch, then curl hands strongly upward.',
@@ -1541,6 +1564,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'reverse-dumbbell-wrist-curl': {
+    stepImage: stepReverseWristCurl,
     stepCaptionsEn: [
       'Rest forearms flat palm-down across bench or thighs holding light dumbbells with wrists past edge.',
       'Extend backs of your hands smoothly upward using purely forearm extensor contraction.',
@@ -1690,6 +1714,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'dumbbell-goblet-squat': {
+    stepImage: stepGobletSquat,
     stepCaptionsEn: [
       'Cup top head of one heavy dumbbell vertically against your upper chest, elbows tucked downward.',
       'Sit straight down between your knees—gliding elbows neatly inside thighs while keeping chest upright.',
@@ -1726,6 +1751,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'smith-squat': {
+    stepImage: stepSmithSquat,
     stepCaptionsEn: [
       'Set bar on upper traps and place feet ~10–20 cm slightly forward of the vertical bar path.',
       'Sit hips downward and slightly back along the guided track while keeping torso relatively upright.',
@@ -1762,6 +1788,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'barbell-front-squat': {
+    stepImage: stepFrontSquat,
     stepCaptionsEn: [
       'Rest bar across your front delts right against throat/collarbone, elbows driven high and torso upright.',
       'Descend smoothly sitting straight down between knees while fighting to keep elbows pointing high.',
@@ -1948,6 +1975,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'dumbbell-rdl': {
+    stepImage: stepDumbbellRdl,
     stepCaptionsEn: [
       'Stand holding dumbbells calmly at front/sides of thighs with knees unlocked ~15° and chest proud.',
       'Hinge hips straight backward gliding dumbbells right alongside your legs until deep hamstring tension.',
@@ -2021,6 +2049,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'cable-glute-kickback': {
+    stepImage: stepGluteKickback,
     stepCaptionsEn: [
       'Strap ankle cuff, face cable machine leaning torso ~20–30° forward holding frame, brace core flat.',
       'Sweep working leg straight backward and slightly outward (~15°) using strictly glute contraction.',
@@ -2094,6 +2123,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'smith-standing-calf-raise': {
+    stepImage: stepSmithCalf,
     stepCaptionsEn: [
       'Place a solid calf block directly under the Smith bar and position balls of feet firmly on the front edge.',
       'Lower heels smoothly downward to deep stretch, holding for 1–2 full seconds at the bottom.',
@@ -2130,6 +2160,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'seated-calf-raise': {
+    stepImage: stepSeatedCalf,
     stepCaptionsEn: [
       'Sit upright with knee pad locked snugly right above knees and balls of feet resting securely on footplate.',
       'Lower heels deeply toward the floor into a complete stretch and pause 1–2s.',
@@ -2279,6 +2310,7 @@ export const EXERCISE_GUIDES: Record<string, ExerciseQuickGuide> = {
     ],
   },
   'resistance-band-pallof-press': {
+    stepImage: stepPallofPress,
     stepCaptionsEn: [
       'Anchor band at chest height, step sideways into a balanced athletic stance until band carries firm tension.',
       'Hold handle against center of sternum, brace core, and press hands straight forward—fighting sideways twist.',
