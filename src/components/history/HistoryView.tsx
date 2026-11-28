@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Calendar, ChevronDown, ChevronUp, Clock, MessageSquareQuote, Trash2, Trophy } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { deleteSessionHistory } from '../../services/firestoreService';
-import { formatDuration, formatVolume, formatWeight } from '../../utils/calculations';
+import { formatDuration, formatWeight } from '../../utils/calculations';
 
 export const HistoryView: React.FC = () => {
   const {
@@ -162,10 +162,10 @@ export const HistoryView: React.FC = () => {
                   <div className="flex items-center justify-between sm:justify-end gap-4 shrink-0">
                     <div className="text-end font-mono tabular-nums text-xs">
                       <p className="font-semibold text-sm text-emerald-600 dark:text-emerald-400">
-                        {formatVolume(s.totalVolumeKg, unit, language)} {unitText}
+                        {s.totalSets} {t.history.totalSets}
                       </p>
                       <p className="text-neutral-500">
-                        {s.totalSets} {t.history.totalSets}
+                        {s.exercises.filter((ex) => !ex.skipped).length} {t.workouts.exercisesInWorkout}
                       </p>
                     </div>
                     {isExpanded ? <ChevronUp className="w-4 h-4 text-neutral-400" /> : <ChevronDown className="w-4 h-4 text-neutral-400" />}

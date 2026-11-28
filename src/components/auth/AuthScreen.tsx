@@ -276,7 +276,7 @@ export const AuthScreen: React.FC = () => {
           },
           {
             icon: BarChart3,
-            title: 'الأطلس العضلي وتحليل الحجم التدريبي',
+            title: 'الأطلس العضلي وتطور الأوزان',
             desc: 'مخططات تشريحية دقيقة للعضلات الأساسية والمساعدة مع تتبع التطور الأسبوعي والأرقام القياسية.',
           },
         ]
@@ -293,8 +293,8 @@ export const AuthScreen: React.FC = () => {
           },
           {
             icon: BarChart3,
-            title: 'Muscular Atlas & Volume Analytics',
-            desc: 'Anatomical primary/secondary muscle breakdown paired with longitudinal strength and set-volume tracking.',
+            title: 'Muscular Atlas & Strength Analytics',
+            desc: 'Anatomical primary/secondary muscle breakdown paired with longitudinal strength and set-count tracking.',
           },
         ];
 

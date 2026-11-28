@@ -39,7 +39,6 @@ import {
 import {
   detectFatigueAndSpikes,
   formatDuration,
-  formatVolume,
   formatWeight,
   getPreviousExercisePerformance,
   toDisplayWeight,
@@ -154,7 +153,6 @@ export const LiveWorkoutView: React.FC = () => {
   const [previewDayIdx, setPreviewDayIdx] = useState<number | null>(null);
   const [completedSummary, setCompletedSummary] = useState<{
     savedSession: WorkoutSessionHistory;
-    prevVolumeKg: number | null;
     unlockedPRs: { exerciseNameEn: string; exerciseNameAr: string; types: ('weight' | 'reps' | 'estimated_1rm')[] }[];
   } | null>(null);
 
@@ -590,7 +588,6 @@ export const LiveWorkoutView: React.FC = () => {
       setActiveSessionLocal(null);
       setCompletedSummary({
         savedSession: result.savedSession,
-        prevVolumeKg: prevSimilar ? prevSimilar.totalVolumeKg : null,
         unlockedPRs: result.unlockedPRs,
       });
     } catch {
@@ -618,8 +615,8 @@ export const LiveWorkoutView: React.FC = () => {
   // 1. POST-WORKOUT SUMMARY
   // =========================================================================
   if (completedSummary) {
-    const { savedSession, prevVolumeKg, unlockedPRs } = completedSummary;
-    const volDeltaKg = prevVolumeKg !== null ? savedSession.totalVolumeKg - prevVolumeKg : null;
+    const { savedSession, unlockedPRs } = completedSummary;
+    const completedExercisesCount = savedSession.exercises.filter((e) => !e.skipped).length;
     return (
       <div className="max-w-lg mx-auto py-8">
         <div className="bg-white dark:bg-[#121417] border border-emerald-500/40 rounded-2xl p-6 text-center space-y-5">
@@ -643,22 +640,10 @@ export const LiveWorkoutView: React.FC = () => {
               <strong className="text-sm">{savedSession.totalSets}</strong>
             </div>
             <div className="p-3 rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800">
-              <span className="text-[11px] font-sans text-neutral-500 block">{t.common.volume}</span>
-              <strong className="text-sm">
-                {formatVolume(savedSession.totalVolumeKg, unit, language)} {unitText}
-              </strong>
+              <span className="text-[11px] font-sans text-neutral-500 block">{t.workouts.exercisesInWorkout}</span>
+              <strong className="text-sm">{completedExercisesCount}</strong>
             </div>
           </div>
-
-          {volDeltaKg !== null && (
-            <p className="text-xs text-neutral-500 font-mono tabular-nums">
-              {language === 'ar' ? 'مقارنة بالتمرين المماثل السابق:' : 'Vs. previous similar workout:'}{' '}
-              <span className={volDeltaKg >= 0 ? 'text-emerald-500 font-semibold' : 'text-amber-500 font-semibold'}>
-                {volDeltaKg >= 0 ? '+' : ''}
-                {formatVolume(volDeltaKg, unit, language)} {unitText}
-              </span>
-            </p>
-          )}
 
           {unlockedPRs.length > 0 && (
             <div className="space-y-2 text-start">

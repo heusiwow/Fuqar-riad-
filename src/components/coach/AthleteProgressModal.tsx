@@ -25,6 +25,7 @@ import {
   addSessionCoachFeedback,
   deleteCoachingLink,
   deletePerformanceGoal,
+  generateSafeId,
   savePerformanceGoal,
   sendCoachMessage,
   updateCoachingLink,
@@ -38,7 +39,6 @@ import {
 } from '../../types/ironlog';
 import {
   formatDuration,
-  formatVolume,
   formatWeight,
   toStorageKg,
 } from '../../utils/calculations';
@@ -506,7 +506,7 @@ export const AthleteProgressModal: React.FC<AthleteProgressModalProps> = ({
                             <div className="flex items-center justify-between gap-2">
                               <strong className="text-sm">{ts.workoutName}</strong>
                               <span className="font-mono tabular-nums text-emerald-600 dark:text-emerald-400">
-                                {ts.totalSets} {t.common.sets} · {formatVolume(ts.totalVolumeKg, unit, language)} {unitText}
+                                {ts.totalSets} {t.common.sets}
                               </span>
                             </div>
                             <p className="text-[11px] text-neutral-500">
@@ -573,7 +573,9 @@ export const AthleteProgressModal: React.FC<AthleteProgressModalProps> = ({
                           const wd = WEEKDAYS[idx];
                           const matchedWorkout =
                             !day.isRestDay && day.workoutId
-                              ? todayInfo.workoutsPool.find((w) => w.id === day.workoutId)
+                              ? todayInfo.workoutsPool.find(
+                                  (w) => w.id === day.workoutId || (day.workoutName && w.name === day.workoutName)
+                                )
                               : null;
                           return (
                             <div
@@ -709,8 +711,7 @@ export const AthleteProgressModal: React.FC<AthleteProgressModalProps> = ({
                                     language === 'ar' ? 'ar-EG' : 'en-US',
                                     { month: 'short', day: 'numeric' }
                                   )}{' '}
-                                  · {formatDuration(s.durationSeconds)} · {s.totalSets} {t.common.sets}{' '}
-                                  · {formatVolume(s.totalVolumeKg, unit, language)} {unitText}
+                                  · {formatDuration(s.durationSeconds)} · {s.totalSets} {t.common.sets}
                                   {s.sessionRpe ? ` · RPE ${s.sessionRpe}` : ''}
                                 </p>
                               </div>

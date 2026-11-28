@@ -366,7 +366,7 @@ service cloud.firestore {
         && data.type in [
           'scheduled_workout', 'program_schedule', 'personal_record', 'workout_completed',
           'coach_feedback', 'program_change', 'goal_milestone', 'missed_workout',
-          'team_announcement', 'checkin_reminder'
+          'team_announcement', 'checkin_reminder', 'subscription_alert'
         ]
         && data.titleEn is string && data.titleEn.size() >= 1 && data.titleEn.size() <= 120
         && data.titleAr is string && data.titleAr.size() >= 1 && data.titleAr.size() <= 120
@@ -391,7 +391,7 @@ service cloud.firestore {
     function isValidCoachingLink(data, linkId) {
       return data.keys().hasAll(['id', 'coachId', 'coachName', 'athleteName', 'inviteCode', 'status', 'createdAt', 'updatedAt'])
         && data.keys().hasOnly([
-          'id', 'coachId', 'coachName', 'athleteUid', 'athleteName', 'inviteCode',
+          'id', 'coachId', 'coachName', 'athleteUid', 'athleteName', 'inviteCode', 'coachCode',
           'groupId', 'status', 'goalSummary', 'experienceLevel', 'weeklyTarget',
           'privateNotes', 'assignedProgramName', 'lastSessionAt', 'completedSessionsCount',
           'recentAdherencePct', 'recentPrText', 'needsAttention', 'createdAt', 'updatedAt'
@@ -402,6 +402,7 @@ service cloud.firestore {
         && (!('athleteUid' in data) || (data.athleteUid is string && data.athleteUid.size() <= 128))
         && data.athleteName is string && data.athleteName.size() >= 1 && data.athleteName.size() <= 100
         && data.inviteCode is string && data.inviteCode.size() >= 4 && data.inviteCode.size() <= 32
+        && (!('coachCode' in data) || (data.coachCode is string && data.coachCode.size() <= 32))
         && (!('groupId' in data) || (data.groupId is string && data.groupId.size() <= 128))
         && data.status in ['pending', 'active', 'archived']
         && (!('goalSummary' in data) || (data.goalSummary is string && data.goalSummary.size() <= 300))
@@ -493,6 +494,57 @@ service cloud.firestore {
         && data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 100
         && data.role in ['athlete', 'coach', 'gym_admin']
         && data.status in ['active', 'invited', 'suspended']
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidCoachCode(data, coachCode) {
+      return data.keys().hasAll(['coachCode', 'coachId', 'coachName', 'currency', 'subscriptionTiers', 'isActive', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly([
+          'coachCode', 'coachId', 'coachName', 'gymName', 'currency',
+          'subscriptionTiers', 'isActive', 'createdAt', 'updatedAt'
+        ])
+        && data.coachCode == coachCode
+        && isValidId(data.coachCode)
+        && data.coachCode.size() >= 4
+        && data.coachCode.size() <= 32
+        && isValidId(data.coachId)
+        && data.coachName is string && data.coachName.size() >= 1 && data.coachName.size() <= 100
+        && (!('gymName' in data) || (data.gymName is string && data.gymName.size() <= 120))
+        && data.currency is string && data.currency.size() >= 1 && data.currency.size() <= 16
+        && data.subscriptionTiers is list && data.subscriptionTiers.size() <= 20 && (data.subscriptionTiers.size() == 0 || data.subscriptionTiers[0] is map)
+        && data.isActive is bool
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidGymSubscription(data, subId) {
+      return data.keys().hasAll([
+          'id', 'coachId', 'memberName', 'tierId', 'tierName',
+          'tierPrice', 'amountPaid', 'currency', 'paymentStatus',
+          'startDate', 'endDate', 'status', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'id', 'coachId', 'athleteUid', 'linkId', 'memberName', 'memberPhone',
+          'tierId', 'tierName', 'tierPrice', 'amountPaid', 'currency', 'paymentStatus',
+          'startDate', 'endDate', 'status', 'notes', 'createdAt', 'updatedAt'
+        ])
+        && data.id == subId && isValidId(data.id)
+        && isValidId(data.coachId)
+        && (!('athleteUid' in data) || (data.athleteUid is string && data.athleteUid.size() <= 128))
+        && (!('linkId' in data) || (data.linkId is string && data.linkId.size() <= 128))
+        && data.memberName is string && data.memberName.size() >= 1 && data.memberName.size() <= 100
+        && (!('memberPhone' in data) || (data.memberPhone is string && data.memberPhone.size() <= 30))
+        && data.tierId is string && data.tierId.size() >= 1 && data.tierId.size() <= 128
+        && data.tierName is string && data.tierName.size() >= 1 && data.tierName.size() <= 100
+        && data.tierPrice is number && data.tierPrice >= 0 && data.tierPrice <= 100000000
+        && data.amountPaid is number && data.amountPaid >= 0 && data.amountPaid <= 100000000
+        && data.currency is string && data.currency.size() >= 1 && data.currency.size() <= 16
+        && data.paymentStatus in ['paid', 'partial', 'unpaid']
+        && data.startDate is string && data.startDate.size() >= 8 && data.startDate.size() <= 20 && data.startDate.matches('^[0-9\\-]+$')
+        && data.endDate is string && data.endDate.size() >= 8 && data.endDate.size() <= 20 && data.endDate.matches('^[0-9\\-]+$')
+        && data.status in ['active', 'expired', 'cancelled']
+        && (!('notes' in data) || (data.notes is string && data.notes.size() <= 500))
         && data.createdAt is timestamp
         && data.updatedAt is timestamp;
     }
@@ -843,10 +895,21 @@ service cloud.firestore {
       );
       allow create: if isValidId(linkId)
         && isVerifiedUser()
-        && incoming().coachId == request.auth.uid
         && isValidCoachingLink(incoming(), linkId)
         && incoming().createdAt == request.time
-        && incoming().updatedAt == request.time;
+        && incoming().updatedAt == request.time
+        && (
+          incoming().coachId == request.auth.uid ||
+          (
+            incoming().athleteUid == request.auth.uid
+            && incoming().status == 'active'
+            && ('coachCode' in incoming())
+            && isValidId(incoming().coachCode)
+            && exists(/databases/$(database)/documents/coachCodes/$(incoming().coachCode))
+            && get(/databases/$(database)/documents/coachCodes/$(incoming().coachCode)).data.isActive == true
+            && get(/databases/$(database)/documents/coachCodes/$(incoming().coachCode)).data.coachId == incoming().coachId
+          )
+        );
       allow update: if isValidId(linkId)
         && isVerifiedUser()
         && isValidCoachingLink(incoming(), linkId)
@@ -875,7 +938,7 @@ service cloud.firestore {
           (
             existing().athleteUid == request.auth.uid &&
             incoming().diff(existing()).affectedKeys().hasOnly([
-              'athleteName', 'status', 'lastSessionAt', 'completedSessionsCount',
+              'athleteName', 'coachCode', 'status', 'lastSessionAt', 'completedSessionsCount',
               'recentPrText', 'assignedProgramName', 'updatedAt'
             ])
           )
@@ -999,6 +1062,63 @@ service cloud.firestore {
           && incoming().updatedAt == request.time;
         allow delete: if isValidId(orgId) && isValidId(memberUid) && isAdmin();
       }
+    }
+
+    // Permanent Coach QR Join Codes & Saved Gym Subscription Tiers
+    match /coachCodes/{coachCode} {
+      allow get: if isValidId(coachCode) && isVerifiedUser();
+      allow list: if isVerifiedUser() && resource.data.coachId == request.auth.uid;
+      allow create: if isValidId(coachCode)
+        && isVerifiedUser()
+        && incoming().coachId == request.auth.uid
+        && isValidCoachCode(incoming(), coachCode)
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(coachCode)
+        && isVerifiedUser()
+        && existing().coachId == request.auth.uid
+        && isValidCoachCode(incoming(), coachCode)
+        && incoming().coachCode == existing().coachCode
+        && incoming().coachId == existing().coachId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'coachName', 'gymName', 'currency', 'subscriptionTiers', 'isActive', 'updatedAt'
+        ]);
+      allow delete: if isValidId(coachCode) && isVerifiedUser() && existing().coachId == request.auth.uid;
+    }
+
+    // Gym Membership Subscriptions & Coach Accounting Ledger
+    match /gymSubscriptions/{subId} {
+      allow get: if isValidId(subId) && isVerifiedUser() && (
+        existing().coachId == request.auth.uid ||
+        ('athleteUid' in existing() && existing().athleteUid is string && existing().athleteUid == request.auth.uid && existing().athleteUid != '') ||
+        isAdmin()
+      );
+      allow list: if isVerifiedUser() && (
+        resource.data.coachId == request.auth.uid ||
+        resource.data.athleteUid == request.auth.uid
+      );
+      allow create: if isValidId(subId)
+        && isVerifiedUser()
+        && incoming().coachId == request.auth.uid
+        && isValidGymSubscription(incoming(), subId)
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(subId)
+        && isVerifiedUser()
+        && existing().coachId == request.auth.uid
+        && isValidGymSubscription(incoming(), subId)
+        && incoming().id == existing().id
+        && incoming().coachId == existing().coachId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'athleteUid', 'linkId', 'memberName', 'memberPhone',
+          'tierId', 'tierName', 'tierPrice', 'amountPaid', 'currency',
+          'paymentStatus', 'startDate', 'endDate', 'status', 'notes', 'updatedAt'
+        ]);
+      allow delete: if isValidId(subId) && isVerifiedUser() && existing().coachId == request.auth.uid;
     }
   }
 }

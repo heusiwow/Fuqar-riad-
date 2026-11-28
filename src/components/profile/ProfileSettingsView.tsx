@@ -8,11 +8,13 @@ import {
   Link2,
   LogOut,
   Moon,
+  QrCode,
   ShieldCheck,
   Sun,
   Unlink,
   Users,
 } from 'lucide-react';
+import { QrScannerModal } from '../common/QrScannerModal';
 import { useApp } from '../../context/AppContext';
 import { DIFFICULTY_LABELS, GOAL_LABELS, SPLIT_LABELS, tLabel } from '../../i18n/translations';
 import { auth } from '../../lib/firebase';
@@ -101,6 +103,7 @@ export const ProfileSettingsView: React.FC = () => {
   // Coach Invite Code Claiming & Disconnect
   const [inviteCode, setInviteCode] = useState(() => pendingJoinCode || '');
   const [claimingCode, setClaimingCode] = useState(false);
+  const [scannerOpen, setScannerOpen] = useState(false);
   const [confirmUnlink, setConfirmUnlink] = useState(false);
   const [unlinking, setUnlinking] = useState(false);
 
@@ -481,22 +484,32 @@ export const ProfileSettingsView: React.FC = () => {
             )}
           </div>
         ) : (
-          <form onSubmit={handleClaimCoachCode} className="flex flex-col sm:flex-row gap-2.5">
-            <input
-              type="text"
-              value={inviteCode}
-              onChange={(e) => setInviteCode(e.target.value)}
-              placeholder={t.apex.coachInvitePlaceholder}
-              className="flex-1 min-h-[42px] px-3.5 rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 font-mono text-sm uppercase"
-            />
+          <div className="flex flex-col sm:flex-row gap-2.5">
             <button
-              type="submit"
-              disabled={claimingCode || !inviteCode.trim()}
-              className="min-h-[42px] px-5 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-semibold cursor-pointer shrink-0"
+              type="button"
+              onClick={() => setScannerOpen(true)}
+              className="min-h-[42px] px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold inline-flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
             >
-              {claimingCode ? t.common.loading : t.apex.joinCoachBtn}
+              <QrCode className="w-4 h-4" />
+              {language === 'ar' ? 'امسح باركود الكابتن' : 'Scan Coach QR'}
             </button>
-          </form>
+            <form onSubmit={handleClaimCoachCode} className="flex flex-1 flex-col sm:flex-row gap-2.5">
+              <input
+                type="text"
+                value={inviteCode}
+                onChange={(e) => setInviteCode(e.target.value)}
+                placeholder={t.apex.coachInvitePlaceholder}
+                className="flex-1 min-h-[42px] px-3.5 rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 font-mono text-sm uppercase"
+              />
+              <button
+                type="submit"
+                disabled={claimingCode || !inviteCode.trim()}
+                className="min-h-[42px] px-5 rounded-xl border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 disabled:opacity-50 text-xs font-semibold cursor-pointer shrink-0"
+              >
+                {claimingCode ? t.common.loading : t.apex.joinCoachBtn}
+              </button>
+            </form>
+          </div>
         )}
       </section>
 
@@ -783,6 +796,13 @@ export const ProfileSettingsView: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {scannerOpen && (
+        <QrScannerModal
+          onClose={() => setScannerOpen(false)}
+          onSuccess={() => setInviteCode('')}
+        />
+      )}
     </div>
   );
 };

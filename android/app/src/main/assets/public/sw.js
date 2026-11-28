@@ -87,7 +87,7 @@ define(['./workbox-81e8ac41'], (function (workbox) { 'use strict';
     "revision": "5312dbbbff8fad9a368952d1dace1df6"
   }, {
     "url": "index.html",
-    "revision": "f864d99295cf76136f1ed884fd708fef"
+    "revision": "d69d2576eb1c8d9d8977f674d3873247"
   }, {
     "url": "icon.svg",
     "revision": "6696314d9d5e668242aa1750755fd323"
@@ -281,10 +281,19 @@ define(['./workbox-81e8ac41'], (function (workbox) { 'use strict';
     "url": "assets/step_band_chest_press_1795622285558-CB7doKjh.jpg",
     "revision": null
   }, {
-    "url": "assets/index-xB2XeatJ.css",
+    "url": "assets/purify.es-BQJV6A36.js",
     "revision": null
   }, {
-    "url": "assets/index-m2vZj1Gw.js",
+    "url": "assets/index.es-BHOhhSb8.js",
+    "revision": null
+  }, {
+    "url": "assets/index-DdfyvEEQ.css",
+    "revision": null
+  }, {
+    "url": "assets/index-9D5PaDIk.js",
+    "revision": null
+  }, {
+    "url": "assets/html2canvas-DhOA_VMV.js",
     "revision": null
   }, {
     "url": "assets/aistudio/Screenshot_____-__-__-__-__-__-____com.github.android_d9e9831b.jpg",

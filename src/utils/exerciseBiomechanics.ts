@@ -503,16 +503,16 @@ export const EXERCISE_COMPARISONS: Record<string, ExerciseComparison[]> = {
     {
       otherExerciseId: 'incline-barbell-press',
       otherNameEn: 'Incline Barbell Press',
-      otherNameAr: 'ضغط الصدر المائل بالبار (الصدر العلوي)',
+      otherNameAr: 'بنش أعلى وسط',
       mechanicalDiffEn: 'Flat press shifts peak tension across mid-sternal fibers and permits heavier absolute loading, whereas 30–45° incline elevates shoulder flexion to bias the clavicular (upper) pec and anterior deltoid.',
-      mechanicalDiffAr: 'الضغط المستوي يركّز على ألياف منتصف الصدر ويسمح بأوزان أكبر، بينما ينقل الميلان 30–45° التركيز للألياف العلوية للصدر والكتف الأمامي.',
+      mechanicalDiffAr: 'البنج المستوي يركّز على ألياف منتصف الصدر ويسمح بأوزان أكبر، بينما ينقل الميلان 30–45° التركيز للألياف العلوية للصدر والكتف الأمامي.',
       practicalChoiceEn: 'Use Flat for primary pressing strength; include Incline to ensure balanced upper-chest fullness.',
-      practicalChoiceAr: 'استخدم المستوي لقوة الدفع الأساسية والمائل لبناء امتلاء أعلى الصدر.'
+      practicalChoiceAr: 'استخدم المستوي لقوة الدفع الأساسية والبنج العالي لبناء امتلاء أعلى الصدر.'
     },
     {
       otherExerciseId: 'dumbbell-bench-press',
       otherNameEn: 'Dumbbell Flat Bench Press',
-      otherNameAr: 'ضغط الصدر المستوي بالدامبل',
+      otherNameAr: 'بنش دمبلص مستوي',
       mechanicalDiffEn: 'Barbell tracks fixed bilateral load efficiently for progressive strength milestones; dumbbells grant independent arm motion, deeper bottom stretch, and joint-friendly wrist rotation.',
       mechanicalDiffAr: 'البار ممتاز للتدرج الرقمي بالقوة وبأقل متطلبات توازن؛ بينما يمنح الدامبل مدى تمدد أعمق وحرية لمفصل الكتف والمعصم.',
       practicalChoiceEn: 'Barbell for heavy 3–8 rep progression; Dumbbells when shoulders crave customizable paths or deeper hypertrophy ROM.',
@@ -523,73 +523,73 @@ export const EXERCISE_COMPARISONS: Record<string, ExerciseComparison[]> = {
     {
       otherExerciseId: 'seated-cable-row',
       otherNameEn: 'Seated Cable Row',
-      otherNameAr: 'التجديف الأرضي بالكابل جالساً',
+      otherNameAr: 'سحب بكرة جالس',
       mechanicalDiffEn: 'Barbell rows require free-weight isometric hip-hinge bracing across spinal erectors and hamstrings; seated cable rows remove lower-back fatigue to isolate mid-back retraction cleanly.',
-      mechanicalDiffAr: 'تجديف البار يحمّل منتصف الظهر مع مجهود إضافي لأسفل الظهر والمثبتات؛ بينما يعزل الكابل منتصف الظهر والعضلة العريضة دون إجهاد أسفل الظهر.',
+      mechanicalDiffAr: 'تجديف البار يحمّل منتصف الظهر مع مجهود إضافي لأسفل الظهر والمثبتات؛ بينما يعزل السحب الأرضي بالكيبل منتصف الظهر والعضلة العريضة دون إجهاد أسفل الظهر.',
       practicalChoiceEn: 'Pick Barbell Row early for systemic back thickness; pick Seated Cable Row after heavy deadlifts/squats when lower back is fatigued.',
-      practicalChoiceAr: 'استخدم البار لبناء السماكة الكلية، والكابل بعد تمارين الأرجل لتفادي إرهاق أسفل الظهر.'
+      practicalChoiceAr: 'استخدم البار لبناء السماكة الكلية، والسحب الأرضي بعد تمارين الأرجل لتفادي إرهاق أسفل الظهر.'
     },
   ],
   vertical_pull_family: [
     {
       otherExerciseId: 'lat-pulldown',
       otherNameEn: 'Wide-Grip Lat Pulldown',
-      otherNameAr: 'السحب العالي للظهر أمام الصدر بالكابل',
+      otherNameAr: 'سحب بكرة عمودي عريض',
       mechanicalDiffEn: 'Closed-chain vertical bodyweight pull-ups demand higher total core tension; open-chain lat pulldowns let any lifter scale weight precisely in small increments.',
-      mechanicalDiffAr: 'العقلة تمرين بوزن الجسم يتطلب ثبات جذع أعلى، بينما يسهّل جهاز السحب العالي بالكابل ضبط الأوزان بدقة لكل المستويات.',
+      mechanicalDiffAr: 'العقلة تمرين بوزن الجسم يتطلب ثبات جذع أعلى، بينما يسهّل جهاز السحب العالي بالكيبل ضبط الأوزان بدقة لكل المستويات.',
       practicalChoiceEn: 'Use Pull-Ups for athletic relative strength; use Lat Pulldown for controlled hypertrophy or higher-rep finishing sets.',
-      practicalChoiceAr: 'العقلة للقوة النسبية واللياقة، والسحب العالي بالكابل للتحكم الدقيق والتكرارات المتوسطة.'
+      practicalChoiceAr: 'العقلة للقوة النسبية واللياقة، والسحب العالي بالكيبل للتحكم الدقيق والتكرارات المتوسطة.'
     },
   ],
   hinge_family: [
     {
       otherExerciseId: 'romanian-deadlift',
       otherNameEn: 'Barbell Romanian Deadlift (RDL)',
-      otherNameAr: 'الرفعة المميتة الرومانية بالبار للفخذ الخلفي',
+      otherNameAr: 'ديدليفت روماني',
       mechanicalDiffEn: 'Conventional deadlift pulls from a dead floor stop with greater knee flexion; RDL starts standing and focuses pure hip-hinge eccentric stretch onto hamstrings and glutes.',
-      mechanicalDiffAr: 'الرفعة المميتة التقليدية تبدأ من الأرض بانثناء أكبر للركبتين وتطور قوة السحب الكاملة؛ بينما تركز الرفعة الرومانية الإطالة الشديدة على الفخذ الخلفي والأرداف.',
+      mechanicalDiffAr: 'الديدلفت التقليدي يبدأ من الأرض بانثناء أكبر للركبتين ويطور قوة السحب الكاملة؛ بينما يركّز الرومانيان ديدلفت الإطالة الشديدة على الفخذ الخلفي والأرداف.',
       practicalChoiceEn: 'Conventional for maximal total-body strength; RDL for targeted hamstring/glute hypertrophy with lower systemic CNS fatigue.',
-      practicalChoiceAr: 'التقليدية للقوة الشاملة القصوى، والرومانية لتضخيم الفخذ الخلفي بإجهاد عصبي أقل.'
+      practicalChoiceAr: 'الديدلفت التقليدي للقوة الشاملة القصوى، والرومانيان لتضخيم الفخذ الخلفي بإجهاد عصبي أقل.'
     },
   ],
   squat_family: [
     {
       otherExerciseId: 'leg-press-machine',
       otherNameEn: '45-Degree Leg Press',
-      otherNameAr: 'دفع الأرجل المائل على الجهاز',
+      otherNameAr: 'دفع ماكنة',
       mechanicalDiffEn: 'Back Squat imposes axial spinal load and high core demand; Leg Press places the torso on a supported sled track to push quads safely near failure without spinal fatigue.',
-      mechanicalDiffAr: 'القرفصاء الحرة تحمّل العمود الفقري والجذع بالكامل؛ بينما يثبّت جهاز دفع الأرجل الظهر على المسند لتوجيه المقاومة بأمان نحو الفخذ الأمامي.',
+      mechanicalDiffAr: 'السكوات الحر يحمّل العمود الفقري والجذع بالكامل؛ بينما يثبّت جهاز الليج بريس الظهر على المسند لتوجيه المقاومة بأمان نحو الفخذ الأمامي.',
       practicalChoiceEn: 'Anchor leg day with Back or Front Squat, then accumulate clean quad volume with Leg Press.',
-      practicalChoiceAr: 'ابدأ يوم الأرجل بالقرفصاء الحرة ثم أكمل حجم التمرين للفخذ الأمامي على جهاز دفع الأرجل.'
+      practicalChoiceAr: 'ابدأ يوم الأرجل بالسكوات الحر ثم أكمل حجم التمرين للفخذ الأمامي على جهاز الليج بريس.'
     },
   ],
   bicep_family: [
     {
       otherExerciseId: 'hammer-curl',
       otherNameEn: 'Dumbbell Hammer Curl',
-      otherNameAr: 'تمرين المطرقة بالدامبل للبايسبس والساعد',
+      otherNameAr: 'كيرل مطرقة (هامر)',
       mechanicalDiffEn: 'Supinated barbell curls maximize biceps brachii flexion/supination leverage; neutral-grip Hammer Curls shift greater mechanical demand to the brachialis and brachioradialis.',
-      mechanicalDiffAr: 'البار المستقيم يفعّل البايسبس بقبضة سفلية كلاسيكية؛ بينما ينقل تمرين المطرقة بقبضته المتقابلة جهداً أكبر إلى الساعد والعضلة العضدية العميقة.',
+      mechanicalDiffAr: 'البار المستقيم يفعّل البايسبس بقبضة سفلية كلاسيكية؛ بينما ينقل الهامر دامبل بقبضته المتقابلة جهداً أكبر إلى الساعد والعضلة العضدية العميقة.',
       practicalChoiceEn: 'Pair 1 supinated curl (Barbell or Incline) with 1 neutral Hammer Curl for complete upper-arm thickness.',
-      practicalChoiceAr: 'ادمج تمرين ثني للبايسبس بقبضة سفلية مع تمرين المطرقة لتطوير الذراع والساعد معاً.'
+      practicalChoiceAr: 'ادمج تمرين بايسبس بقبضة سفلية مع الهامر دامبل لتطوير الذراع والساعد معاً.'
     },
   ],
   tricep_family: [
     {
       otherExerciseId: 'overhead-cable-tricep-extension',
       otherNameEn: 'Overhead Cable Triceps Extension',
-      otherNameAr: 'مد الترايسبس بالحبل فوق الرأس بالكابل',
+      otherNameAr: 'تراي حبل خلف الرأس',
       mechanicalDiffEn: 'Neutral-shoulder pushdowns emphasize lateral and medial heads comfortably; overhead extensions flex the shoulder joint to stretch the biarticular long head.',
-      mechanicalDiffAr: 'الدفع للأسفل يركز على الرأسين الجانبي والإنسي براحة مرفقية عالية؛ بينما يمد التمرين العلوي الرأس الطويل عبر مفصل الكتف لتحقيق أقصى إطالة.',
+      mechanicalDiffAr: 'الدفع للأسفل يركز على الرأسين الجانبي والإنسي براحة مرفقية عالية؛ بينما يمد التمرين خلف الرأس الرأس الطويل عبر مفصل الكتف لتحقيق أقصى إطالة.',
       practicalChoiceEn: 'Combine both patterns weekly for full horseshoe development while preserving elbow comfort.',
-      practicalChoiceAr: 'اجمع بين الدفع للأسفل والمد فوق الرأس أسبوعياً لتطوير جميع رؤوس الترايسبس.'
+      practicalChoiceAr: 'اجمع بين البوش داون للأسفل والتمرين خلف الرأس أسبوعياً لتطوير جميع رؤوس الترايسبس.'
     },
   ],
   calf_family: [
     {
       otherExerciseId: 'seated-calf-raise',
       otherNameEn: 'Seated Calf Raise Machine',
-      otherNameAr: 'رفع السمانة جالساً على الجهاز',
+      otherNameAr: 'كولف جالس',
       mechanicalDiffEn: 'Extended-knee standing raises stretch and recruit both gastrocnemius heads heavily; bending knees 90° while seated puts gastrocnemius in slack to target the deeper soleus.',
       mechanicalDiffAr: 'التمرين وقوفاً بركبة مفرودة يفعّل عضلة السمانة الكبرى بقوة؛ بينما ينقل التمرين جالساً بثني الركبة الحمل إلى الجزء العميق من السمانة.',
       practicalChoiceEn: 'Prioritize straight-leg calf work for overall calf size, and add seated raises for lower-calf width and ankle strength.',
@@ -603,13 +603,13 @@ const PATTERN_BY_ID: Record<string, Partial<ExerciseBiomechanicsMeta>> = {
     movementPattern: 'bench_press',
     stabilizerMuscles: ['abdominals', 'forearms', 'back'],
     techniqueSummaryEn: 'Horizontal barbell press emphasizing mechanical tension across the sternal pectoralis major while maintaining scapular depression and leg drive.',
-    techniqueSummaryAr: 'دفع أفقي بالبار يركز على التوتر الميكانيكي لعضلة الصدر الكبرى مع تثبيت لوحي الكتف ودفع القدمين بالأرض.',
+    techniqueSummaryAr: 'دفع أفقي بالبار يركز على بناء قوة وحجم الصدر الأوسط مع تثبيت لوحي الكتف ودفع القدمين بالأرض.',
     gripStanceEn: 'Overhand grip ~1.5x shoulder width; thumbs wrapped securely; feet planted solidly behind knees.',
     gripStanceAr: 'قبضة علوية أعرض قليلاً من الكتفين مع لف الإبهامين بإحكام وتثبيت القدمين بالأرض.',
     easierAlternativeIds: ['chest-press-machine', 'push-ups'],
     harderAlternativeIds: ['incline-barbell-press', 'dumbbell-bench-press'],
     variationsEn: ['Paused Bench Press', 'Close-Grip Bench Press', 'Dumbbell Flat Press'],
-    variationsAr: ['ضغط الصدر المستوي مع توقف سفلي', 'ضغط الصدر بقبضة ضيقة', 'ضغط الصدر المستوي بالدامبل'],
+    variationsAr: ['بنج مستوي مع توقف سفلي', 'بنج بقبضة ضيقة', 'بنج مستوي بالدامبل'],
     comparisons: EXERCISE_COMPARISONS.chest_press_family,
   },
   'dumbbell-bench-press': {
@@ -644,7 +644,7 @@ const PATTERN_BY_ID: Record<string, Partial<ExerciseBiomechanicsMeta>> = {
     easierAlternativeIds: ['push-ups', 'chest-press-machine'],
     harderAlternativeIds: ['incline-barbell-press'],
     variationsEn: ['Incline Barbell Press', 'Low-Incline Neutral-Grip Press'],
-    variationsAr: ['ضغط الصدر المائل بالبار', 'ضغط الصدر المائل بقبضة متقابلة'],
+    variationsAr: ['بنج عالي بالبار', 'بنج عالي بقبضة متقابلة'],
     comparisons: EXERCISE_COMPARISONS.chest_press_family,
   },
   'cable-chest-fly': {
@@ -683,7 +683,7 @@ const PATTERN_BY_ID: Record<string, Partial<ExerciseBiomechanicsMeta>> = {
     easierAlternativeIds: ['chest-press-machine'],
     harderAlternativeIds: ['barbell-bench-press'],
     variationsEn: ['Incline Smith Press', 'Tempo Smith Press'],
-    variationsAr: ['ضغط الصدر المائل على جهاز السميث', 'ضغط السميث بإيقاع بطيء'],
+    variationsAr: ['بنج عالي على السميث', 'بنج سميث بإيقاع بطيء'],
   },
   'chest-press-machine': {
     movementPattern: 'bench_press',
@@ -715,7 +715,7 @@ const PATTERN_BY_ID: Record<string, Partial<ExerciseBiomechanicsMeta>> = {
     easierAlternativeIds: ['chest-supported-row-machine', 'seated-cable-row'],
     harderAlternativeIds: ['pendlay-row'],
     variationsEn: ['Pendlay Row', 'Underhand Barbell Row', 'Chest-Supported Row'],
-    variationsAr: ['تجديف بندلاي الصارم من الأرض بالبار', 'التجديف بالبار بقبضة معكوسة', 'التجديف مع إسناد الصدر'],
+    variationsAr: ['سحب بار من الأرض (بندلاي رو)', 'تجديف بالبار بقبضة معكوسة', 'سحب ظهر على الجهاز (مسند صدر)'],
     comparisons: EXERCISE_COMPARISONS.row_family,
   },
   'pendlay-row': {
@@ -763,14 +763,14 @@ const PATTERN_BY_ID: Record<string, Partial<ExerciseBiomechanicsMeta>> = {
     easierAlternativeIds: ['lat-pulldown', 'chin-ups'],
     harderAlternativeIds: ['pendlay-row'],
     variationsEn: ['Chin-Up (Supinated)', 'Weighted Pull-Up', 'Band-Assisted Pull-Up'],
-    variationsAr: ['العقلة بقبضة معكوسة', 'العقلة بأوزان إضافية', 'العقلة بمساعدة حبل المقاومة'],
+    variationsAr: ['عقلة بقبضة معكوسة', 'عقلة بأوزان إضافية', 'عقلة بمساعدة حبل المقاومة'],
     comparisons: EXERCISE_COMPARISONS.vertical_pull_family,
   },
   'chin-ups': {
     movementPattern: 'pulldown',
     stabilizerMuscles: ['abdominals', 'glutes', 'forearms'],
     techniqueSummaryEn: 'Supinated shoulder-width vertical pull placing biceps in strong mechanical leverage alongside lower lats.',
-    techniqueSummaryAr: 'عقلة بقبضة معكوسة تضع البايسبس وعضلات الظهر العريض في أفضل وضع ميكانيكي للقوة.',
+    techniqueSummaryAr: 'عقلة بقبضة معكوسة تمنح البايسبس وعضلات الظهر أقوى وضع سحب ممكن.',
     gripStanceEn: 'Underhand (supinated) grip at shoulder width.',
     gripStanceAr: 'قبضة معكوسة بعرض الكتفين.',
     easierAlternativeIds: ['lat-pulldown'],
@@ -922,6 +922,15 @@ const PATTERN_BY_ID: Record<string, Partial<ExerciseBiomechanicsMeta>> = {
     easierAlternativeIds: ['cable-tricep-pushdown'],
     harderAlternativeIds: ['chest-dips'],
   },
+  'machine-tricep-extension': {
+    movementPattern: 'tricep_extension',
+    stabilizerMuscles: ['abdominals', 'shoulders', 'forearms'],
+    techniqueSummaryEn: 'Pad-supported seated neutral-grip triceps extension isolating elbow extension through a guided machine arc.',
+    techniqueSummaryAr: 'عزل مباشر لعضلة الترايسبس بوضعية الجلوس مع تثبيت المرفقين على المسند المائل وقبضة مطرقة مريحة للمعصم.',
+    easierAlternativeIds: ['cable-tricep-pushdown'],
+    harderAlternativeIds: ['overhead-cable-tricep-extension', 'ez-bar-skullcrusher'],
+    comparisons: EXERCISE_COMPARISONS.tricep_family,
+  },
   'barbell-wrist-curl': {
     movementPattern: 'bicep_curl',
     stabilizerMuscles: ['biceps'],
@@ -938,20 +947,20 @@ const PATTERN_BY_ID: Record<string, Partial<ExerciseBiomechanicsMeta>> = {
     movementPattern: 'squat',
     stabilizerMuscles: ['abdominals', 'back', 'calves'],
     techniqueSummaryEn: 'Foundational knee-and-hip compound squat requiring intra-abdominal bracing and balanced mid-foot pressure throughout descent and ascent.',
-    techniqueSummaryAr: 'تمرين القرفصاء الأساسي المركب للركبة والورك مع شد الجذع وتوزيع الوزن على منتصف القدم طوال الحركة.',
+    techniqueSummaryAr: 'تمرين السكوات الأساسي المركب للركبة والورك مع شد الجذع وتوزيع الوزن على منتصف القدم طوال الحركة.',
     gripStanceEn: 'Bar centered across upper traps (high-bar); stance roughly shoulder-width with toes turned out 15–30°.',
     gripStanceAr: 'البار على أعلى الترابيس مع وقفة بعرض الكتفين وإمالة خفيفة لأصابع القدم للخارج 15–30°.',
     easierAlternativeIds: ['dumbbell-goblet-squat', 'leg-press-machine', 'smith-squat'],
     harderAlternativeIds: ['barbell-front-squat'],
     variationsEn: ['Front Squat', 'High-Bar Pause Squat', 'Box Squat'],
-    variationsAr: ['القرفصاء الأمامية بالبار', 'القرفصاء مع توقف سفلي', 'القرفصاء على الصندوق'],
+    variationsAr: ['فرونت سكوات بالبار', 'سكوات مع توقف سفلي', 'سكوات على الصندوق'],
     comparisons: EXERCISE_COMPARISONS.squat_family,
   },
   'barbell-front-squat': {
     movementPattern: 'squat',
     stabilizerMuscles: ['abdominals', 'back', 'calves'],
     techniqueSummaryEn: 'Anteriorly racked squat forcing upright torso mechanics and higher quadriceps & thoracic-extension demand.',
-    techniqueSummaryAr: 'القرفصاء الأمامية بالبار؛ تحافظ على استقامة الجذع وتضع تركيزاً مضاعفاً على الفخذ الأمامي وثبات أعلى الظهر.',
+    techniqueSummaryAr: 'فرونت سكوات بالبار؛ يحافظ على استقامة الجذع ويضع تركيزاً مضاعفاً على الفخذ الأمامي وثبات أعلى الظهر.',
     gripStanceEn: 'Clean-rack or crossed-arm shelf across front delts with elbows pointing high forward; shoulder-width stance.',
     gripStanceAr: 'إسناد البار على الكتفين الأماميين مع رفع المرفقين عالياً للأمام ووقفة بعرض الكتفين.',
     easierAlternativeIds: ['dumbbell-goblet-squat', 'leg-press-machine'],
@@ -1004,7 +1013,7 @@ const PATTERN_BY_ID: Record<string, Partial<ExerciseBiomechanicsMeta>> = {
     easierAlternativeIds: ['dumbbell-rdl', 'lying-leg-curl'],
     harderAlternativeIds: ['conventional-deadlift'],
     variationsEn: ['Dumbbell RDL', 'B-Stance RDL', 'Conventional Deadlift'],
-    variationsAr: ['الرفعة المميتة الرومانية بالدامبل', 'الرفعة المميتة الرومانية بقدم متقدمة', 'الرفعة المميتة التقليدية بالبار'],
+    variationsAr: ['رومانيان ديدلفت بالدامبل', 'رومانيان ديدلفت بقدم متقدمة', 'ديدلفت تقليدي بالبار'],
     comparisons: EXERCISE_COMPARISONS.hinge_family,
   },
   'lying-leg-curl': {
@@ -1083,6 +1092,14 @@ const PATTERN_BY_ID: Record<string, Partial<ExerciseBiomechanicsMeta>> = {
     stabilizerMuscles: ['abdominals', 'glutes', 'shoulders'],
     easierAlternativeIds: ['plank-hold'],
     harderAlternativeIds: ['hanging-leg-raise'],
+  },
+  'machine-ab-crunch': {
+    movementPattern: 'core_flexion',
+    stabilizerMuscles: ['shoulders', 'quadriceps'],
+    techniqueSummaryEn: 'Guided seated spinal-flexion machine overloading the rectus abdominis through controlled rib-to-pelvis curling.',
+    techniqueSummaryAr: 'جهاز موجه لثني الجذع يتيح تحميل عضلات البطن بأوزان تدريجية عبر طي القفص الصدري نحو الحوض بتحكم.',
+    easierAlternativeIds: ['plank-hold'],
+    harderAlternativeIds: ['cable-crunch', 'hanging-leg-raise'],
   },
 };
 

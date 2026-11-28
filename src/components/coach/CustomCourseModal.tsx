@@ -910,7 +910,7 @@ export const CustomCourseModal: React.FC<CustomCourseModalProps> = ({
                       {tLabel(SPLIT_LABELS[tpl.splitType], language)}
                     </p>
                     <p className="text-neutral-500 leading-relaxed">
-                      {language === 'ar' ? tpl.descriptionAr : tpl.descriptionEn}
+                      {language === 'ar' ? tpl.summaryAr : tpl.summaryEn}
                     </p>
                   </div>
                 );

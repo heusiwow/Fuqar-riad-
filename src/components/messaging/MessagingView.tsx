@@ -4,10 +4,12 @@ import {
   Link2,
   Megaphone,
   MessageSquare,
+  QrCode,
   Send,
   UserCheck,
   X,
 } from 'lucide-react';
+import { QrScannerModal } from '../common/QrScannerModal';
 import { useApp } from '../../context/AppContext';
 import {
   acceptCoachAssignment,
@@ -42,6 +44,7 @@ export const MessagingView: React.FC = () => {
 
   const [inviteCode, setInviteCode] = useState(() => pendingJoinCode || '');
   const [joining, setJoining] = useState(false);
+  const [scannerOpen, setScannerOpen] = useState(false);
 
   const activeAthletes = useMemo(
     () => coachRoster.filter((l) => l.status === 'active' && l.athleteUid),
@@ -210,19 +213,24 @@ export const MessagingView: React.FC = () => {
       {/* Athlete Invite Code Link Card */}
       {!isCoach && !athleteCoachLink && (
         <section className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 space-y-4 max-w-xl">
-          <div className="flex items-center gap-2 text-emerald-500">
-            <Link2 className="w-4 h-4" />
-            <h2 className="text-base font-bold">{t.apex.coachInviteTitle}</h2>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-2 text-emerald-500">
+              <Link2 className="w-4 h-4" />
+              <h2 className="text-base font-bold">{t.apex.coachInviteTitle}</h2>
+            </div>
+            <button
+              type="button"
+              onClick={() => setScannerOpen(true)}
+              className="min-h-[38px] px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer"
+            >
+              <QrCode className="w-4 h-4" />
+              {language === 'ar' ? 'امسح باركود الكابتن' : 'Scan Coach QR'}
+            </button>
           </div>
           <p className="text-xs text-neutral-500 leading-relaxed">
             {language === 'ar'
-              ? 'أدخل رمز الدعوة الذي أرسله لك مدربك لربط حسابك واستقبال البرامج والملاحظات.'
-              : 'Enter the invite code shared by your coach to link your account and receive custom programs.'}
-            {isLocalDeviceMode && (
-              <span className="block mt-1 font-mono text-emerald-600 dark:text-emerald-400">
-                {language === 'ar' ? 'رمز تجريبي متاح: APEX-DEMO' : 'Demo code available: APEX-DEMO'}
-              </span>
-            )}
+              ? 'امسح باركود الكابتن مباشرة من الكاميرا للتسجيل الفوري، أو أدخل رمز الدعوة يدوياً.'
+              : 'Scan your coach’s QR poster directly from the camera to register instantly, or enter the code manually.'}
           </p>
           <form onSubmit={handleJoinCoach} className="flex flex-col sm:flex-row gap-2.5">
             <input
@@ -459,6 +467,13 @@ export const MessagingView: React.FC = () => {
             : 'Messages unlock once at least one athlete links their account using an invite code.'}
         </div>
       ) : null}
+
+      {scannerOpen && (
+        <QrScannerModal
+          onClose={() => setScannerOpen(false)}
+          onSuccess={() => setInviteCode('')}
+        />
+      )}
     </div>
   );
 };

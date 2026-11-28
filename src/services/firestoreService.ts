@@ -23,10 +23,13 @@ import {
   CoachGroup,
   CoachingLink,
   CoachMessage,
+  CoachProfileCode,
+  CoachSubscriptionTier,
   Exercise,
   ExerciseFlag,
   ExerciseNote,
   GymOrganization,
+  GymSubscriptionRecord,
   Language,
   ManualMacroLog,
   NotificationSettings,
@@ -894,8 +897,8 @@ export async function completeWorkoutSession(
         type: 'workout_completed',
         titleEn: `Workout completed: ${savedSession.workoutName}`.slice(0, 120),
         titleAr: `تم إتمام التمرين: ${savedSession.workoutName}`.slice(0, 120),
-        messageEn: `Logged ${savedSession.totalSets} sets across ${Math.round(savedSession.totalVolumeKg)} kg total volume.`.slice(0, 300),
-        messageAr: `تم تسجيل ${formatArabicCount(savedSession.totalSets, 'جولة', 'جولتين', 'جولات', 'جولة')} بإجمالي حجم ${Math.round(savedSession.totalVolumeKg)} كجم.`.slice(0, 300),
+        messageEn: `Logged ${savedSession.totalSets} completed sets.`.slice(0, 300),
+        messageAr: `تم تسجيل ${formatArabicCount(savedSession.totalSets, 'جولة', 'جولتين', 'جولات', 'جولة')} بنجاح.`.slice(0, 300),
         read: false,
       });
     }
@@ -1001,8 +1004,8 @@ export async function completeWorkoutSession(
         type: 'workout_completed',
         titleEn: `Workout completed: ${savedSession.workoutName}`.slice(0, 120),
         titleAr: `تم إتمام التمرين: ${savedSession.workoutName}`.slice(0, 120),
-        messageEn: `Logged ${savedSession.totalSets} sets across ${Math.round(savedSession.totalVolumeKg)} kg total volume.`.slice(0, 300),
-        messageAr: `تم تسجيل ${formatArabicCount(savedSession.totalSets, 'جولة', 'جولتين', 'جولات', 'جولة')} بإجمالي حجم ${Math.round(savedSession.totalVolumeKg)} كجم.`.slice(0, 300),
+        messageEn: `Logged ${savedSession.totalSets} completed sets.`.slice(0, 300),
+        messageAr: `تم تسجيل ${formatArabicCount(savedSession.totalSets, 'جولة', 'جولتين', 'جولات', 'جولة')} بنجاح.`.slice(0, 300),
         read: false,
         createdAt: serverTimestamp(),
       });
@@ -1655,33 +1658,113 @@ export async function unlinkCoachAccount(athleteUid: string, linkId?: string): P
   }
 }
 
+export function extractJoinCodeFromInput(rawInput: string): string {
+  const trimmed = (rawInput || '').trim();
+  if (!trimmed) return '';
+  try {
+    if (trimmed.includes('://') || trimmed.includes('?')) {
+      const url = new URL(trimmed.startsWith('http') ? trimmed : `https://apex.local/${trimmed.replace(/^\/+/, '')}`);
+      const qCode = url.searchParams.get('join') || url.searchParams.get('coach') || url.searchParams.get('code');
+      if (qCode) {
+        return qCode.trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '');
+      }
+    }
+  } catch {
+    // Fallback to raw code parsing
+  }
+  return trimmed.toUpperCase().replace(/[^A-Z0-9_-]/g, '');
+}
+
+async function backfillCoachIdForAthlete(athleteUid: string, coachId: string): Promise<void> {
+  if (isLocalDeviceUid(athleteUid)) {
+    const cols = ['workouts', 'programs', 'sessions', 'personalRecords', 'goals', 'measurements'];
+    for (const sub of cols) {
+      const items = localGetSubcollection<Record<string, unknown>>(sub);
+      for (const item of items) {
+        const key = sub === 'personalRecords' ? 'exerciseId' : 'id';
+        const val = item[key];
+        if (typeof val === 'string') {
+          localPatchSubcollectionItem(sub, key, val, { coachId });
+        }
+      }
+    }
+    return;
+  }
+
+  const timestampedCols = ['workouts', 'programs', 'personalRecords', 'goals'];
+  for (const sub of timestampedCols) {
+    const subSnap = await getDocs(
+      query(collection(db, 'users', athleteUid, sub), where('userId', '==', athleteUid))
+    );
+    if (!subSnap.empty) {
+      for (let i = 0; i < subSnap.docs.length; i += 400) {
+        const subBatch = writeBatch(db);
+        subSnap.docs.slice(i, i + 400).forEach((d) => {
+          subBatch.update(d.ref, { coachId, updatedAt: serverTimestamp() });
+        });
+        await subBatch.commit();
+      }
+    }
+  }
+
+  const coachOnlyCols = ['sessions', 'measurements'];
+  for (const sub of coachOnlyCols) {
+    const colSnap = await getDocs(
+      query(collection(db, 'users', athleteUid, sub), where('userId', '==', athleteUid))
+    );
+    if (!colSnap.empty) {
+      for (let i = 0; i < colSnap.docs.length; i += 400) {
+        const colBatch = writeBatch(db);
+        colSnap.docs.slice(i, i + 400).forEach((d) => {
+          colBatch.update(d.ref, { coachId });
+        });
+        await colBatch.commit();
+      }
+    }
+  }
+}
+
 export async function claimCoachInviteCode(
   athleteUid: string,
   athleteName: string,
   rawCode: string
 ): Promise<CoachingLink> {
-  const code = rawCode.trim().toUpperCase().replace(/[^A-Z0-9-]/g, '');
+  const code = extractJoinCodeFromInput(rawCode);
   if (!code || code.length < 4) throw new Error('Invalid invite code');
 
   if (isLocalDeviceUid(athleteUid)) {
-    const links = localGetCollection<CoachingLink & Record<string, unknown>>('coachingLinks');
-    let match = links.find((l) => l.inviteCode === code || l.id === code);
-    if (!match && code === 'APEX-DEMO') {
-      match = {
-        id: 'APEX-DEMO',
-        coachId: 'local-demo-coach',
-        coachName: 'Coach Kareem / المدرب كريم',
-        athleteUid: '',
-        athleteName: clampString(athleteName, 100) || 'Athlete',
-        inviteCode: 'APEX-DEMO',
-        groupId: '',
-        status: 'pending',
-        weeklyTarget: 4,
-        completedSessionsCount: 0,
+    // 1. Check permanent Coach QR codes first
+    const coachCodes = localGetCollection<CoachProfileCode & Record<string, unknown>>('coachCodes');
+    const matchedCoachCode = coachCodes.find((c) => c.coachCode === code && c.isActive !== false);
+    if (matchedCoachCode) {
+      const cleanName = clampString(athleteName, 100) || 'Athlete';
+      const existingLinks = localGetCollection<CoachingLink & Record<string, unknown>>('coachingLinks');
+      const existingForCoach = existingLinks.find(
+        (l) => l.coachId === matchedCoachCode.coachId && l.athleteUid === athleteUid
+      );
+      const linkId = existingForCoach?.id || `LINK_${matchedCoachCode.coachId.slice(0, 16)}_${athleteUid.slice(0, 16)}`;
+      const linkObj: CoachingLink = {
+        id: linkId,
+        coachId: matchedCoachCode.coachId,
+        coachName: matchedCoachCode.coachName,
+        athleteUid,
+        athleteName: cleanName,
+        inviteCode: matchedCoachCode.coachCode,
+        coachCode: matchedCoachCode.coachCode,
+        status: 'active',
+        weeklyTarget: existingForCoach?.weeklyTarget ?? 4,
+        completedSessionsCount: existingForCoach?.completedSessionsCount ?? 0,
         needsAttention: false,
       };
-      localUpsertCollectionItem('coachingLinks', 'id', match);
+      localUpsertCollectionItem('coachingLinks', 'id', linkObj as unknown as Record<string, unknown>);
+      localUpdateProfile({ coachId: matchedCoachCode.coachId, coachName: matchedCoachCode.coachName });
+      await backfillCoachIdForAthlete(athleteUid, matchedCoachCode.coachId);
+      return linkObj;
     }
+
+    // 2. Fallback to single-use CoachingLink invite
+    const links = localGetCollection<CoachingLink & Record<string, unknown>>('coachingLinks');
+    const match = links.find((l) => l.inviteCode === code || l.id === code);
     if (!match) throw new Error('Invite code not found');
     if (match.status !== 'pending' || (match.athleteUid && match.athleteUid !== athleteUid)) {
       throw new Error('Invite code has already been used');
@@ -1693,23 +1776,88 @@ export async function claimCoachInviteCode(
       status: 'active',
     });
     localUpdateProfile({ coachId: match.coachId, coachName: match.coachName });
-
-    const cols = ['workouts', 'programs', 'sessions', 'personalRecords', 'goals', 'measurements'];
-    for (const sub of cols) {
-      const items = localGetSubcollection<Record<string, unknown>>(sub);
-      for (const item of items) {
-        const key = sub === 'personalRecords' ? 'exerciseId' : 'id';
-        const val = item[key];
-        if (typeof val === 'string') {
-          localPatchSubcollectionItem(sub, key, val, { coachId: match.coachId });
-        }
-      }
-    }
+    await backfillCoachIdForAthlete(athleteUid, match.coachId);
     return { ...match, athleteUid, athleteName: cleanName, status: 'active' };
   }
 
   const path = `coachingLinks/${code}`;
   try {
+    // 1. Check if code matches a permanent Coach QR code in /coachCodes/{code}
+    const coachCodeSnap = await getDoc(doc(db, 'coachCodes', code));
+    if (coachCodeSnap.exists()) {
+      const coachDoc = coachCodeSnap.data() as CoachProfileCode;
+      if (!coachDoc.isActive) {
+        throw new Error('Invite code has already been used');
+      }
+      if (coachDoc.coachId === athleteUid) {
+        // Still allow switching/testing or prevent self-linking? Allow if testing, or link cleanly:
+      }
+      const cleanName = clampString(athleteName, 100) || 'Athlete';
+      const safeCoachPart = coachDoc.coachId.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 36);
+      const safeAthPart = athleteUid.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 36);
+      const linkId = `LINK_${safeCoachPart}_${safeAthPart}`.slice(0, 120);
+      const linkRef = doc(db, 'coachingLinks', linkId);
+      const existingLinkSnap = await getDoc(linkRef);
+
+      const batch = writeBatch(db);
+      if (existingLinkSnap.exists()) {
+        batch.update(linkRef, {
+          athleteName: cleanName,
+          coachCode: coachDoc.coachCode,
+          status: 'active',
+          updatedAt: serverTimestamp(),
+        });
+      } else {
+        batch.set(linkRef, {
+          id: linkId,
+          coachId: coachDoc.coachId,
+          coachName: clampString(coachDoc.coachName, 100) || 'Coach',
+          athleteUid,
+          athleteName: cleanName,
+          inviteCode: coachDoc.coachCode,
+          coachCode: coachDoc.coachCode,
+          groupId: '',
+          status: 'active',
+          weeklyTarget: 4,
+          completedSessionsCount: 0,
+          needsAttention: false,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        });
+      }
+      batch.update(doc(db, 'users', athleteUid), {
+        coachId: coachDoc.coachId,
+        coachName: clampString(coachDoc.coachName, 100) || 'Coach',
+        updatedAt: serverTimestamp(),
+      });
+      await batch.commit();
+      await backfillCoachIdForAthlete(athleteUid, coachDoc.coachId);
+
+      const resultLink: CoachingLink = existingLinkSnap.exists()
+        ? {
+            ...(existingLinkSnap.data() as CoachingLink),
+            athleteName: cleanName,
+            coachCode: coachDoc.coachCode,
+            status: 'active',
+          }
+        : {
+            id: linkId,
+            coachId: coachDoc.coachId,
+            coachName: coachDoc.coachName,
+            athleteUid,
+            athleteName: cleanName,
+            inviteCode: coachDoc.coachCode,
+            coachCode: coachDoc.coachCode,
+            groupId: '',
+            status: 'active',
+            weeklyTarget: 4,
+            completedSessionsCount: 0,
+            needsAttention: false,
+          };
+      return resultLink;
+    }
+
+    // 2. Fallback to single-use invite doc in /coachingLinks/{code}
     const linkRef = doc(db, 'coachingLinks', code);
     const snap = await getDoc(linkRef);
     if (!snap.exists()) throw new Error('Invite code not found');
@@ -1732,39 +1880,7 @@ export async function claimCoachInviteCode(
       updatedAt: serverTimestamp(),
     });
     await batch.commit();
-
-    // Backfill coachId onto existing workouts, programs, PRs, goals (include updatedAt for rules) and sessions/measurements (coachId only)
-    const timestampedCols = ['workouts', 'programs', 'personalRecords', 'goals'];
-    for (const sub of timestampedCols) {
-      const subSnap = await getDocs(
-        query(collection(db, 'users', athleteUid, sub), where('userId', '==', athleteUid))
-      );
-      if (!subSnap.empty) {
-        for (let i = 0; i < subSnap.docs.length; i += 400) {
-          const subBatch = writeBatch(db);
-          subSnap.docs.slice(i, i + 400).forEach((d) => {
-            subBatch.update(d.ref, { coachId: data.coachId, updatedAt: serverTimestamp() });
-          });
-          await subBatch.commit();
-        }
-      }
-    }
-
-    const coachOnlyCols = ['sessions', 'measurements'];
-    for (const sub of coachOnlyCols) {
-      const colSnap = await getDocs(
-        query(collection(db, 'users', athleteUid, sub), where('userId', '==', athleteUid))
-      );
-      if (!colSnap.empty) {
-        for (let i = 0; i < colSnap.docs.length; i += 400) {
-          const colBatch = writeBatch(db);
-          colSnap.docs.slice(i, i + 400).forEach((d) => {
-            colBatch.update(d.ref, { coachId: data.coachId });
-          });
-          await colBatch.commit();
-        }
-      }
-    }
+    await backfillCoachIdForAthlete(athleteUid, data.coachId);
 
     return { ...data, athleteUid, athleteName: cleanName, status: 'active' };
   } catch (error) {
@@ -2480,6 +2596,319 @@ export function subscribeOrganizationMembers(orgId: string, cb: (members: Organi
     (snap) => cb(snap.docs.map((d) => d.data() as OrganizationMember)),
     (err) => handleFirestoreError(err, OperationType.LIST, `organizations/${orgId}/members`)
   );
+}
+
+// Permanent Coach QR Code & Gym Subscription Accounting
+const FIXED_GYM_CURRENCY = 'د.ع';
+
+function isUntouchedLegacyPresetTiers(tiers: CoachSubscriptionTier[] | undefined): boolean {
+  if (!tiers || tiers.length === 0) return false;
+  const legacyIds = new Set(['tier_monthly', 'tier_vip', 'tier_quarterly', 'tier-std', 'tier-vip', 'tier-qtr']);
+  const legacyPrices = new Set([50000, 100000, 130000, 50, 120, 135]);
+  return tiers.every((t) => legacyIds.has(t.id) && legacyPrices.has(Number(t.price)));
+}
+
+function generatePermanentCoachCode(coachId: string): string {
+  const suffix = coachId.replace(/[^a-zA-Z0-9]/g, '').slice(0, 5).toUpperCase() || 'COACH';
+  const rand = Math.floor(100 + Math.random() * 900);
+  return `CAP-${suffix}${rand}`;
+}
+
+export async function ensureOrGetCoachCode(
+  coachId: string,
+  coachName: string,
+  language: Language = 'ar'
+): Promise<CoachProfileCode> {
+  const cleanCoachName = clampString(coachName, 100) || (language === 'ar' ? 'الكابتن' : 'Coach');
+  const defaultCurrency = FIXED_GYM_CURRENCY;
+  const defaultGymName = language === 'ar' ? 'القاعة الرياضية' : 'APEX Gym Hall';
+
+  if (isLocalDeviceUid(coachId)) {
+    const existing = localGetCollection<CoachProfileCode & Record<string, unknown>>('coachCodes').find(
+      (c) => c.coachId === coachId
+    );
+    if (existing) {
+      const legacyTiers = isUntouchedLegacyPresetTiers(existing.subscriptionTiers);
+      const wrongCurrency = existing.currency !== FIXED_GYM_CURRENCY;
+      if (legacyTiers || wrongCurrency) {
+        const patch: Partial<CoachProfileCode> = {
+          currency: FIXED_GYM_CURRENCY,
+          ...(legacyTiers ? { subscriptionTiers: [] } : {}),
+        };
+        const cleaned = { ...existing, ...patch };
+        localPatchCollectionItem('coachCodes', 'coachCode', existing.coachCode, patch as Record<string, unknown>);
+        return cleaned;
+      }
+      return existing;
+    }
+    const created: CoachProfileCode = {
+      coachCode: generatePermanentCoachCode(coachId),
+      coachId,
+      coachName: cleanCoachName,
+      gymName: defaultGymName,
+      currency: defaultCurrency,
+      subscriptionTiers: [],
+      isActive: true,
+    };
+    localUpsertCollectionItem('coachCodes', 'coachCode', created as unknown as Record<string, unknown>);
+    return created;
+  }
+
+  try {
+    const q = query(collection(db, 'coachCodes'), where('coachId', '==', coachId));
+    const snap = await getDocs(q);
+    if (!snap.empty) {
+      const existing = snap.docs[0].data() as CoachProfileCode;
+      const legacyTiers = isUntouchedLegacyPresetTiers(existing.subscriptionTiers);
+      const wrongCurrency = existing.currency !== FIXED_GYM_CURRENCY;
+      if (legacyTiers || wrongCurrency) {
+        const patch: Record<string, unknown> = {
+          currency: FIXED_GYM_CURRENCY,
+          updatedAt: serverTimestamp(),
+          ...(legacyTiers ? { subscriptionTiers: [] } : {}),
+        };
+        await updateDoc(doc(db, 'coachCodes', existing.coachCode), patch).catch(() => {});
+        return {
+          ...existing,
+          currency: FIXED_GYM_CURRENCY,
+          subscriptionTiers: legacyTiers ? [] : existing.subscriptionTiers,
+        };
+      }
+      return existing;
+    }
+    const coachCode = generatePermanentCoachCode(coachId);
+    const newDoc: CoachProfileCode = {
+      coachCode,
+      coachId,
+      coachName: cleanCoachName,
+      gymName: defaultGymName,
+      currency: defaultCurrency,
+      subscriptionTiers: [],
+      isActive: true,
+    };
+    await setDoc(doc(db, 'coachCodes', coachCode), {
+      ...newDoc,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    });
+    return newDoc;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.WRITE, 'coachCodes');
+  }
+}
+
+export async function updateCoachCodeConfig(
+  coachCode: string,
+  updates: Partial<Pick<CoachProfileCode, 'coachName' | 'gymName' | 'currency' | 'subscriptionTiers' | 'isActive'>>
+): Promise<void> {
+  const payload: Record<string, unknown> = {
+    currency: FIXED_GYM_CURRENCY,
+  };
+  if (updates.coachName !== undefined) payload.coachName = clampString(updates.coachName, 100) || 'Coach';
+  if (updates.gymName !== undefined) payload.gymName = clampString(updates.gymName, 120);
+  if (updates.subscriptionTiers !== undefined) {
+    payload.subscriptionTiers = updates.subscriptionTiers.slice(0, 20).map((t) => ({
+      id: clampString(t.id, 64) || generateSafeId('tier'),
+      name: clampString(t.name, 80) || 'Tier',
+      price: Math.max(0, Number(t.price) || 0),
+      durationDays: Math.max(1, Math.min(1825, Math.round(Number(t.durationDays) || 30))),
+      description: clampString(t.description || '', 160),
+    }));
+  }
+  if (updates.isActive !== undefined) payload.isActive = Boolean(updates.isActive);
+
+  if (isLocalDeviceModeEnabled() || localGetCollection('coachCodes').some((c) => c.coachCode === coachCode)) {
+    localPatchCollectionItem('coachCodes', 'coachCode', coachCode, payload);
+    return;
+  }
+
+  try {
+    await updateDoc(doc(db, 'coachCodes', coachCode), {
+      ...payload,
+      updatedAt: serverTimestamp(),
+    });
+  } catch (error) {
+    handleFirestoreError(error, OperationType.UPDATE, `coachCodes/${coachCode}`);
+  }
+}
+
+export function subscribeCoachCode(
+  coachId: string,
+  cb: (docItem: CoachProfileCode | null) => void
+): Unsubscribe {
+  if (isLocalDeviceUid(coachId)) {
+    return localSubscribeCollection<CoachProfileCode>(
+      'coachCodes',
+      (items) => cb(items[0] ?? null),
+      (c) => c.coachId === coachId
+    );
+  }
+  const q = query(collection(db, 'coachCodes'), where('coachId', '==', coachId));
+  return onSnapshot(
+    q,
+    (snap) => cb(snap.empty ? null : (snap.docs[0].data() as CoachProfileCode)),
+    (err) => handleFirestoreError(err, OperationType.LIST, 'coachCodes')
+  );
+}
+
+export function subscribeGymSubscriptions(
+  coachId: string,
+  cb: (subs: GymSubscriptionRecord[]) => void
+): Unsubscribe {
+  if (isLocalDeviceUid(coachId)) {
+    return localSubscribeCollection<GymSubscriptionRecord>(
+      'gymSubscriptions',
+      cb,
+      (s) => s.coachId === coachId,
+      'endDate',
+      'asc'
+    );
+  }
+  const q = query(collection(db, 'gymSubscriptions'), where('coachId', '==', coachId));
+  return onSnapshot(
+    q,
+    (snap) => {
+      const items = snap.docs.map((d) => d.data() as GymSubscriptionRecord);
+      items.sort((a, b) => a.endDate.localeCompare(b.endDate));
+      cb(items);
+    },
+    (err) => handleFirestoreError(err, OperationType.LIST, 'gymSubscriptions')
+  );
+}
+
+export function subscribeAthleteGymSubscriptions(
+  athleteUid: string,
+  cb: (subs: GymSubscriptionRecord[]) => void
+): Unsubscribe {
+  if (isLocalDeviceUid(athleteUid)) {
+    return localSubscribeCollection<GymSubscriptionRecord>(
+      'gymSubscriptions',
+      cb,
+      (s) => s.athleteUid === athleteUid,
+      'endDate',
+      'desc'
+    );
+  }
+  const q = query(collection(db, 'gymSubscriptions'), where('athleteUid', '==', athleteUid));
+  return onSnapshot(
+    q,
+    (snap) => {
+      const items = snap.docs.map((d) => d.data() as GymSubscriptionRecord);
+      items.sort((a, b) => b.endDate.localeCompare(a.endDate));
+      cb(items);
+    },
+    (err) => handleFirestoreError(err, OperationType.LIST, 'gymSubscriptions')
+  );
+}
+
+export async function saveGymSubscription(
+  coachId: string,
+  record: Omit<GymSubscriptionRecord, 'coachId' | 'createdAt' | 'updatedAt'>,
+  isUpdate: boolean
+): Promise<void> {
+  const cleanPayload: Omit<GymSubscriptionRecord, 'createdAt' | 'updatedAt'> = {
+    id: record.id,
+    coachId,
+    athleteUid: clampString(record.athleteUid, 128),
+    linkId: clampString(record.linkId, 128),
+    memberName: clampString(record.memberName, 100) || 'Member',
+    memberPhone: clampString(record.memberPhone, 30),
+    tierId: clampString(record.tierId, 128) || 'custom',
+    tierName: clampString(record.tierName, 100) || 'Membership',
+    tierPrice: Math.max(0, Number(record.tierPrice) || 0),
+    amountPaid: Math.max(0, Number(record.amountPaid) || 0),
+    currency: FIXED_GYM_CURRENCY,
+    paymentStatus: record.paymentStatus,
+    startDate: record.startDate.slice(0, 10),
+    endDate: record.endDate.slice(0, 10),
+    status: record.status,
+    notes: clampString(record.notes, 500),
+  };
+
+  if (isLocalDeviceUid(coachId)) {
+    localUpsertCollectionItem('gymSubscriptions', 'id', cleanPayload as unknown as Record<string, unknown>);
+    return;
+  }
+
+  const refDoc = doc(db, 'gymSubscriptions', record.id);
+  try {
+    if (isUpdate) {
+      await updateDoc(refDoc, {
+        athleteUid: cleanPayload.athleteUid,
+        linkId: cleanPayload.linkId,
+        memberName: cleanPayload.memberName,
+        memberPhone: cleanPayload.memberPhone,
+        tierId: cleanPayload.tierId,
+        tierName: cleanPayload.tierName,
+        tierPrice: cleanPayload.tierPrice,
+        amountPaid: cleanPayload.amountPaid,
+        currency: cleanPayload.currency,
+        paymentStatus: cleanPayload.paymentStatus,
+        startDate: cleanPayload.startDate,
+        endDate: cleanPayload.endDate,
+        status: cleanPayload.status,
+        notes: cleanPayload.notes,
+        updatedAt: serverTimestamp(),
+      });
+    } else {
+      await setDoc(refDoc, {
+        ...cleanPayload,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+    }
+  } catch (error) {
+    handleFirestoreError(error, OperationType.WRITE, `gymSubscriptions/${record.id}`);
+  }
+}
+
+export async function deleteGymSubscription(subId: string): Promise<void> {
+  if (isLocalDeviceModeEnabled() || localGetCollection('gymSubscriptions').some((s) => s.id === subId)) {
+    localDeleteCollectionItem('gymSubscriptions', 'id', subId);
+    return;
+  }
+  try {
+    await deleteDoc(doc(db, 'gymSubscriptions', subId));
+  } catch (error) {
+    handleFirestoreError(error, OperationType.DELETE, `gymSubscriptions/${subId}`);
+  }
+}
+
+export async function sendSubscriptionExpiryAlert(
+  coachId: string,
+  coachName: string,
+  sub: GymSubscriptionRecord
+): Promise<void> {
+  if (!sub.athleteUid) return;
+  const isExpired = sub.endDate < new Date().toISOString().slice(0, 10);
+  const titleAr = isExpired ? 'انتهى اشتراكك في القاعة الرياضية' : 'تنبيه قرب انتهاء اشتراك القاعة';
+  const titleEn = isExpired ? 'Gym Membership Expired' : 'Gym Membership Expiring Soon';
+  const msgAr = isExpired
+    ? `الكابتن ${coachName} يذكّرك بأن اشتراك (${sub.tierName}) قد انتهى بتاريخ ${sub.endDate}. يُرجى التجديد.`
+    : `الكابتن ${coachName} يذكّرك بأن اشتراك (${sub.tierName}) ينتهي بتاريخ ${sub.endDate}.`;
+  const msgEn = isExpired
+    ? `Coach ${coachName}: your "${sub.tierName}" gym membership expired on ${sub.endDate}. Please renew.`
+    : `Coach ${coachName}: your "${sub.tierName}" gym membership expires on ${sub.endDate}.`;
+
+  await createReminder(sub.athleteUid, {
+    id: generateSafeId('subrem'),
+    type: 'subscription_alert',
+    titleEn: titleEn.slice(0, 120),
+    titleAr: titleAr.slice(0, 120),
+    messageEn: msgEn.slice(0, 300),
+    messageAr: msgAr.slice(0, 300),
+    read: false,
+  });
+
+  await sendCoachMessage({
+    coachId,
+    athleteUid: sub.athleteUid,
+    senderId: coachId,
+    senderName: coachName,
+    senderRole: 'coach',
+    type: 'checkin',
+    text: msgAr,
+  });
 }
 
 

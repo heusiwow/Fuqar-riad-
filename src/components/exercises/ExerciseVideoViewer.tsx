@@ -58,7 +58,7 @@ export const ExerciseVideoViewer: React.FC<ExerciseVideoViewerProps> = ({
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [school, setSchool] = useState<TrainingSchoolId>('general');
+  const school: TrainingSchoolId = 'general';
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [playbackRate, setPlaybackRate] = useState<number>(1);
@@ -240,37 +240,10 @@ export const ExerciseVideoViewer: React.FC<ExerciseVideoViewerProps> = ({
     showToast(language === 'ar' ? 'تم حذف الفيديو المحلي' : 'Local video removed');
   };
 
-  const schoolTabs: { id: TrainingSchoolId; labelEn: string; labelAr: string }[] = [
-    { id: 'general', labelEn: 'Core Form', labelAr: 'الدليل الأساسي' },
-    { id: 'modern', labelEn: 'Modern Science', labelAr: 'المدرسة العلمية' },
-    { id: 'old_school', labelEn: 'Old School', labelAr: 'المدرسة الكلاسيكية' },
-  ];
-
   const exerciseTitle = language === 'ar' ? exercise.nameAr : exercise.nameEn;
 
   return (
     <div className="space-y-3.5">
-      {/* Training School Selector */}
-      <div className="grid grid-cols-3 gap-1 p-1 rounded-xl bg-neutral-100 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800">
-        {schoolTabs.map((tab) => {
-          const active = school === tab.id;
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setSchool(tab.id)}
-              className={`min-h-[34px] px-2 py-1 rounded-lg text-[11px] font-semibold transition-colors cursor-pointer truncate ${
-                active
-                  ? 'bg-emerald-600 text-white shadow-xs'
-                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100'
-              }`}
-            >
-              {language === 'ar' ? tab.labelAr : tab.labelEn}
-            </button>
-          );
-        })}
-      </div>
-
       {/* Hidden File Input for Offline Custom Video Attachment */}
       <input
         ref={fileInputRef}
@@ -534,22 +507,11 @@ export const ExerciseVideoViewer: React.FC<ExerciseVideoViewerProps> = ({
         </div>
       )}
 
-      {/* Detailed Exercise Explanation + Training School Breakdown */}
+      {/* Core Exercise Explanation & Execution Cues */}
       <div className="rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 p-3.5 space-y-2.5">
-        {compact && (
-          <div className="space-y-1 pb-2.5 border-b border-neutral-200 dark:border-neutral-800">
-            <span className="text-xs font-semibold text-neutral-900 dark:text-neutral-100">
-              {language === 'ar' ? 'شرح التمرين وطريقة الأداء' : 'How to Perform Properly'}
-            </span>
-            <p className="text-xs text-neutral-700 dark:text-neutral-300 leading-relaxed">
-              {language === 'ar' ? quickGuide.simpleExplanationAr : quickGuide.simpleExplanationEn}
-            </p>
-          </div>
-        )}
-
         <div className="flex items-center justify-between gap-2">
           <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-            {language === 'ar' ? schoolSummary.badgeAr : schoolSummary.badgeEn}
+            {language === 'ar' ? 'الشرح الأساسي وطريقة الأداء' : 'Core Form & Execution'}
           </span>
           {builtinAsset?.durationSec && activeSrc && (
             <span className="text-[10px] font-mono tabular-nums text-neutral-500">
@@ -559,7 +521,10 @@ export const ExerciseVideoViewer: React.FC<ExerciseVideoViewerProps> = ({
             </span>
           )}
         </div>
-        <p className="text-xs font-medium text-neutral-800 dark:text-neutral-200 leading-relaxed">
+        <p className="text-xs text-neutral-700 dark:text-neutral-300 leading-relaxed">
+          {language === 'ar' ? quickGuide.simpleExplanationAr : quickGuide.simpleExplanationEn}
+        </p>
+        <p className="text-xs font-medium text-neutral-800 dark:text-neutral-200 leading-relaxed pt-1 border-t border-neutral-200/70 dark:border-neutral-800/80">
           {language === 'ar' ? schoolSummary.focusAr : schoolSummary.focusEn}
         </p>
         <ul className="space-y-1 text-[11px] text-neutral-600 dark:text-neutral-400">

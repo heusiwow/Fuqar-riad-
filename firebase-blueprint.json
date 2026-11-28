@@ -287,7 +287,7 @@
       "properties": {
         "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
         "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
-        "type": { "type": "string", "enum": ["scheduled_workout", "program_schedule", "personal_record", "workout_completed", "coach_feedback", "program_change", "goal_milestone", "missed_workout", "team_announcement", "checkin_reminder"] },
+        "type": { "type": "string", "enum": ["scheduled_workout", "program_schedule", "personal_record", "workout_completed", "coach_feedback", "program_change", "goal_milestone", "missed_workout", "team_announcement", "checkin_reminder", "subscription_alert"] },
         "titleEn": { "type": "string", "minLength": 1, "maxLength": 120 },
         "titleAr": { "type": "string", "minLength": 1, "maxLength": 120 },
         "messageEn": { "type": "string", "minLength": 1, "maxLength": 300 },
@@ -323,6 +323,7 @@
         "athleteUid": { "type": "string", "maxLength": 128 },
         "athleteName": { "type": "string", "minLength": 1, "maxLength": 100 },
         "inviteCode": { "type": "string", "minLength": 4, "maxLength": 32 },
+        "coachCode": { "type": "string", "maxLength": 32 },
         "groupId": { "type": "string", "maxLength": 128 },
         "status": { "type": "string", "enum": ["pending", "active", "archived"] },
         "goalSummary": { "type": "string", "maxLength": 300 },
@@ -427,6 +428,49 @@
         "updatedAt": { "type": "string", "format": "date-time" }
       },
       "required": ["uid", "organizationId", "displayName", "role", "status", "createdAt", "updatedAt"]
+    },
+    "CoachProfileCode": {
+      "title": "CoachProfileCode",
+      "description": "Permanent printable QR coach join code and saved gym subscription pricing tiers.",
+      "type": "object",
+      "properties": {
+        "coachCode": { "type": "string", "minLength": 4, "maxLength": 32, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "coachId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "coachName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "gymName": { "type": "string", "maxLength": 120 },
+        "currency": { "type": "string", "minLength": 1, "maxLength": 16 },
+        "subscriptionTiers": { "type": "array" },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["coachCode", "coachId", "coachName", "currency", "subscriptionTiers", "isActive", "createdAt", "updatedAt"]
+    },
+    "GymSubscriptionRecord": {
+      "title": "GymSubscriptionRecord",
+      "description": "Gym membership subscription and accounting entry managed by a coach.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "coachId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "athleteUid": { "type": "string", "maxLength": 128 },
+        "linkId": { "type": "string", "maxLength": 128 },
+        "memberName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "memberPhone": { "type": "string", "maxLength": 30 },
+        "tierId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "tierName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "tierPrice": { "type": "number" },
+        "amountPaid": { "type": "number" },
+        "currency": { "type": "string", "minLength": 1, "maxLength": 16 },
+        "paymentStatus": { "type": "string", "enum": ["paid", "partial", "unpaid"] },
+        "startDate": { "type": "string", "minLength": 8, "maxLength": 20, "pattern": "^[0-9\\-]+$" },
+        "endDate": { "type": "string", "minLength": 8, "maxLength": 20, "pattern": "^[0-9\\-]+$" },
+        "status": { "type": "string", "enum": ["active", "expired", "cancelled"] },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "coachId", "memberName", "tierId", "tierName", "tierPrice", "amountPaid", "currency", "paymentStatus", "startDate", "endDate", "status", "createdAt", "updatedAt"]
     }
   },
   "firestore": {
@@ -509,6 +553,14 @@
     "/organizations/{orgId}/members/{memberUid}": {
       "schema": { "$ref": "#/entities/OrganizationMember" },
       "description": "Gym organization coaches and members."
+    },
+    "/coachCodes/{coachCode}": {
+      "schema": { "$ref": "#/entities/CoachProfileCode" },
+      "description": "Permanent printable QR coach code and saved gym subscription tiers."
+    },
+    "/gymSubscriptions/{subId}": {
+      "schema": { "$ref": "#/entities/GymSubscriptionRecord" },
+      "description": "Coach gym membership accounting records and subscription expiry dates."
     }
   }
 }

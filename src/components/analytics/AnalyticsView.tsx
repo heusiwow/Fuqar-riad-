@@ -133,19 +133,6 @@ export const AnalyticsView: React.FC = () => {
     return map;
   }, [sessions]);
 
-  const volumeTrendPoints = useMemo(() => {
-    const ordered = [...periodSessions].sort(
-      (a, b) => new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime()
-    );
-    return ordered.map((s) => ({
-      label: new Date(s.completedAt).toLocaleDateString(language === 'ar' ? 'ar-EG' : 'en-US', {
-        month: 'short',
-        day: 'numeric',
-      }),
-      value: Math.round(toDisplayWeight(s.totalVolumeKg, unit)),
-    }));
-  }, [periodSessions, unit, language]);
-
   const weeklyFrequencyBars = useMemo(() => {
     // Last 8 weeks
     const now = new Date();
@@ -196,11 +183,10 @@ export const AnalyticsView: React.FC = () => {
     const exA = allExercises.find((e) => e.id === compareExA);
     const exB = allExercises.find((e) => e.id === compareExB);
     const summarize = (pts: ReturnType<typeof getExerciseHistoryPoints>) => {
-      if (!pts.length) return { maxKg: 0, totalSets: 0, totalVolKg: 0, sessions: 0 };
+      if (!pts.length) return { maxKg: 0, totalSets: 0, sessions: 0 };
       return {
         maxKg: Math.max(...pts.map((p) => p.maxWeightKg)),
         totalSets: pts.reduce((acc, p) => acc + p.setsCount, 0),
-        totalVolKg: pts.reduce((acc, p) => acc + p.volumeKg, 0),
         sessions: pts.length,
       };
     };
@@ -547,8 +533,7 @@ export const AnalyticsView: React.FC = () => {
                     <th className="py-2 px-3 text-start font-medium">{t.analytics.workoutName}</th>
                     <th className="py-2 px-3 text-end font-medium">{t.common.sets}</th>
                     <th className="py-2 px-3 text-end font-medium">{t.analytics.maxWeightLabel}</th>
-                    <th className="py-2 px-3 text-end font-medium">{t.analytics.est1rmLabel}</th>
-                    <th className="py-2 ps-3 text-end font-medium">{t.common.volume}</th>
+                    <th className="py-2 ps-3 text-end font-medium">{t.analytics.est1rmLabel}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800/80 font-mono tabular-nums">
@@ -571,13 +556,10 @@ export const AnalyticsView: React.FC = () => {
                       <td className="py-2.5 px-3 text-end font-semibold">
                         {formatWeight(pt.maxWeightKg, unit)} {unitText} × {pt.bestReps}
                       </td>
-                      <td className="py-2.5 px-3 text-end">
+                      <td className="py-2.5 ps-3 text-end">
                         {pt.estimated1RMKg !== null
                           ? `${formatWeight(pt.estimated1RMKg, unit)} ${unitText}`
                           : '—'}
-                      </td>
-                      <td className="py-2.5 ps-3 text-end">
-                        {Math.round(toDisplayWeight(pt.volumeKg, unit))} {unitText}
                       </td>
                     </tr>
                   ))}
@@ -609,58 +591,45 @@ export const AnalyticsView: React.FC = () => {
         </section>
       </div>
 
-      {/* Session Volume Trend & Muscle Group Volume */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <section className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 space-y-3">
-          <h2 className="text-base font-semibold">{t.analytics.volumeTrends}</h2>
-          <TrendLineChart
-            points={volumeTrendPoints}
-            unitLabel={unitText}
-            primaryLabel={t.common.volume}
-            emptyMessage={t.analytics.noAnalyticsData}
-          />
-        </section>
-
-        <section className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 space-y-4">
-          <h2 className="text-base font-semibold">{t.analytics.muscleVolumeBreakdown}</h2>
-          {muscleStats.every((m) => m.primarySets === 0) ? (
-            <p className="text-sm text-neutral-500 py-10 text-center">{t.analytics.noAnalyticsData}</p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
-              <div className="p-3 rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800">
-                <MuscleDiagram
-                  primaryMuscles={heatmapMuscles.primary}
-                  secondaryMuscles={heatmapMuscles.secondary}
-                  language={language}
-                  compact
-                />
-              </div>
-              <div className="space-y-2.5 max-h-64 overflow-y-auto pe-1">
-                {muscleStats
-                  .filter((m) => m.primarySets > 0 || m.secondarySets > 0)
-                  .map((m) => {
-                    const maxPrimary = Math.max(...muscleStats.map((x) => x.primarySets), 1);
-                    const pct = Math.round((m.primarySets / maxPrimary) * 100);
-                    return (
-                      <div key={m.muscle} className="space-y-1">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="font-medium">{tLabel(MUSCLE_LABELS[m.muscle], language)}</span>
-                          <span className="font-mono tabular-nums text-neutral-500">
-                            {m.primarySets} {t.dashboard.setsUnit} ·{' '}
-                            {Math.round(toDisplayWeight(m.volumeKg, unit))} {unitText}
-                          </span>
-                        </div>
-                        <div className="h-2 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
-                          <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${pct}%` }} />
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div>
+      {/* Muscle Group Sets Distribution */}
+      <section className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 space-y-4">
+        <h2 className="text-base font-semibold">{t.analytics.muscleVolumeBreakdown}</h2>
+        {muscleStats.every((m) => m.primarySets === 0) ? (
+          <p className="text-sm text-neutral-500 py-10 text-center">{t.analytics.noAnalyticsData}</p>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+            <div className="p-3 rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800">
+              <MuscleDiagram
+                primaryMuscles={heatmapMuscles.primary}
+                secondaryMuscles={heatmapMuscles.secondary}
+                language={language}
+                compact
+              />
             </div>
-          )}
-        </section>
-      </div>
+            <div className="space-y-3 max-h-72 overflow-y-auto pe-1">
+              {muscleStats
+                .filter((m) => m.primarySets > 0 || m.secondarySets > 0)
+                .map((m) => {
+                  const maxPrimary = Math.max(...muscleStats.map((x) => x.primarySets), 1);
+                  const pct = Math.round((m.primarySets / maxPrimary) * 100);
+                  return (
+                    <div key={m.muscle} className="space-y-1">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="font-medium">{tLabel(MUSCLE_LABELS[m.muscle], language)}</span>
+                        <span className="font-mono tabular-nums text-neutral-500">
+                          {m.primarySets} {t.dashboard.setsUnit}
+                        </span>
+                      </div>
+                      <div className="h-2 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
+                        <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${pct}%` }} />
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        )}
+      </section>
 
       {/* Exercise Performance Comparison */}
       <section className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 space-y-4">
@@ -713,8 +682,8 @@ export const AnalyticsView: React.FC = () => {
                   <strong>{item.totalSets}</strong>
                 </div>
                 <div>
-                  <span className="text-neutral-500 block text-[11px]">{t.common.volume}</span>
-                  <strong>{Math.round(toDisplayWeight(item.totalVolKg, unit))} {unitText}</strong>
+                  <span className="text-neutral-500 block text-[11px]">{t.dashboard.sessionsUnit}</span>
+                  <strong>{item.sessions}</strong>
                 </div>
               </div>
             </div>

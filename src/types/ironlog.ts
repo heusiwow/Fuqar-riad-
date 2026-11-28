@@ -196,6 +196,7 @@ export interface WorkoutExerciseItem {
 export interface WorkoutTemplate {
   id: string;
   userId: string;
+  coachId?: string;
   name: string;
   description: string;
   exercises: WorkoutExerciseItem[];
@@ -216,6 +217,7 @@ export interface ProgramDaySchedule {
 export interface TrainingProgram {
   id: string;
   userId: string;
+  coachId?: string;
   name: string;
   durationWeeks: number;
   goal: TrainingGoal;
@@ -399,7 +401,8 @@ export type ReminderType =
   | 'goal_milestone'
   | 'missed_workout'
   | 'team_announcement'
-  | 'checkin_reminder';
+  | 'checkin_reminder'
+  | 'subscription_alert';
 
 export interface UserReminder {
   id: string;
@@ -432,6 +435,7 @@ export interface CoachingLink {
   athleteName: string;
   athleteEmail?: string;
   inviteCode: string;
+  coachCode?: string;
   groupId?: string;
   status: 'pending' | 'active' | 'archived';
   goalSummary?: string;
@@ -508,6 +512,50 @@ export interface OrganizationMember {
   email: string;
   role: UserRole;
   status: 'active' | 'invited' | 'suspended';
+  createdAt?: unknown;
+  updatedAt?: unknown;
+}
+
+export interface CoachSubscriptionTier {
+  id: string;
+  name: string;
+  price: number;
+  durationDays: number;
+  description?: string;
+}
+
+export interface CoachProfileCode {
+  coachCode: string;
+  coachId: string;
+  coachName: string;
+  gymName?: string;
+  currency: string;
+  subscriptionTiers: CoachSubscriptionTier[];
+  isActive: boolean;
+  createdAt?: unknown;
+  updatedAt?: unknown;
+}
+
+export type SubscriptionPaymentStatus = 'paid' | 'partial' | 'unpaid';
+export type SubscriptionStatus = 'active' | 'expired' | 'cancelled';
+
+export interface GymSubscriptionRecord {
+  id: string;
+  coachId: string;
+  athleteUid?: string;
+  linkId?: string;
+  memberName: string;
+  memberPhone?: string;
+  tierId: string;
+  tierName: string;
+  tierPrice: number;
+  amountPaid: number;
+  currency: string;
+  paymentStatus: SubscriptionPaymentStatus;
+  startDate: string;
+  endDate: string;
+  status: SubscriptionStatus;
+  notes?: string;
   createdAt?: unknown;
   updatedAt?: unknown;
 }

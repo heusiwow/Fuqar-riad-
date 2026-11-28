@@ -7,6 +7,7 @@ import {
   acceptCoachAssignment,
   createActiveSession,
   createReminder,
+  ensureOrGetCoachCode,
   ensureUserProfile,
   generateSafeId,
   loadCachedProfile,
@@ -15,12 +16,15 @@ import {
   saveLocalActiveSession,
   subscribeActiveSession,
   subscribeAthleteCoachLinks,
+  subscribeAthleteGymSubscriptions,
   subscribeCoachAssignmentsForAthlete,
   subscribeCoachAssignmentsForCoach,
+  subscribeCoachCode,
   subscribeCoachGroups,
   subscribeCoachMessages,
   subscribeCoachRoster,
   subscribeGymOrganizations,
+  subscribeGymSubscriptions,
   subscribeUserProfile,
   subscribeUserSubcollection,
   updateUserFavorites,
@@ -40,9 +44,11 @@ import {
   CoachGroup,
   CoachingLink,
   CoachMessage,
+  CoachProfileCode,
   Exercise,
   ExerciseNote,
   GymOrganization,
+  GymSubscriptionRecord,
   Language,
   LiveExerciseEntry,
   LiveSetEntry,
@@ -127,6 +133,9 @@ interface AppContextValue {
   athleteCoachLink: CoachingLink | null;
   coachAssignments: CoachAssignment[];
   coachMessages: CoachMessage[];
+  coachProfileCode: CoachProfileCode | null;
+  gymSubscriptions: GymSubscriptionRecord[];
+  athleteGymSubscriptions: GymSubscriptionRecord[];
   toasts: ToastMessage[];
   showToast: (text: string, type?: 'success' | 'error' | 'info') => void;
   setLanguage: (lang: Language) => Promise<void>;
@@ -245,6 +254,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [athleteCoachLinks, setAthleteCoachLinks] = useState<CoachingLink[]>([]);
   const [coachAssignments, setCoachAssignments] = useState<CoachAssignment[]>([]);
   const [coachMessages, setCoachMessages] = useState<CoachMessage[]>([]);
+  const [coachProfileCode, setCoachProfileCode] = useState<CoachProfileCode | null>(null);
+  const [gymSubscriptions, setGymSubscriptions] = useState<GymSubscriptionRecord[]>([]);
+  const [athleteGymSubscriptions, setAthleteGymSubscriptions] = useState<GymSubscriptionRecord[]>([]);
   const [orgs, setOrgs] = useState<GymOrganization[]>([]);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
   const [latestCoachCourseNotice, setLatestCoachCourseNotice] = useState<CoachCourseNotice | null>(null);
@@ -342,6 +354,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setAthleteCoachLinks([]);
         setCoachAssignments([]);
         setCoachMessages([]);
+        setCoachProfileCode(null);
+        setGymSubscriptions([]);
+        setAthleteGymSubscriptions([]);
         setOrgs([]);
       }
     });
@@ -401,8 +416,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         unsubs.push(
           subscribeUserSubcollection<ExerciseNote>(uid, 'exerciseNotes', setExerciseNotesList, 'updatedAt', 'desc')
         );
+        const builtinArById = new Map(BUILTIN_EXERCISES.map((ex) => [ex.id, ex.nameAr]));
         unsubs.push(
-          subscribeUserSubcollection<WorkoutTemplate>(uid, 'workouts', setWorkouts, 'updatedAt', 'desc')
+          subscribeUserSubcollection<WorkoutTemplate>(
+            uid,
+            'workouts',
+            (items) =>
+              setWorkouts(
+                items.map((w) => ({
+                  ...w,
+                  exercises: w.exercises.map((ex) => ({
+                    ...ex,
+                    exerciseNameAr: builtinArById.get(ex.exerciseId) || ex.exerciseNameAr,
+                  })),
+                }))
+              ),
+            'updatedAt',
+            'desc'
+          )
         );
         unsubs.push(
           subscribeUserSubcollection<TrainingProgram>(uid, 'programs', setPrograms, 'updatedAt', 'desc')
@@ -427,13 +458,52 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           })
         );
         unsubs.push(
-          subscribeUserSubcollection<WorkoutSessionHistory>(uid, 'sessions', setSessions, 'completedAt', 'desc')
+          subscribeUserSubcollection<WorkoutSessionHistory>(
+            uid,
+            'sessions',
+            (items) =>
+              setSessions(
+                items.map((s) => ({
+                  ...s,
+                  exercises: s.exercises.map((ex) => ({
+                    ...ex,
+                    exerciseNameAr: builtinArById.get(ex.exerciseId) || ex.exerciseNameAr,
+                  })),
+                }))
+              ),
+            'completedAt',
+            'desc'
+          )
         );
         unsubs.push(
-          subscribeUserSubcollection<PersonalRecord>(uid, 'personalRecords', setPrList, 'updatedAt', 'desc')
+          subscribeUserSubcollection<PersonalRecord>(
+            uid,
+            'personalRecords',
+            (items) =>
+              setPrList(
+                items.map((pr) => ({
+                  ...pr,
+                  exerciseNameAr: builtinArById.get(pr.exerciseId) || pr.exerciseNameAr,
+                }))
+              ),
+            'updatedAt',
+            'desc'
+          )
         );
         unsubs.push(
-          subscribeUserSubcollection<PerformanceGoal>(uid, 'goals', setGoals, 'updatedAt', 'desc')
+          subscribeUserSubcollection<PerformanceGoal>(
+            uid,
+            'goals',
+            (items) =>
+              setGoals(
+                items.map((g) => ({
+                  ...g,
+                  exerciseNameAr: g.exerciseId ? builtinArById.get(g.exerciseId) || g.exerciseNameAr : g.exerciseNameAr,
+                }))
+              ),
+            'updatedAt',
+            'desc'
+          )
         );
         unsubs.push(
           subscribeUserSubcollection<BodyMeasurement>(uid, 'measurements', setMeasurements, 'date', 'desc')
@@ -467,10 +537,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       unsubs.push(subscribeCoachRoster(uid, setCoachRoster));
       unsubs.push(subscribeCoachAssignmentsForCoach(uid, setCoachAssignments));
       unsubs.push(subscribeCoachMessages(uid, 'coach', setCoachMessages));
+      unsubs.push(subscribeCoachCode(uid, setCoachProfileCode));
+      unsubs.push(subscribeGymSubscriptions(uid, setGymSubscriptions));
+      void ensureOrGetCoachCode(uid, profile.displayName, profile.language).then(setCoachProfileCode).catch(() => {});
     } else {
       unsubs.push(subscribeAthleteCoachLinks(uid, setAthleteCoachLinks));
       unsubs.push(subscribeCoachAssignmentsForAthlete(uid, setCoachAssignments));
       unsubs.push(subscribeCoachMessages(uid, 'athlete', setCoachMessages));
+      unsubs.push(subscribeAthleteGymSubscriptions(uid, setAthleteGymSubscriptions));
     }
 
     if (isAdmin) {
@@ -903,6 +977,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setAthleteCoachLinks([]);
     setCoachAssignments([]);
     setCoachMessages([]);
+    setCoachProfileCode(null);
+    setGymSubscriptions([]);
+    setAthleteGymSubscriptions([]);
     setOrgs([]);
   }, []);
 
@@ -1013,6 +1090,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     athleteCoachLink,
     coachAssignments,
     coachMessages,
+    coachProfileCode,
+    gymSubscriptions,
+    athleteGymSubscriptions,
     toasts,
     showToast,
     setLanguage,

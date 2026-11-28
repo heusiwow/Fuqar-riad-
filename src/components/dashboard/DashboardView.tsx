@@ -4,11 +4,13 @@ import {
   ArrowUpRight,
   Calendar,
   CheckCircle2,
+  CreditCard,
   Dumbbell,
   Link2,
   MessageSquare,
   Play,
   Plus,
+  QrCode,
   Sparkles,
   Target,
   Trophy,
@@ -16,6 +18,7 @@ import {
   UserCheck,
   X,
 } from 'lucide-react';
+import { QrScannerModal } from '../common/QrScannerModal';
 import { useApp } from '../../context/AppContext';
 import {
   GOAL_LABELS,
@@ -35,7 +38,6 @@ import {
   detectFatigueAndSpikes,
   evaluateGoalProgress,
   formatDuration,
-  formatVolume,
   formatWeight,
   getLocalDateKey,
   getStartOfWeekIso,
@@ -59,6 +61,7 @@ export const DashboardView: React.FC = () => {
     goals,
     coachAssignments,
     athleteCoachLink,
+    athleteGymSubscriptions,
     latestCoachCourseNotice,
     dismissCoachCourseNotice,
     pendingJoinCode,
@@ -74,6 +77,7 @@ export const DashboardView: React.FC = () => {
 
   const [quickJoinCode, setQuickJoinCode] = React.useState(() => pendingJoinCode || '');
   const [joiningCoach, setJoiningCoach] = React.useState(false);
+  const [scannerOpen, setScannerOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (pendingJoinCode && !quickJoinCode) {
@@ -153,8 +157,6 @@ export const DashboardView: React.FC = () => {
     const expected30Days = Math.max(1, Math.round((weeklyTarget / 7) * 30));
     const consistencyPct = Math.min(100, Math.round((uniqueTrainingDays30 / expected30Days) * 100));
 
-    const totalVolumeKg = sessions.reduce((acc, s) => acc + (s.totalVolumeKg || 0), 0);
-
     const muscleStats = computeMuscleGroupStats(last30Sessions, allExercises).filter(
       (m) => m.primarySets > 0
     );
@@ -213,7 +215,6 @@ export const DashboardView: React.FC = () => {
       consistencyPct,
       uniqueTrainingDays30,
       totalSessions: sessions.length,
-      totalVolumeKg,
       muscleStats,
       improvements: improvements.slice(0, 4),
       prRecords: prRecords.slice(0, 5),
@@ -224,8 +225,8 @@ export const DashboardView: React.FC = () => {
     return (
       <div className="space-y-6 animate-pulse">
         <div className="h-36 rounded-2xl bg-neutral-200 dark:bg-[#121417]" />
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map((n) => (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {[1, 2, 3].map((n) => (
             <div key={n} className="h-24 rounded-2xl bg-neutral-200 dark:bg-[#121417]" />
           ))}
         </div>
@@ -396,43 +397,84 @@ export const DashboardView: React.FC = () => {
       {/* Coach Connection Strip (Athletes or Deep-Link Invite Pending) */}
       {(!isCoach || Boolean(pendingJoinCode)) && (
         athleteCoachLink ? (
-          <section className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-9 h-9 rounded-xl bg-emerald-500/12 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
-                <UserCheck className="w-4 h-4" />
+          <section className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-9 h-9 rounded-xl bg-emerald-500/12 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                  <UserCheck className="w-4 h-4" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                    {t.apex.linkedCoachLabel}
+                  </p>
+                  <p className="text-sm font-semibold truncate">
+                    {athleteCoachLink.coachName}
+                    {athleteCoachLink.assignedProgramName
+                      ? ` · ${athleteCoachLink.assignedProgramName}`
+                      : ''}
+                  </p>
+                </div>
               </div>
-              <div className="min-w-0">
-                <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                  {t.apex.linkedCoachLabel}
-                </p>
-                <p className="text-sm font-semibold truncate">
-                  {athleteCoachLink.coachName}
-                  {athleteCoachLink.assignedProgramName
-                    ? ` · ${athleteCoachLink.assignedProgramName}`
-                    : ''}
-                </p>
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setActiveSection('messaging')}
+                  className="min-h-[40px] px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer"
+                >
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  {t.nav.messaging}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveSection('programs')}
+                  className="min-h-[40px] px-3 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-xs font-medium cursor-pointer"
+                >
+                  {t.nav.programs}
+                </button>
               </div>
             </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <button
-                type="button"
-                onClick={() => setActiveSection('messaging')}
-                className="min-h-[40px] px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer"
-              >
-                <MessageSquare className="w-3.5 h-3.5" />
-                {t.nav.messaging}
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveSection('programs')}
-                className="min-h-[40px] px-3 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-xs font-medium cursor-pointer"
-              >
-                {t.nav.programs}
-              </button>
-            </div>
+
+            {athleteGymSubscriptions.length > 0 && (() => {
+              const latestSub = athleteGymSubscriptions[0];
+              const todayStr = getLocalDateKey();
+              const diffDays = Math.ceil(
+                (new Date(latestSub.endDate + 'T00:00:00').getTime() -
+                  new Date(todayStr + 'T00:00:00').getTime()) /
+                  86400000
+              );
+              const isExpired = latestSub.status === 'expired' || diffDays < 0;
+              const isExpiringSoon = !isExpired && diffDays <= 5;
+              return (
+                <div
+                  className={`px-3.5 py-2.5 rounded-xl border text-xs flex flex-wrap items-center justify-between gap-2 ${
+                    isExpired
+                      ? 'bg-red-500/8 border-red-500/30 text-red-700 dark:text-red-300'
+                      : isExpiringSoon
+                        ? 'bg-amber-500/10 border-amber-500/35 text-amber-800 dark:text-amber-300'
+                        : 'bg-neutral-50 dark:bg-[#090A0B] border-neutral-200 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300'
+                  }`}
+                >
+                  <span className="inline-flex items-center gap-2 font-medium">
+                    <CreditCard className="w-3.5 h-3.5 shrink-0" />
+                    {language === 'ar'
+                      ? `اشتراك القاعة (${latestSub.tierName})`
+                      : `Gym Subscription (${latestSub.tierName})`}
+                  </span>
+                  <span className="font-mono tabular-nums font-semibold">
+                    {isExpired
+                      ? language === 'ar'
+                        ? `منتهي (${latestSub.endDate})`
+                        : `Expired (${latestSub.endDate})`
+                      : language === 'ar'
+                        ? `ينتهي ${latestSub.endDate} (متبقي ${diffDays} يوم)`
+                        : `Expires ${latestSub.endDate} (${diffDays}d left)`}
+                  </span>
+                </div>
+              );
+            })()}
           </section>
         ) : (
-          <section className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <section className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-9 h-9 rounded-xl bg-neutral-100 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 text-emerald-500 flex items-center justify-center shrink-0">
                 <Link2 className="w-4 h-4" />
@@ -441,28 +483,37 @@ export const DashboardView: React.FC = () => {
                 <p className="text-xs font-semibold">{t.apex.coachInviteTitle}</p>
                 <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
                   {language === 'ar'
-                    ? 'أدخل رمز الدعوة لربط حسابك مع مدربك'
-                    : 'Enter your coach invite code to link your training plan'}
-                  {isLocalDeviceMode ? ' (APEX-DEMO)' : ''}
+                    ? 'امسح باركود الكابتن المعلّق في القاعة أو أدخل رمز الدعوة للتسجيل مباشرة'
+                    : 'Scan the coach’s QR poster at the gym or enter an invite code to register'}
                 </p>
               </div>
             </div>
-            <form onSubmit={handleQuickJoinCoach} className="flex items-center gap-2 shrink-0">
-              <input
-                type="text"
-                value={quickJoinCode}
-                onChange={(e) => setQuickJoinCode(e.target.value)}
-                placeholder="APEX-4821"
-                className="w-40 sm:w-44 min-h-[40px] px-3 rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 font-mono text-xs uppercase"
-              />
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
               <button
-                type="submit"
-                disabled={joiningCoach || !quickJoinCode.trim()}
-                className="min-h-[40px] px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 text-white text-xs font-semibold cursor-pointer whitespace-nowrap"
+                type="button"
+                onClick={() => setScannerOpen(true)}
+                className="min-h-[40px] px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer whitespace-nowrap"
               >
-                {joiningCoach ? t.common.loading : t.apex.joinCoachBtn}
+                <QrCode className="w-4 h-4" />
+                {language === 'ar' ? 'امسح باركود الكابتن' : 'Scan Coach QR'}
               </button>
-            </form>
+              <form onSubmit={handleQuickJoinCoach} className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={quickJoinCode}
+                  onChange={(e) => setQuickJoinCode(e.target.value)}
+                  placeholder="CAP-... / APEX-..."
+                  className="w-36 sm:w-44 min-h-[40px] px-3 rounded-xl bg-neutral-50 dark:bg-[#090A0B] border border-neutral-200 dark:border-neutral-800 font-mono text-xs uppercase"
+                />
+                <button
+                  type="submit"
+                  disabled={joiningCoach || !quickJoinCode.trim()}
+                  className="min-h-[40px] px-3.5 rounded-xl border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 disabled:opacity-40 text-xs font-semibold cursor-pointer whitespace-nowrap"
+                >
+                  {joiningCoach ? t.common.loading : t.apex.joinCoachBtn}
+                </button>
+              </form>
+            </div>
           </section>
         )
       )}
@@ -538,8 +589,8 @@ export const DashboardView: React.FC = () => {
         </section>
       )}
 
-      {/* 4-Column KPI Summary Strip */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      {/* 3-Column KPI Summary Strip */}
+      <section className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         <div className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 space-y-1">
           <p className="text-xs text-neutral-500 dark:text-neutral-400">{t.dashboard.weeklyCompletion}</p>
           <p className="text-2xl font-bold font-mono tabular-nums">
@@ -560,17 +611,6 @@ export const DashboardView: React.FC = () => {
           <p className="text-xs text-neutral-500 dark:text-neutral-400">{t.dashboard.totalSessions}</p>
           <p className="text-2xl font-bold font-mono tabular-nums">{stats.totalSessions}</p>
           <p className="text-xs text-neutral-500 dark:text-neutral-400">{t.dashboard.sessionsUnit}</p>
-        </div>
-
-        <div className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 space-y-1">
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">{t.dashboard.totalVolume}</p>
-          <p className="text-2xl font-bold font-mono tabular-nums">
-            {formatVolume(stats.totalVolumeKg, unit, language)}
-            <span className="text-sm font-normal text-neutral-500 ms-1">
-              {unit === 'lb' ? t.common.lb : t.common.kg}
-            </span>
-          </p>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">{t.analytics.periodAll}</p>
         </div>
 
         <div className="bg-white dark:bg-[#121417] border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 space-y-1">
@@ -629,13 +669,13 @@ export const DashboardView: React.FC = () => {
                           month: 'short',
                           day: 'numeric',
                         })}{' '}
-                        · {formatDuration(s.durationSeconds)} · {s.totalSets} {t.dashboard.setsUnit}
+                        · {formatDuration(s.durationSeconds)}
                       </p>
                     </div>
                     <div className="text-end font-mono tabular-nums text-sm font-semibold shrink-0">
-                      {formatVolume(s.totalVolumeKg, unit, language)}{' '}
+                      {s.totalSets}{' '}
                       <span className="text-xs font-normal text-neutral-500">
-                        {unit === 'lb' ? t.common.lb : t.common.kg}
+                        {t.dashboard.setsUnit}
                       </span>
                     </div>
                   </div>
@@ -872,6 +912,13 @@ export const DashboardView: React.FC = () => {
           </section>
         </div>
       </div>
+
+      {scannerOpen && (
+        <QrScannerModal
+          onClose={() => setScannerOpen(false)}
+          onSuccess={() => setQuickJoinCode('')}
+        />
+      )}
     </div>
   );
 };

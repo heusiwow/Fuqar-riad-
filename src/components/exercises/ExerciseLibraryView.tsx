@@ -173,11 +173,7 @@ export const ExerciseLibraryView: React.FC = () => {
     return allExercises.filter((ex) => {
       if (favoritesOnly && !favoritesSet.has(ex.id)) return false;
       if (customOnly && !ex.isCustom) return false;
-      if (
-        muscleFilter !== 'all' &&
-        !ex.primaryMuscles.includes(muscleFilter) &&
-        !ex.secondaryMuscles.includes(muscleFilter)
-      ) {
+      if (muscleFilter !== 'all' && !ex.primaryMuscles.includes(muscleFilter)) {
         return false;
       }
       if (equipmentFilter !== 'all' && ex.equipment !== equipmentFilter) return false;
@@ -187,7 +183,6 @@ export const ExerciseLibraryView: React.FC = () => {
           ex.nameEn.toLowerCase().includes(q) ||
           ex.nameAr.toLowerCase().includes(q) ||
           ex.primaryMuscles.some((m) => MUSCLE_LABELS[m].en.toLowerCase().includes(q) || MUSCLE_LABELS[m].ar.includes(q)) ||
-          ex.secondaryMuscles.some((m) => MUSCLE_LABELS[m].en.toLowerCase().includes(q) || MUSCLE_LABELS[m].ar.includes(q)) ||
           EQUIPMENT_LABELS[ex.equipment].en.toLowerCase().includes(q) ||
           EQUIPMENT_LABELS[ex.equipment].ar.includes(q) ||
           CATEGORY_LABELS[ex.category].en.toLowerCase().includes(q) ||

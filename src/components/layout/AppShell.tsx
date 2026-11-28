@@ -8,6 +8,7 @@ import {
   CalendarRange,
   ClipboardList,
   Compass,
+  CreditCard,
   Dumbbell,
   Globe,
   History,
@@ -547,43 +548,50 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                   {t.common.noReminders}
                 </p>
               ) : (
-                reminders.map((rem) => (
-                  <div
-                    key={rem.id}
-                    className={`p-3.5 rounded-xl border transition-colors ${
-                      rem.read
-                        ? 'bg-neutral-50 dark:bg-[#090A0B] border-neutral-200 dark:border-neutral-800/80 opacity-80'
-                        : 'bg-emerald-500/5 border-emerald-500/30'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="space-y-1 min-w-0 flex-1">
-                        <p className="text-sm font-medium">
-                          {language === 'ar' ? rem.titleAr : rem.titleEn}
-                        </p>
-                        <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                          {language === 'ar' ? rem.messageAr : rem.messageEn}
-                        </p>
-                        {(rem.type === 'program_change' || rem.type === 'program_schedule') && (
-                          <div className="pt-1.5 flex flex-wrap gap-2">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                if (!rem.read && firebaseUser) {
-                                  void handleMarkReminderRead(rem.id);
-                                }
-                                setActiveSection(rem.type === 'program_schedule' ? 'live' : 'programs');
-                                setRemindersOpen(false);
-                              }}
-                              className="min-h-[32px] px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-semibold cursor-pointer"
-                            >
-                              {rem.type === 'program_schedule'
-                                ? t.apex.startCourseTodayBtn
-                                : t.apex.viewCourseBtn}
-                            </button>
-                          </div>
-                        )}
-                      </div>
+                reminders.map((rem) => {
+                  const isSubAlert = rem.type === 'subscription_alert';
+                  return (
+                    <div
+                      key={rem.id}
+                      className={`p-3.5 rounded-xl border transition-colors ${
+                        rem.read
+                          ? 'bg-neutral-50 dark:bg-[#090A0B] border-neutral-200 dark:border-neutral-800/80 opacity-80'
+                          : isSubAlert
+                            ? 'bg-amber-500/10 border-amber-500/40'
+                            : 'bg-emerald-500/5 border-emerald-500/30'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="space-y-1 min-w-0 flex-1">
+                          <p className="text-sm font-medium flex items-center gap-1.5">
+                            {isSubAlert && (
+                              <CreditCard className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                            )}
+                            <span>{language === 'ar' ? rem.titleAr : rem.titleEn}</span>
+                          </p>
+                          <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                            {language === 'ar' ? rem.messageAr : rem.messageEn}
+                          </p>
+                          {(rem.type === 'program_change' || rem.type === 'program_schedule') && (
+                            <div className="pt-1.5 flex flex-wrap gap-2">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  if (!rem.read && firebaseUser) {
+                                    void handleMarkReminderRead(rem.id);
+                                  }
+                                  setActiveSection(rem.type === 'program_schedule' ? 'live' : 'programs');
+                                  setRemindersOpen(false);
+                                }}
+                                className="min-h-[32px] px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-semibold cursor-pointer"
+                              >
+                                {rem.type === 'program_schedule'
+                                  ? t.apex.startCourseTodayBtn
+                                  : t.apex.viewCourseBtn}
+                              </button>
+                            </div>
+                          )}
+                        </div>
                       <div className="flex items-center gap-1 shrink-0">
                         {!rem.read && firebaseUser && (
                           <button
@@ -606,7 +614,8 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                       </div>
                     </div>
                   </div>
-                ))
+                  );
+                })
               )}
             </div>
           </div>
